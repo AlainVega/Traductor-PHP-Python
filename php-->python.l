@@ -16,7 +16,7 @@ arraypush   ([Aa][Rr][Rr][Aa][Yy]_[Pp][Uu][Ss][Hh])
 arraysum    ([Aa][Rr][Rr][Aa][Yy]_[Ss][Uu][Mm])
 echo        ([Ee][Cc][Hh][Oo])
 print       ([Pp][Rr][Ii][Nn][Tt])
-if	        ([Ii][Ff])
+if          ([Ii][Ff])
 else	    ([Ee][Ll][Ss][Ee])
 elseif	    ([Ee][Ll][Ss][Ee][Ii][Ff])
 switch	    ([Ss][Ww][Ii][Tt][Cc][Hh])
@@ -59,12 +59,12 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 ")"	    {return RD2;}
 "{"	    {return CR1;}
 "}"	    {return CR2;}
-{startPHP}   {return STARTPHP;}
-{endPHP}     {return ENDPHP;}
+{startPHP}   {return SPHP;}
+{endPHP}     {return EPHP;}
 {digit}      {return DIG;}
 {id}         {return ID;}
 {bool}       {return BOOL;}
-{string}     {return STRING;}
+{string}     {return STR;}
 {name}       {return NAME;}
 {foreach}	 {return FRC;}
 {as}	     {return AS;}
@@ -72,16 +72,15 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 {arraypop}   {return APOP;}
 {arraypush}  {return APUS;}
 {arraysum}   {return ASUM;}
-{echo}	     {return ECH;}
-{print}	     {return PRT;}
-{if}	     {return IF;}
-{else}	     {return ELS;}
-{elseif}	 {return EIF;}
-{switch}	 {return SWH;}
-{case}	     {return CSE;}
+{echo}	     {return ECHO;}
+{if}         {return IF;}
+{else}	     {return ELSE;}
+{elseif}	 {return ELIF;}
+{switch}	 {return SWIH;}
+{case}	     {return CASE;}
 {break}	     {return BRK;}
 {default}	 {return DFT;}
-{function}	 {return FNC;}
-{while}	     {return WHL;}
+{function}   {return FUNC;}
+{while}	     {return WHIL;}
 {return}     {return RTN;}
 %%
