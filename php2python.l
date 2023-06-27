@@ -1,8 +1,18 @@
 %{    
-#include "php-->python.tab.h"
+    #include "php2python.tab.h"
 %}
 
+%option noyywrap
+
 /* Definicion de ciertas expresiones regulares que se utilizaran en el analizador lexico */
+/* Segun la documentacion de PHP los nombres de las variables son case sensitive
+   mientras que los nombres de las funciones (incluso las definidas por el usuario)
+   no lo son.
+   Fuentes: 
+   - https://www.php.net/manual/en/functions.user-defined.php
+   - https://www.php.net/manual/en/language.variables.basics.php
+*/
+
 digit       [0-9]
 startPHP    (<\?php)
 endPHP      (\?>)
@@ -28,17 +38,20 @@ while	    ([Ww][Hh][Ii][Ll][Ee])
 foreach	    ([Ff][Oo][Rr][Ee][Aa][Cc][Hh])
 as	        ([Aa][Ss])
 return      ([Rr][Ee][Tt][Uu][Rr][Nn])
+
 %%
-\n	    
-\t	    
+
+{startPHP}   {return SPHP;}
+{id}    {return ID;}
+\n|\t   {;}
 "="	    {return EQ;}
 ";"	    {return SC;}
 ":"	    {return CL;}
 ","	    {return CM;}
-"+"	    {return PL;}
-"-"	    {return MN;}
-"/"	    {return DV;}
-"*"	    {return ML;}
+"+"	    {return PLUS;}
+"-"	    {return MINS;}
+"/"	    {return DIV;}
+"*"	    {return MULT;}
 "%"	    {return MD;}
 "."     {return CCTN;}
 "=="    {return EEQ;}
@@ -59,20 +72,18 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 ")"	    {return RD2;}
 "{"	    {return CR1;}
 "}"	    {return CR2;}
-{startPHP}   {return SPHP;}
 {endPHP}     {return EPHP;}
-{digit}      {return DIG;}
-{id}         {return ID;}
+{digit}+     {return NUM;}
 {bool}       {return BOOL;}
 {string}     {return STR;}
-{name}       {return NAME;}
-{foreach}	 {return FRC;}
+{foreach}    {return FRC;}
 {as}	     {return AS;}
 {array}	     {return ARR;}
 {arraypop}   {return APOP;}
 {arraypush}  {return APUS;}
 {arraysum}   {return ASUM;}
-{echo}	     {return ECHO;}
+{echo}	     {return ECH;}
+{print}      {return PRNT;}
 {if}         {return IF;}
 {else}	     {return ELSE;}
 {elseif}	 {return ELIF;}
@@ -83,4 +94,6 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 {function}   {return FUNC;}
 {while}	     {return WHIL;}
 {return}     {return RTN;}
+{name}       {return NAME;}
+
 %%
