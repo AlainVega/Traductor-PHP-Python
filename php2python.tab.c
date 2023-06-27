@@ -70,10 +70,11 @@
 #line 1 "php2python.y"
 
     #include <stdio.h>
+    #include "functions.h"
     int yylex(void);
     int yyerror(char *message);
 
-#line 77 "php2python.tab.c"
+#line 78 "php2python.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -554,8 +555,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    19,    19,    21,    22,    25,    27,    29,    30,    31,
-      32,    33,    34,    35
+       0,    20,    20,    22,    23,    26,    28,    30,    31,    32,
+      33,    34,    35,    36
 };
 #endif
 
@@ -1126,38 +1127,44 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
+  case 2: /* program: SPHP lines EPHP  */
+#line 20 "php2python.y"
+                         {create_output_file();}
+#line 1134 "php2python.tab.c"
+    break;
+
   case 5: /* line: declaration SC  */
-#line 25 "php2python.y"
+#line 26 "php2python.y"
                    {printf("Se encontro una declaracion\n");}
-#line 1133 "php2python.tab.c"
+#line 1140 "php2python.tab.c"
     break;
 
   case 10: /* expr: expr PLUS expr  */
-#line 32 "php2python.y"
+#line 33 "php2python.y"
                      {printf("Se encontro una suma\n");}
-#line 1139 "php2python.tab.c"
+#line 1146 "php2python.tab.c"
     break;
 
   case 11: /* expr: expr MINS expr  */
-#line 33 "php2python.y"
+#line 34 "php2python.y"
                      {printf("Se encontro una resta\n");}
-#line 1145 "php2python.tab.c"
+#line 1152 "php2python.tab.c"
     break;
 
   case 12: /* expr: expr MULT expr  */
-#line 34 "php2python.y"
+#line 35 "php2python.y"
                      {printf("Se encontro una multiplicacion\n");}
-#line 1151 "php2python.tab.c"
+#line 1158 "php2python.tab.c"
     break;
 
   case 13: /* expr: expr DIV expr  */
-#line 35 "php2python.y"
+#line 36 "php2python.y"
                     {printf("Se encontro una division\n");}
-#line 1157 "php2python.tab.c"
+#line 1164 "php2python.tab.c"
     break;
 
 
-#line 1161 "php2python.tab.c"
+#line 1168 "php2python.tab.c"
 
       default: break;
     }
@@ -1350,7 +1357,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 38 "php2python.y"
+#line 39 "php2python.y"
 
 
 int main(int argc, char *argv[]) {
