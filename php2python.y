@@ -5,6 +5,8 @@
     int yyerror(char *message);
 %}
 
+%start program
+
 /* Declaracion de los Tokens necesarios */
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
 %token SPHP EPHP NUM ID BOOL STR NAME FRC AS ARR APOP APUS ASUM ECH
@@ -27,13 +29,14 @@ line:
 ;
 declaration: ID EQ expr;
 expr: 
-    NUM
-    | STR
-    | ID
+    NUM {$$=$1;}
+    | STR {$$=$1;}
+    | ID {$$=$1;}
     | expr PLUS expr {printf("Se encontro una suma\n");}
     | expr MINS expr {printf("Se encontro una resta\n");}
     | expr MULT expr {printf("Se encontro una multiplicacion\n");}
     | expr DIV expr {printf("Se encontro una division\n");}
+    | expr CCTN expr {printf("Se encontro una concatenacion\n");}
 ;
 
 %%
