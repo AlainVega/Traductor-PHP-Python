@@ -87,7 +87,7 @@ extern int yydebug;
     MINS = 288,                    /* MINS  */
     DIV = 289,                     /* DIV  */
     MULT = 290,                    /* MULT  */
-    MD = 291,                      /* MD  */
+    MOD = 291,                     /* MOD  */
     CCTN = 292,                    /* CCTN  */
     EEQ = 293,                     /* EEQ  */
     NEQ = 294,                     /* NEQ  */
