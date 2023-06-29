@@ -24,7 +24,7 @@
    logicos, gramaticales, etc. 
 */
 %token EQ SC CL CM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
-        PPL MMN SOR NOT SQ1 SQ2 RD1 RD2 CR1 CR2
+        PPL MMN SOR NOT SQ1 SQ2 OPRT CPRT OBRC CBRC
 
 %type <str> expr declaration echo
 
@@ -46,9 +46,12 @@ lines:
 line:
     declaration SC {printf("Se encontro una declaracion\n"); write_declaration($1);}
     | echo SC {printf("Se encontro un echo\n"); write_echo($1);}
+    | conditional
 ;
 declaration: ID EQ expr {$$=format_declaration($1, $3);};
 echo: ECH expr {$$=format_echo($2);};
+conditional: IF OPRT expr CPRT block {printf("Se encontro un if\n");};
+block: OBRC lines CBRC {printf("Se encontro un bloque\n");};
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
@@ -58,6 +61,10 @@ expr:
     | expr MULT expr {printf("Se encontro una multiplicacion\n"); $$=format_operation($1, " * ", $3);}
     | expr DIV expr {printf("Se encontro una division\n"); $$=format_operation($1, " / ", $3);}
     | expr CCTN expr {printf("Se encontro una concatenacion\n"); $$=format_operation($1, " + ", $3);}
+    | expr AND expr {printf("Se encontro una conjuncion\n"); $$=format_operation($1, " and ", $3);}
+    | expr OR expr {printf("Se encontro una disyuncion\n"); $$=format_operation($1, " or ", $3);}
+    | expr GT expr {printf("Se encontro un mayor que \n"); $$=format_operation($1, " > ", $3);}
+    | expr LT expr {printf("Se encontro un menor que \n"); $$=format_operation($1, " < ", $3);}
 ;
 
 %%

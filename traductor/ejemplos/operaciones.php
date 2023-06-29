@@ -12,4 +12,9 @@ echo $b;
 $c = 15;
 echo $b * $c;
 
+$str1 = "Hola";
+$str2 = "Mathias";
+$str3 = $str1 . " " . $str2;
+echo $str3;
+
 ?>

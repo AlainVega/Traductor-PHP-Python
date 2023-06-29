@@ -103,10 +103,10 @@ extern int yydebug;
     NOT = 304,                     /* NOT  */
     SQ1 = 305,                     /* SQ1  */
     SQ2 = 306,                     /* SQ2  */
-    RD1 = 307,                     /* RD1  */
-    RD2 = 308,                     /* RD2  */
-    CR1 = 309,                     /* CR1  */
-    CR2 = 310                      /* CR2  */
+    OPRT = 307,                    /* OPRT  */
+    CPRT = 308,                    /* CPRT  */
+    OBRC = 309,                    /* OBRC  */
+    CBRC = 310                     /* CBRC  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

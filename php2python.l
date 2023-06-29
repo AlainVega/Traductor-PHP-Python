@@ -68,10 +68,10 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 "!"	    {return NOT;}
 "["	    {return SQ1;}
 "]"	    {return SQ2;}
-"("	    {return RD1;}
-")"	    {return RD2;}
-"{"	    {return CR1;}
-"}"	    {return CR2;}
+"("	    {return OPRT;}
+")"	    {return CPRT;}
+"{"	    {return OBRC;}
+"}"	    {return CBRC;}
 {endPHP}     {return EPHP;}
 {digit}+     {yylval.str = (char *) strdup(yytext); return NUM;}
 {bool}       {yylval.str = (char *) strdup(yytext); return BOOL;}
