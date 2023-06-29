@@ -836,7 +836,7 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 45 "php2python.l"
-{return ID;}
+{yylval.str = (char *) strdup(yytext); return ID;}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
@@ -992,18 +992,18 @@ YY_RULE_SETUP
 case 33:
 YY_RULE_SETUP
 #line 76 "php2python.l"
-{return NUM;}
+{yylval.str = (char *) strdup(yytext); return NUM;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 77 "php2python.l"
-{return BOOL;}
+{yylval.str = (char *) strdup(yytext); return BOOL;}
 	YY_BREAK
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
 #line 78 "php2python.l"
-{return STR;}
+{yylval.str = (char *) strdup(yytext); return STR;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP

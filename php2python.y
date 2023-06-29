@@ -6,10 +6,17 @@
 %}
 
 %start program
+%union
+{
+	int intval;
+	char *id;
+	char *str;	
+}
 
 /* Declaracion de los Tokens necesarios */
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
-%token SPHP EPHP NUM ID BOOL STR NAME FRC AS ARR APOP APUS ASUM ECH
+%token <str> ID STR NUM ECH
+%token SPHP EPHP BOOL NAME FRC AS ARR APOP APUS ASUM
         IF ELSE ELIF SWIH CASE BRK DFT FUNC WHIL RTN PRNT
 
 /* Simbolos aritmeticos, de asignacion, igualdad, desigualdad
@@ -17,26 +24,30 @@
 %token EQ SC CL CM PLUS MINS DIV MULT MD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT SQ1 SQ2 RD1 RD2 CR1 CR2
 
+%type <str> expr declaration echo
+
 %%
 
-program: SPHP lines EPHP {create_output_file();};
+program: SPHP {printf("Se encontro un tag de inicio de PHP\n"); create_output_file();} lines EPHP {printf("Se encontr el final del tag de PHP\n");};
 lines: 
     %empty
     | lines line
 ;
 line:
-    declaration SC {printf("Se encontro una declaracion\n");}
+    declaration SC {printf("Se encontro una declaracion\n"); write_declaration($1);}
+    | echo SC {printf("Se encontro un echo\n"); write_echo($1);}
 ;
-declaration: ID EQ expr;
+declaration: ID EQ expr {$$=format_declaration($1, $3);};
+echo: ECH expr {$$=format_echo($2);};
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
-    | ID {$$=$1;}
-    | expr PLUS expr {printf("Se encontro una suma\n");}
-    | expr MINS expr {printf("Se encontro una resta\n");}
-    | expr MULT expr {printf("Se encontro una multiplicacion\n");}
-    | expr DIV expr {printf("Se encontro una division\n");}
-    | expr CCTN expr {printf("Se encontro una concatenacion\n");}
+    | ID {printf("Se encontro una variable en una declaracion\n"); $$=format_variable($1);}
+    | expr PLUS expr {printf("Se encontro una suma\n"); $$=format_operation($1, " + ", $3);}
+    | expr MINS expr {printf("Se encontro una resta\n"); $$=format_operation($1, " - ", $3);}
+    | expr MULT expr {printf("Se encontro una multiplicacion\n"); $$=format_operation($1, " * ", $3);}
+    | expr DIV expr {printf("Se encontro una division\n"); $$=format_operation($1, " / ", $3);}
+    | expr CCTN expr {printf("Se encontro una concatenacion\n"); $$=format_operation($1, " + ", $3);}
 ;
 
 %%

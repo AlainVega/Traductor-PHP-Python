@@ -42,7 +42,7 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 %%
 
 {startPHP}   {return SPHP;}
-{id}    {return ID;}
+{id}    {yylval.str = (char *) strdup(yytext); return ID;}
 \n|\t   {;}
 "="	    {return EQ;}
 ";"	    {return SC;}
@@ -73,9 +73,9 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 "{"	    {return CR1;}
 "}"	    {return CR2;}
 {endPHP}     {return EPHP;}
-{digit}+     {return NUM;}
-{bool}       {return BOOL;}
-{string}     {return STR;}
+{digit}+     {yylval.str = (char *) strdup(yytext); return NUM;}
+{bool}       {yylval.str = (char *) strdup(yytext); return BOOL;}
+{string}     {yylval.str = (char *) strdup(yytext); return STR;}
 {foreach}    {return FRC;}
 {as}	     {return AS;}
 {array}	     {return ARR;}

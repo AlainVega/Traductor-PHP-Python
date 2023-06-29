@@ -105,20 +105,20 @@ enum yysymbol_kind_t
   YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
-  YYSYMBOL_SPHP = 3,                       /* SPHP  */
-  YYSYMBOL_EPHP = 4,                       /* EPHP  */
+  YYSYMBOL_ID = 3,                         /* ID  */
+  YYSYMBOL_STR = 4,                        /* STR  */
   YYSYMBOL_NUM = 5,                        /* NUM  */
-  YYSYMBOL_ID = 6,                         /* ID  */
-  YYSYMBOL_BOOL = 7,                       /* BOOL  */
-  YYSYMBOL_STR = 8,                        /* STR  */
-  YYSYMBOL_NAME = 9,                       /* NAME  */
-  YYSYMBOL_FRC = 10,                       /* FRC  */
-  YYSYMBOL_AS = 11,                        /* AS  */
-  YYSYMBOL_ARR = 12,                       /* ARR  */
-  YYSYMBOL_APOP = 13,                      /* APOP  */
-  YYSYMBOL_APUS = 14,                      /* APUS  */
-  YYSYMBOL_ASUM = 15,                      /* ASUM  */
-  YYSYMBOL_ECH = 16,                       /* ECH  */
+  YYSYMBOL_ECH = 6,                        /* ECH  */
+  YYSYMBOL_SPHP = 7,                       /* SPHP  */
+  YYSYMBOL_EPHP = 8,                       /* EPHP  */
+  YYSYMBOL_BOOL = 9,                       /* BOOL  */
+  YYSYMBOL_NAME = 10,                      /* NAME  */
+  YYSYMBOL_FRC = 11,                       /* FRC  */
+  YYSYMBOL_AS = 12,                        /* AS  */
+  YYSYMBOL_ARR = 13,                       /* ARR  */
+  YYSYMBOL_APOP = 14,                      /* APOP  */
+  YYSYMBOL_APUS = 15,                      /* APUS  */
+  YYSYMBOL_ASUM = 16,                      /* ASUM  */
   YYSYMBOL_IF = 17,                        /* IF  */
   YYSYMBOL_ELSE = 18,                      /* ELSE  */
   YYSYMBOL_ELIF = 19,                      /* ELIF  */
@@ -160,10 +160,12 @@ enum yysymbol_kind_t
   YYSYMBOL_CR2 = 55,                       /* CR2  */
   YYSYMBOL_YYACCEPT = 56,                  /* $accept  */
   YYSYMBOL_program = 57,                   /* program  */
-  YYSYMBOL_lines = 58,                     /* lines  */
-  YYSYMBOL_line = 59,                      /* line  */
-  YYSYMBOL_declaration = 60,               /* declaration  */
-  YYSYMBOL_expr = 61                       /* expr  */
+  YYSYMBOL_58_1 = 58,                      /* $@1  */
+  YYSYMBOL_lines = 59,                     /* lines  */
+  YYSYMBOL_line = 60,                      /* line  */
+  YYSYMBOL_declaration = 61,               /* declaration  */
+  YYSYMBOL_echo = 62,                      /* echo  */
+  YYSYMBOL_expr = 63                       /* expr  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -491,16 +493,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   17
+#define YYLAST   23
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  56
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  6
+#define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  13
+#define YYNRULES  17
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  23
+#define YYNSTATES  30
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   310
@@ -555,8 +557,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    20,    20,    22,    23,    26,    28,    30,    31,    32,
-      33,    34,    35,    36
+       0,    31,    31,    31,    33,    34,    37,    38,    40,    41,
+      43,    44,    45,    46,    47,    48,    49,    50
 };
 #endif
 
@@ -572,13 +574,14 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "SPHP", "EPHP", "NUM",
-  "ID", "BOOL", "STR", "NAME", "FRC", "AS", "ARR", "APOP", "APUS", "ASUM",
-  "ECH", "IF", "ELSE", "ELIF", "SWIH", "CASE", "BRK", "DFT", "FUNC",
-  "WHIL", "RTN", "PRNT", "EQ", "SC", "CL", "CM", "PLUS", "MINS", "DIV",
-  "MULT", "MD", "CCTN", "EEQ", "NEQ", "GT", "LT", "GE", "LE", "AND", "OR",
-  "PPL", "MMN", "SOR", "NOT", "SQ1", "SQ2", "RD1", "RD2", "CR1", "CR2",
-  "$accept", "program", "lines", "line", "declaration", "expr", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "ID", "STR", "NUM",
+  "ECH", "SPHP", "EPHP", "BOOL", "NAME", "FRC", "AS", "ARR", "APOP",
+  "APUS", "ASUM", "IF", "ELSE", "ELIF", "SWIH", "CASE", "BRK", "DFT",
+  "FUNC", "WHIL", "RTN", "PRNT", "EQ", "SC", "CL", "CM", "PLUS", "MINS",
+  "DIV", "MULT", "MD", "CCTN", "EEQ", "NEQ", "GT", "LT", "GE", "LE", "AND",
+  "OR", "PPL", "MMN", "SOR", "NOT", "SQ1", "SQ2", "RD1", "RD2", "CR1",
+  "CR2", "$accept", "program", "$@1", "lines", "line", "declaration",
+  "echo", "expr", YY_NULLPTR
 };
 
 static const char *
@@ -588,7 +591,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-33)
+#define YYPACT_NINF (-32)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -602,9 +605,9 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      10,   -33,    14,     6,   -33,   -33,   -13,   -33,   -12,     3,
-     -33,   -33,   -33,   -33,   -32,     3,     3,     3,     3,   -32,
-     -32,   -32,   -32
+      -2,   -32,     7,   -32,   -32,    10,   -14,    16,   -32,   -32,
+      -7,    -6,    16,   -32,   -32,   -32,   -31,   -32,   -32,   -31,
+      16,    16,    16,    16,    16,   -31,   -31,   -31,   -31,   -31
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -612,21 +615,21 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     3,     0,     0,     1,     2,     0,     4,     0,     0,
-       5,     7,     9,     8,     6,     0,     0,     0,     0,    10,
-      11,    13,    12
+       0,     2,     0,     4,     1,     0,     0,     0,     3,     5,
+       0,     0,     0,    12,    11,    10,     9,     6,     7,     8,
+       0,     0,     0,     0,     0,    13,    14,    16,    15,    17
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -33,   -33,   -33,   -33,   -33,   -11
+     -32,   -32,   -32,   -32,   -32,   -32,   -32,   -12
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     3,     7,     8,    14
+       0,     2,     3,     5,     9,    10,    11,    16
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -634,37 +637,39 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      15,    16,    17,    18,    19,    20,    21,    22,    11,    12,
-       5,    13,     6,     1,     4,     9,     0,    10
+      19,    20,    21,    22,    23,     1,    24,     4,    25,    26,
+      27,    28,    29,     6,    12,     0,     7,     0,     8,    13,
+      14,    15,    17,    18
 };
 
 static const yytype_int8 yycheck[] =
 {
-      32,    33,    34,    35,    15,    16,    17,    18,     5,     6,
-       4,     8,     6,     3,     0,    28,    -1,    29
+      12,    32,    33,    34,    35,     7,    37,     0,    20,    21,
+      22,    23,    24,     3,    28,    -1,     6,    -1,     8,     3,
+       4,     5,    29,    29
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,    57,    58,     0,     4,     6,    59,    60,    28,
-      29,     5,     6,     8,    61,    32,    33,    34,    35,    61,
-      61,    61,    61
+       0,     7,    57,    58,     0,    59,     3,     6,     8,    60,
+      61,    62,    28,     3,     4,     5,    63,    29,    29,    63,
+      32,    33,    34,    35,    37,    63,    63,    63,    63,    63
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    56,    57,    58,    58,    59,    60,    61,    61,    61,
-      61,    61,    61,    61
+       0,    56,    58,    57,    59,    59,    60,    60,    61,    62,
+      63,    63,    63,    63,    63,    63,    63,    63
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     3,     0,     2,     2,     3,     1,     1,     1,
-       3,     3,     3,     3
+       0,     2,     0,     4,     0,     2,     2,     2,     3,     2,
+       1,     1,     1,     3,     3,     3,     3,     3
 };
 
 
@@ -1127,44 +1132,92 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* program: SPHP lines EPHP  */
-#line 20 "php2python.y"
-                         {create_output_file();}
-#line 1134 "php2python.tab.c"
+  case 2: /* $@1: %empty  */
+#line 31 "php2python.y"
+              {printf("Se encontro un tag de inicio de PHP\n"); create_output_file();}
+#line 1139 "php2python.tab.c"
     break;
 
-  case 5: /* line: declaration SC  */
-#line 26 "php2python.y"
-                   {printf("Se encontro una declaracion\n");}
-#line 1140 "php2python.tab.c"
+  case 3: /* program: SPHP $@1 lines EPHP  */
+#line 31 "php2python.y"
+                                                                                                  {printf("Se encontr el final del tag de PHP\n");}
+#line 1145 "php2python.tab.c"
     break;
 
-  case 10: /* expr: expr PLUS expr  */
-#line 33 "php2python.y"
-                     {printf("Se encontro una suma\n");}
-#line 1146 "php2python.tab.c"
+  case 6: /* line: declaration SC  */
+#line 37 "php2python.y"
+                   {printf("Se encontro una declaracion\n"); write_declaration((yyvsp[-1].str));}
+#line 1151 "php2python.tab.c"
     break;
 
-  case 11: /* expr: expr MINS expr  */
-#line 34 "php2python.y"
-                     {printf("Se encontro una resta\n");}
-#line 1152 "php2python.tab.c"
+  case 7: /* line: echo SC  */
+#line 38 "php2python.y"
+              {printf("Se encontro un echo\n"); write_echo((yyvsp[-1].str));}
+#line 1157 "php2python.tab.c"
     break;
 
-  case 12: /* expr: expr MULT expr  */
-#line 35 "php2python.y"
-                     {printf("Se encontro una multiplicacion\n");}
-#line 1158 "php2python.tab.c"
+  case 8: /* declaration: ID EQ expr  */
+#line 40 "php2python.y"
+                        {(yyval.str)=format_declaration((yyvsp[-2].str), (yyvsp[0].str));}
+#line 1163 "php2python.tab.c"
     break;
 
-  case 13: /* expr: expr DIV expr  */
-#line 36 "php2python.y"
-                    {printf("Se encontro una division\n");}
-#line 1164 "php2python.tab.c"
+  case 9: /* echo: ECH expr  */
+#line 41 "php2python.y"
+               {(yyval.str)=format_echo((yyvsp[0].str));}
+#line 1169 "php2python.tab.c"
+    break;
+
+  case 10: /* expr: NUM  */
+#line 43 "php2python.y"
+        {(yyval.str)=(yyvsp[0].str);}
+#line 1175 "php2python.tab.c"
+    break;
+
+  case 11: /* expr: STR  */
+#line 44 "php2python.y"
+          {(yyval.str)=(yyvsp[0].str);}
+#line 1181 "php2python.tab.c"
+    break;
+
+  case 12: /* expr: ID  */
+#line 45 "php2python.y"
+         {printf("Se encontro una variable en una declaracion\n"); (yyval.str)=format_variable((yyvsp[0].str));}
+#line 1187 "php2python.tab.c"
+    break;
+
+  case 13: /* expr: expr PLUS expr  */
+#line 46 "php2python.y"
+                     {printf("Se encontro una suma\n"); (yyval.str)=format_operation((yyvsp[-2].str), " + ", (yyvsp[0].str));}
+#line 1193 "php2python.tab.c"
+    break;
+
+  case 14: /* expr: expr MINS expr  */
+#line 47 "php2python.y"
+                     {printf("Se encontro una resta\n"); (yyval.str)=format_operation((yyvsp[-2].str), " - ", (yyvsp[0].str));}
+#line 1199 "php2python.tab.c"
+    break;
+
+  case 15: /* expr: expr MULT expr  */
+#line 48 "php2python.y"
+                     {printf("Se encontro una multiplicacion\n"); (yyval.str)=format_operation((yyvsp[-2].str), " * ", (yyvsp[0].str));}
+#line 1205 "php2python.tab.c"
+    break;
+
+  case 16: /* expr: expr DIV expr  */
+#line 49 "php2python.y"
+                    {printf("Se encontro una division\n"); (yyval.str)=format_operation((yyvsp[-2].str), " / ", (yyvsp[0].str));}
+#line 1211 "php2python.tab.c"
+    break;
+
+  case 17: /* expr: expr CCTN expr  */
+#line 50 "php2python.y"
+                     {printf("Se encontro una concatenacion\n"); (yyval.str)=format_operation((yyvsp[-2].str), " + ", (yyvsp[0].str));}
+#line 1217 "php2python.tab.c"
     break;
 
 
-#line 1168 "php2python.tab.c"
+#line 1221 "php2python.tab.c"
 
       default: break;
     }
@@ -1357,7 +1410,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 39 "php2python.y"
+#line 53 "php2python.y"
 
 
 int main(int argc, char *argv[]) {

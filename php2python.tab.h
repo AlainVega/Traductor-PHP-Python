@@ -54,20 +54,20 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    SPHP = 258,                    /* SPHP  */
-    EPHP = 259,                    /* EPHP  */
+    ID = 258,                      /* ID  */
+    STR = 259,                     /* STR  */
     NUM = 260,                     /* NUM  */
-    ID = 261,                      /* ID  */
-    BOOL = 262,                    /* BOOL  */
-    STR = 263,                     /* STR  */
-    NAME = 264,                    /* NAME  */
-    FRC = 265,                     /* FRC  */
-    AS = 266,                      /* AS  */
-    ARR = 267,                     /* ARR  */
-    APOP = 268,                    /* APOP  */
-    APUS = 269,                    /* APUS  */
-    ASUM = 270,                    /* ASUM  */
-    ECH = 271,                     /* ECH  */
+    ECH = 261,                     /* ECH  */
+    SPHP = 262,                    /* SPHP  */
+    EPHP = 263,                    /* EPHP  */
+    BOOL = 264,                    /* BOOL  */
+    NAME = 265,                    /* NAME  */
+    FRC = 266,                     /* FRC  */
+    AS = 267,                      /* AS  */
+    ARR = 268,                     /* ARR  */
+    APOP = 269,                    /* APOP  */
+    APUS = 270,                    /* APUS  */
+    ASUM = 271,                    /* ASUM  */
     IF = 272,                      /* IF  */
     ELSE = 273,                    /* ELSE  */
     ELIF = 274,                    /* ELIF  */
@@ -113,7 +113,18 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 10 "php2python.y"
+
+	int intval;
+	char *id;
+	char *str;	
+
+#line 125 "php2python.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
