@@ -52,7 +52,7 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 "-"	    {return MINS;}
 "/"	    {return DIV;}
 "*"	    {return MULT;}
-"%"	    {return MD;}
+"%"	    {return MOD;}
 "."     {return CCTN;}
 "=="    {return EEQ;}
 "!="	{return NEQ;}

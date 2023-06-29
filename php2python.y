@@ -19,12 +19,22 @@
 %token SPHP EPHP BOOL NAME FRC AS ARR APOP APUS ASUM
         IF ELSE ELIF SWIH CASE BRK DFT FUNC WHIL RTN PRNT
 
-/* Simbolos aritmeticos, de asignacion, igualdad, desigualdad
-   logicos, gramaticales, etc. */
-%token EQ SC CL CM PLUS MINS DIV MULT MD CCTN EEQ NEQ GT LT GE LE AND OR
+/* 
+   Simbolos aritmeticos, de asignacion, igualdad, desigualdad
+   logicos, gramaticales, etc. 
+*/
+%token EQ SC CL CM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT SQ1 SQ2 RD1 RD2 CR1 CR2
 
 %type <str> expr declaration echo
+
+/* 
+   Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
+   documentación de PHP.
+   https://www.gnu.org/software/bison/manual/bison.html#Precedence-Decl
+*/
+%left MOD MULT DIV PLUS MINS CCTN AND OR
+%right EQ
 
 %%
 

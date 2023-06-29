@@ -138,7 +138,7 @@ enum yysymbol_kind_t
   YYSYMBOL_MINS = 33,                      /* MINS  */
   YYSYMBOL_DIV = 34,                       /* DIV  */
   YYSYMBOL_MULT = 35,                      /* MULT  */
-  YYSYMBOL_MD = 36,                        /* MD  */
+  YYSYMBOL_MOD = 36,                       /* MOD  */
   YYSYMBOL_CCTN = 37,                      /* CCTN  */
   YYSYMBOL_EEQ = 38,                       /* EEQ  */
   YYSYMBOL_NEQ = 39,                       /* NEQ  */
@@ -557,8 +557,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    31,    31,    31,    33,    34,    37,    38,    40,    41,
-      43,    44,    45,    46,    47,    48,    49,    50
+       0,    41,    41,    41,    43,    44,    47,    48,    50,    51,
+      53,    54,    55,    56,    57,    58,    59,    60
 };
 #endif
 
@@ -578,10 +578,10 @@ static const char *const yytname[] =
   "ECH", "SPHP", "EPHP", "BOOL", "NAME", "FRC", "AS", "ARR", "APOP",
   "APUS", "ASUM", "IF", "ELSE", "ELIF", "SWIH", "CASE", "BRK", "DFT",
   "FUNC", "WHIL", "RTN", "PRNT", "EQ", "SC", "CL", "CM", "PLUS", "MINS",
-  "DIV", "MULT", "MD", "CCTN", "EEQ", "NEQ", "GT", "LT", "GE", "LE", "AND",
-  "OR", "PPL", "MMN", "SOR", "NOT", "SQ1", "SQ2", "RD1", "RD2", "CR1",
-  "CR2", "$accept", "program", "$@1", "lines", "line", "declaration",
-  "echo", "expr", YY_NULLPTR
+  "DIV", "MULT", "MOD", "CCTN", "EEQ", "NEQ", "GT", "LT", "GE", "LE",
+  "AND", "OR", "PPL", "MMN", "SOR", "NOT", "SQ1", "SQ2", "RD1", "RD2",
+  "CR1", "CR2", "$accept", "program", "$@1", "lines", "line",
+  "declaration", "echo", "expr", YY_NULLPTR
 };
 
 static const char *
@@ -607,7 +607,7 @@ static const yytype_int8 yypact[] =
 {
       -2,   -32,     7,   -32,   -32,    10,   -14,    16,   -32,   -32,
       -7,    -6,    16,   -32,   -32,   -32,   -31,   -32,   -32,   -31,
-      16,    16,    16,    16,    16,   -31,   -31,   -31,   -31,   -31
+      16,    16,    16,    16,    16,   -32,   -32,   -32,   -32,   -32
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -1133,85 +1133,85 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* $@1: %empty  */
-#line 31 "php2python.y"
+#line 41 "php2python.y"
               {printf("Se encontro un tag de inicio de PHP\n"); create_output_file();}
 #line 1139 "php2python.tab.c"
     break;
 
   case 3: /* program: SPHP $@1 lines EPHP  */
-#line 31 "php2python.y"
+#line 41 "php2python.y"
                                                                                                   {printf("Se encontr el final del tag de PHP\n");}
 #line 1145 "php2python.tab.c"
     break;
 
   case 6: /* line: declaration SC  */
-#line 37 "php2python.y"
+#line 47 "php2python.y"
                    {printf("Se encontro una declaracion\n"); write_declaration((yyvsp[-1].str));}
 #line 1151 "php2python.tab.c"
     break;
 
   case 7: /* line: echo SC  */
-#line 38 "php2python.y"
+#line 48 "php2python.y"
               {printf("Se encontro un echo\n"); write_echo((yyvsp[-1].str));}
 #line 1157 "php2python.tab.c"
     break;
 
   case 8: /* declaration: ID EQ expr  */
-#line 40 "php2python.y"
+#line 50 "php2python.y"
                         {(yyval.str)=format_declaration((yyvsp[-2].str), (yyvsp[0].str));}
 #line 1163 "php2python.tab.c"
     break;
 
   case 9: /* echo: ECH expr  */
-#line 41 "php2python.y"
+#line 51 "php2python.y"
                {(yyval.str)=format_echo((yyvsp[0].str));}
 #line 1169 "php2python.tab.c"
     break;
 
   case 10: /* expr: NUM  */
-#line 43 "php2python.y"
+#line 53 "php2python.y"
         {(yyval.str)=(yyvsp[0].str);}
 #line 1175 "php2python.tab.c"
     break;
 
   case 11: /* expr: STR  */
-#line 44 "php2python.y"
+#line 54 "php2python.y"
           {(yyval.str)=(yyvsp[0].str);}
 #line 1181 "php2python.tab.c"
     break;
 
   case 12: /* expr: ID  */
-#line 45 "php2python.y"
+#line 55 "php2python.y"
          {printf("Se encontro una variable en una declaracion\n"); (yyval.str)=format_variable((yyvsp[0].str));}
 #line 1187 "php2python.tab.c"
     break;
 
   case 13: /* expr: expr PLUS expr  */
-#line 46 "php2python.y"
+#line 56 "php2python.y"
                      {printf("Se encontro una suma\n"); (yyval.str)=format_operation((yyvsp[-2].str), " + ", (yyvsp[0].str));}
 #line 1193 "php2python.tab.c"
     break;
 
   case 14: /* expr: expr MINS expr  */
-#line 47 "php2python.y"
+#line 57 "php2python.y"
                      {printf("Se encontro una resta\n"); (yyval.str)=format_operation((yyvsp[-2].str), " - ", (yyvsp[0].str));}
 #line 1199 "php2python.tab.c"
     break;
 
   case 15: /* expr: expr MULT expr  */
-#line 48 "php2python.y"
+#line 58 "php2python.y"
                      {printf("Se encontro una multiplicacion\n"); (yyval.str)=format_operation((yyvsp[-2].str), " * ", (yyvsp[0].str));}
 #line 1205 "php2python.tab.c"
     break;
 
   case 16: /* expr: expr DIV expr  */
-#line 49 "php2python.y"
+#line 59 "php2python.y"
                     {printf("Se encontro una division\n"); (yyval.str)=format_operation((yyvsp[-2].str), " / ", (yyvsp[0].str));}
 #line 1211 "php2python.tab.c"
     break;
 
   case 17: /* expr: expr CCTN expr  */
-#line 50 "php2python.y"
+#line 60 "php2python.y"
                      {printf("Se encontro una concatenacion\n"); (yyval.str)=format_operation((yyvsp[-2].str), " + ", (yyvsp[0].str));}
 #line 1217 "php2python.tab.c"
     break;
@@ -1410,7 +1410,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 53 "php2python.y"
+#line 63 "php2python.y"
 
 
 int main(int argc, char *argv[]) {
