@@ -917,12 +917,12 @@ YY_RULE_SETUP
 case 18:
 YY_RULE_SETUP
 #line 61 "php2python.l"
-{return GE;}
+{return GTE;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 62 "php2python.l"
-{return LE;}
+{return LTE;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP

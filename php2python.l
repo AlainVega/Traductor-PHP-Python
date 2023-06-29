@@ -58,8 +58,8 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 "!="	{return NEQ;}
 ">"	    {return GT;}
 "<"	    {return LT;}
-">="	{return GE;}
-"<="	{return LE;}
+">="	{return GTE;}
+"<="	{return LTE;}
 "&&"	{return AND;}
 "||"	{return OR;}
 "++"	{return PPL;}

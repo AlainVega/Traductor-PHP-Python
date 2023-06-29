@@ -35,6 +35,7 @@
 */
 %left MOD MULT DIV PLUS MINS CCTN AND OR
 %right EQ
+%nonassoc GT LT GTE LTE
 
 %%
 
@@ -65,6 +66,8 @@ expr:
     | expr OR expr {printf("Se encontro una disyuncion\n"); $$=format_operation($1, " or ", $3);}
     | expr GT expr {printf("Se encontro un mayor que \n"); $$=format_operation($1, " > ", $3);}
     | expr LT expr {printf("Se encontro un menor que \n"); $$=format_operation($1, " < ", $3);}
+    | expr GTE expr {printf("Se encontro un mayor o igual que \n"); $$=format_operation($1, " >= ", $3);}
+    | expr LTE expr {printf("Se encontro un menor o igual que \n"); $$=format_operation($1, " <= ", $3);}
 ;
 
 %%
