@@ -28,7 +28,7 @@
 
 %%
 
-program: SPHP {printf("Se encontro un tag de inicio de PHP\n"); create_output_file();} lines EPHP {printf("Se encontr el final del tag de PHP\n");};
+program: SPHP {printf("Se encontro un tag de inicio de PHP\n"); create_output_file();} lines EPHP {printf("Se encontro el final del tag de PHP\n");};
 lines: 
     %empty
     | lines line
