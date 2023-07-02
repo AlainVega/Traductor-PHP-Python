@@ -57,7 +57,9 @@ declaration: ID EQ expr {$$=format_declaration($1, $3);};
 echo: ECH expr {$$=format_echo($2, tabcount);};
 conditional: 
     IF OPRT expr CPRT statementinifblock {printf("Se encontro un if\n"); tabcount++; $$=format_if($3);};
-    | IF OPRT expr CPRT OBRC statementsinifblock CBRC {printf("Se encontro un if con bloque\n"); tabcount++; $$=format_if($3);};
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC {printf("Se encontro un if con bloque\n"); tabcount++; $$=format_if($3);}
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if else con bloque\n"); tabcount++; $$=format_if_else($3);}
+;
 statementsinifblock: 
     %empty
     | statementsinifblock statementinifblock {printf("Se redujo el scope\n"); tabcount--;}
@@ -65,7 +67,17 @@ statementsinifblock:
 /* TODO: Intentar hacer un array de instrucciones para despues poner en conditional con $4 */
 statementinifblock:
     declaration SC {printf("Se encontro una declaracion dentro de un if\n"); write_declaration($1);}
-    | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_array($1);}
+    | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
+    | conditional {printf("Se encontro una condicional dentro de un if\n"); write_if($1);}
+;
+statementsinelseblock: 
+    %empty
+    | statementsinelseblock statementinelseblock {printf("Se redujo el scope\n"); tabcount--;}
+;
+/* TODO: Intentar hacer un array de instrucciones para despues poner en conditional con $4 */
+statementinelseblock:
+    declaration SC {printf("Se encontro una declaracion dentro de un if\n"); write_declaration($1);}
+    | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_else_block_counter(); add_statement_to_array($1);}
     | conditional {printf("Se encontro una condicional dentro de un if\n"); write_if($1);}
 ;
 block: OBRC statements CBRC {printf("Se encontro un bloque\n");};
