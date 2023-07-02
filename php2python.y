@@ -28,7 +28,7 @@
 %token EQ SC CL CM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT SQ1 SQ2 OPRT CPRT OBRC CBRC
 
-%type <str> expr declaration echo conditional statementinifblock statementsinifblock
+%type <str> expr declaration echo conditional
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -48,7 +48,7 @@ statements:
 ;
 statement:
     declaration SC {printf("Se encontro una declaracion\n"); write_declaration($1);}
-    | echo SC {printf("Se encontro un echo\n"); write_echo($1, tabcount);}
+    | echo SC {printf("Se encontro un echo\n"); write_echo($1);}
     | conditional {printf("Se encontro una condicional\n"); write_if($1);}
     | while
     | for
@@ -60,13 +60,13 @@ conditional:
     | IF OPRT expr CPRT OBRC statementsinifblock CBRC {printf("Se encontro un if con bloque\n"); tabcount++; $$=format_if($3);};
 statementsinifblock: 
     %empty
-    | statementsinifblock statementinifblock {printf("Se redujo el scope\n"); tabcount--; $$=format}
+    | statementsinifblock statementinifblock {printf("Se redujo el scope\n"); tabcount--;}
 ;
 /* TODO: Intentar hacer un array de instrucciones para despues poner en conditional con $4 */
 statementinifblock:
-    declaration SC {printf("Se encontro una declaracion\n"); write_declaration($1);}
-    | echo SC {printf("Se encontro un echo\n"); char *formatted_echo = format_echo($1, tabcount); add_instruction_to_array(formatted_echo)}
-    | conditional {printf("Se encontro una condicional\n"); write_if($1);}
+    declaration SC {printf("Se encontro una declaracion dentro de un if\n"); write_declaration($1);}
+    | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_array($1);}
+    | conditional {printf("Se encontro una condicional dentro de un if\n"); write_if($1);}
 ;
 block: OBRC statements CBRC {printf("Se encontro un bloque\n");};
 while: WHIL OPRT expr CPRT block {printf("Se encontro un bucle while\n");}

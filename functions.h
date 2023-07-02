@@ -11,6 +11,28 @@ void create_output_file() {
     output_file = fopen("output_file.py", "w");
 }
 
+void add_statement_to_array(char *statement) {
+    strcpy(statement_stack[elements_in_stack], statement);
+    printf("Added the following statement to stack: %s\n", statement_stack[elements_in_stack]);
+    elements_in_stack++;
+}
+
+char *take_statement_from_array() {
+    printf("Took out the following statement from stack: %s\n", statement_stack[elements_in_stack - 1]);
+    return statement_stack[--elements_in_stack];
+}
+
+void write_statements_in_block(char *first_line) {
+    // first_line se refiere a la primera linea que puede ser un if(), for() o else().
+    // El resto de las lineas representan los statements dentro de un bloque.
+    // Vaciar la cola de instrucciones.
+    for (int i = elements_in_stack - 1; i >= 0; i--) {
+        char *statement = take_statement_from_array();
+        strcat(first_line, "\n\t");
+        strcat(first_line, statement);
+    }
+}
+
 char *format_variable(char *variable) {
     // Sacar el caracter '$' de la variable.
     variable[0] = '\0';
@@ -75,10 +97,16 @@ void write_echo(char *echo) {
 char *format_if(char *expr) {
     // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
     // El espacio extra es para esto.
-    char *python_if = (char *) malloc(strlen(expr) + 10);
+    char *python_if = (char *) malloc(strlen(expr) + 1000);
     strcat(python_if, "if (");
     strcat(python_if, expr);
     strcat(python_if, "):");
+
+    if (elements_in_stack > 0)
+    {
+        write_statements_in_block(python_if);
+    }
+    
     return python_if;
 }
 
@@ -86,9 +114,4 @@ void write_if(char *ifcondition) {
     // Para este punto declaration ya fue formateado asi que se puede escribir en output_file.
     printf("Writing if condition: %s\n", ifcondition);
     fprintf(output_file, "%s\n", ifcondition);
-}
-
-void add_instruction_to_array(char *statement) {
-    elements_in_stack++;
-    statement_stack[elements_in_stack] = statement;
 }
