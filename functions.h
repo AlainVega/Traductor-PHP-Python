@@ -3,6 +3,8 @@
 #include <stdlib.h>
 
 FILE *output_file;
+int elements_in_stack = 0;
+char statement_stack[50][1000];
 
 void create_output_file() {
     printf("Opened file.\n");
@@ -51,10 +53,15 @@ void write_declaration(char *declaration) {
     fprintf(output_file, "%s\n", declaration);
 }
 
-char *format_echo(char *expr) {
+char *format_echo(char *expr, int tabcount) {
     // Para este punto expr ya fue formateado asi que ahora debe ser agregado dentro de print().
     // El espacio extra es para esto.
-    char *python_print = (char *) malloc(strlen(expr) + 10);
+    char *python_print = (char *) malloc(strlen(expr) + tabcount + 10);
+    if (tabcount > 0) {
+        for (int i = 0; i < tabcount; i++) {
+            strcat(python_print, "\t");
+        }
+    }
     strcat(python_print, "print(");
     strcat(python_print, expr);
     strcat(python_print, ")");
@@ -63,4 +70,25 @@ char *format_echo(char *expr) {
 
 void write_echo(char *echo) {
     fprintf(output_file, "%s\n", echo);
+}
+
+char *format_if(char *expr) {
+    // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
+    // El espacio extra es para esto.
+    char *python_if = (char *) malloc(strlen(expr) + 10);
+    strcat(python_if, "if (");
+    strcat(python_if, expr);
+    strcat(python_if, "):");
+    return python_if;
+}
+
+void write_if(char *ifcondition) {
+    // Para este punto declaration ya fue formateado asi que se puede escribir en output_file.
+    printf("Writing if condition: %s\n", ifcondition);
+    fprintf(output_file, "%s\n", ifcondition);
+}
+
+void add_instruction_to_array(char *statement) {
+    elements_in_stack++;
+    statement_stack[elements_in_stack] = statement;
 }

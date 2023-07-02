@@ -3,6 +3,8 @@
     #include "functions.h"
     int yylex(void);
     int yyerror(char *message);
+
+    int tabcount = 0;
 %}
 
 %start program
@@ -26,7 +28,7 @@
 %token EQ SC CL CM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT SQ1 SQ2 OPRT CPRT OBRC CBRC
 
-%type <str> expr declaration echo
+%type <str> expr declaration echo conditional statementinifblock statementsinifblock
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -39,20 +41,31 @@
 
 %%
 
-program: SPHP {printf("Se encontro un tag de inicio de PHP\n"); create_output_file();} lines EPHP {printf("Se encontro el final del tag de PHP\n");};
-lines: 
+program: SPHP {printf("Se encontro un tag de inicio de PHP\n"); create_output_file();} statements EPHP {printf("Se encontro el final del tag de PHP\n");};
+statements: 
     %empty
-    | lines line
+    | statements statement
 ;
-line:
+statement:
     declaration SC {printf("Se encontro una declaracion\n"); write_declaration($1);}
-    | echo SC {printf("Se encontro un echo\n"); write_echo($1);}
-    | conditional
+    | echo SC {printf("Se encontro un echo\n"); write_echo($1, tabcount);}
+    | conditional {printf("Se encontro una condicional\n"); write_if($1);}
 ;
 declaration: ID EQ expr {$$=format_declaration($1, $3);};
-echo: ECH expr {$$=format_echo($2);};
-conditional: IF OPRT expr CPRT block {printf("Se encontro un if\n");};
-block: OBRC lines CBRC {printf("Se encontro un bloque\n");};
+echo: ECH expr {$$=format_echo($2, tabcount);};
+conditional: 
+    IF OPRT expr CPRT statementinifblock {printf("Se encontro un if\n"); tabcount++; $$=format_if($3);};
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC {printf("Se encontro un if con bloque\n"); tabcount++; $$=format_if($3);};
+statementsinifblock: 
+    %empty
+    | statementsinifblock statementinifblock {printf("Se redujo el scope\n"); tabcount--; $$=format}
+;
+/* TODO: Intentar hacer un array de instrucciones para despues poner en conditional con $4 */
+statementinifblock:
+    declaration SC {printf("Se encontro una declaracion\n"); write_declaration($1);}
+    | echo SC {printf("Se encontro un echo\n"); char *formatted_echo = format_echo($1, tabcount); add_instruction_to_array(formatted_echo)}
+    | conditional {printf("Se encontro una condicional\n"); write_if($1);}
+;
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
