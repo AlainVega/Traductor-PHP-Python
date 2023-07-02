@@ -19,7 +19,7 @@
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
 %token <str> ID STR NUM ECH
 %token SPHP EPHP BOOL NAME FRC AS ARR APOP APUS ASUM
-        IF ELSE ELIF SWIH CASE BRK DFT FUNC WHIL RTN PRNT
+        IF ELSE ELIF SWIH CASE BRK DFT FUNC WHIL FOR RTN PRNT
 
 /* 
    Simbolos aritmeticos, de asignacion, igualdad, desigualdad
@@ -50,6 +50,8 @@ statement:
     declaration SC {printf("Se encontro una declaracion\n"); write_declaration($1);}
     | echo SC {printf("Se encontro un echo\n"); write_echo($1, tabcount);}
     | conditional {printf("Se encontro una condicional\n"); write_if($1);}
+    | while
+    | for
 ;
 declaration: ID EQ expr {$$=format_declaration($1, $3);};
 echo: ECH expr {$$=format_echo($2, tabcount);};
@@ -66,6 +68,9 @@ statementinifblock:
     | echo SC {printf("Se encontro un echo\n"); char *formatted_echo = format_echo($1, tabcount); add_instruction_to_array(formatted_echo)}
     | conditional {printf("Se encontro una condicional\n"); write_if($1);}
 ;
+block: OBRC statements CBRC {printf("Se encontro un bloque\n");};
+while: WHIL OPRT expr CPRT block {printf("Se encontro un bucle while\n");}
+for: FOR OPRT expr SC expr SC expr CPRT block {printf("Se encontro un bucle for\n");}
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
