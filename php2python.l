@@ -35,6 +35,7 @@ break	    ([Bb][Rr][Ee][Aa][Kk])
 default	    ([Dd][Ee][Ff][Aa][Uu][Ll][Tt])
 function	([Ff][Uu][Nn][Cc][Tt][Ii][Oo][Nn])
 while	    ([Ww][Hh][Ii][Ll][Ee])
+for         ([Ff][Oo][Rr])
 foreach	    ([Ff][Oo][Rr][Ee][Aa][Cc][Hh])
 as	        ([Aa][Ss])
 return      ([Rr][Ee][Tt][Uu][Rr][Nn])
@@ -93,6 +94,7 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 {default}	 {return DFT;}
 {function}   {return FUNC;}
 {while}	     {return WHIL;}
+{for}        {return FOR;}
 {return}     {return RTN;}
 {name}       {return NAME;}
 
