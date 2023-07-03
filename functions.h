@@ -6,6 +6,7 @@
 FILE *output_file;
 int elements_in_stack = 0;
 char statement_queue[50][1000];
+char param_queue[50][1000];
 int statements_in_if_block = 0;
 int statements_in_else_block = 0;
 

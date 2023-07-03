@@ -179,7 +179,7 @@ enum yysymbol_kind_t
   YYSYMBOL_while = 72,                     /* while  */
   YYSYMBOL_for = 73,                       /* for  */
   YYSYMBOL_expr = 74,                      /* expr  */
-  YYSYMBOL_items = 75                      /* items  */
+  YYSYMBOL_parameters = 75                 /* parameters  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -600,7 +600,7 @@ static const char *const yytname[] =
   "CPRT", "OBRC", "CBRC", "GTE", "LTE", "$accept", "program", "$@1",
   "statements", "statement", "declaration", "echo", "conditional",
   "statementsinifblock", "statementinifblock", "statementsinelseblock",
-  "statementinelseblock", "block", "while", "for", "expr", "items", YY_NULLPTR
+  "statementinelseblock", "block", "while", "for", "expr", "parameters", YY_NULLPTR
 };
 
 static const char *
@@ -1450,14 +1450,26 @@ yyreduce:
 #line 1451 "php2python.tab.c"
     break;
 
-  case 46: /* expr: ARRY OPRT items CPRT  */
+  case 46: /* expr: ARRY OPRT parameters CPRT  */
 #line 104 "php2python.y"
-                           {printf("Se encontro la definicion de un array\n");}
+                                {printf("Se encontro la definicion de un array\n");}
 #line 1457 "php2python.tab.c"
     break;
 
+  case 48: /* parameters: expr  */
+#line 108 "php2python.y"
+           {printf("Se encontro la expresion %s como un parametro\n", (yyvsp[0].str));}
+#line 1463 "php2python.tab.c"
+    break;
 
-#line 1461 "php2python.tab.c"
+  case 49: /* parameters: parameters COMM expr  */
+#line 109 "php2python.y"
+                           {printf("Se encontro una expresion (%s) separada por comas como parametros\n", (yyvsp[0].str));}
+#line 1469 "php2python.tab.c"
+    break;
+
+
+#line 1473 "php2python.tab.c"
 
       default: break;
     }
