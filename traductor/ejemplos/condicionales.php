@@ -9,7 +9,7 @@ else {
     echo "Esto tambien esta en el else\n";
 }
 
-if (1 < 2) {
+if (1 == 1) {
     echo "Esto esta en otro bloque\n";
 }
 

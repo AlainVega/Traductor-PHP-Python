@@ -862,7 +862,7 @@ YY_RULE_SETUP
 case 7:
 YY_RULE_SETUP
 #line 51 "php2python.l"
-{return CM;}
+{return COMM;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
@@ -1018,7 +1018,7 @@ YY_RULE_SETUP
 case 38:
 YY_RULE_SETUP
 #line 82 "php2python.l"
-{return ARR;}
+{return ARRY;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP

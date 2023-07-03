@@ -48,7 +48,7 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 "="	    {return EQ;}
 ";"	    {return SC;}
 ":"	    {return CL;}
-","	    {return CM;}
+","	    {return COMM;}
 "+"	    {return PLUS;}
 "-"	    {return MINS;}
 "/"	    {return DIV;}
@@ -79,7 +79,7 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 {string}     {yylval.str = (char *) strdup(yytext); return STR;}
 {foreach}    {return FRC;}
 {as}	     {return AS;}
-{array}	     {return ARR;}
+{array}	     {return ARRY;}
 {arraypop}   {return APOP;}
 {arraypush}  {return APUS;}
 {arraysum}   {return ASUM;}

@@ -48,7 +48,7 @@ Token | Simbolo o palabra | Significado | observacion |
 | BOOL | bool | | |
 | STR | string | | |
 | FCR | foreach | | |
-| ARR | array | | |
+| ARRY | array | | |
 | ASUM | array_sum | | |
 | APUS | array_push | | |
 | APOP | array_pop | | |

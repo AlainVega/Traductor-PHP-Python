@@ -64,7 +64,7 @@ extern int yydebug;
     NAME = 265,                    /* NAME  */
     FRC = 266,                     /* FRC  */
     AS = 267,                      /* AS  */
-    ARR = 268,                     /* ARR  */
+    ARRY = 268,                    /* ARRY  */
     APOP = 269,                    /* APOP  */
     APUS = 270,                    /* APUS  */
     ASUM = 271,                    /* ASUM  */
@@ -83,7 +83,7 @@ extern int yydebug;
     EQ = 284,                      /* EQ  */
     SC = 285,                      /* SC  */
     CL = 286,                      /* CL  */
-    CM = 287,                      /* CM  */
+    COMM = 287,                    /* COMM  */
     PLUS = 288,                    /* PLUS  */
     MINS = 289,                    /* MINS  */
     DIV = 290,                     /* DIV  */

@@ -18,14 +18,14 @@
 /* Declaracion de los Tokens necesarios */
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
 %token <str> ID STR NUM ECH
-%token SPHP EPHP BOOL NAME FRC AS ARR APOP APUS ASUM
+%token SPHP EPHP BOOL NAME FRC AS ARRY APOP APUS ASUM
         IF ELSE ELIF SWIH CASE BRK DFT FUNC WHIL FOR RTN PRNT
 
 /* 
    Simbolos aritmeticos, de asignacion, igualdad, desigualdad
    logicos, gramaticales, etc. 
 */
-%token EQ SC CL CM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
+%token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT SQ1 SQ2 OPRT CPRT OBRC CBRC
 
 %type <str> expr declaration echo conditional
@@ -37,7 +37,7 @@
 */
 %left MOD MULT DIV PLUS MINS CCTN AND OR
 %right EQ
-%nonassoc GT LT GTE LTE
+%nonassoc GT LT GTE LTE NEQ EEQ
 
 %%
 
@@ -76,9 +76,9 @@ statementsinelseblock:
 ;
 /* TODO: Intentar hacer un array de instrucciones para despues poner en conditional con $4 */
 statementinelseblock:
-    declaration SC {printf("Se encontro una declaracion dentro de un if\n"); write_declaration($1);}
-    | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_else_block_counter(); add_statement_to_array($1);}
-    | conditional {printf("Se encontro una condicional dentro de un if\n"); write_if($1);}
+    declaration SC {printf("Se encontro una declaracion dentro de un else\n"); write_declaration($1);}
+    | echo SC {printf("Se encontro un echo dentro de un else\n"); add_statement_to_else_block_counter(); add_statement_to_array($1);}
+    | conditional {printf("Se encontro una condicional dentro de un else\n"); write_if($1);}
 ;
 block: OBRC statements CBRC {printf("Se encontro un bloque\n");};
 while: WHIL OPRT expr CPRT block {printf("Se encontro un bucle while\n");}
@@ -98,8 +98,15 @@ expr:
     | expr LT expr {printf("Se encontro un menor que \n"); $$=format_operation($1, " < ", $3);}
     | expr GTE expr {printf("Se encontro un mayor o igual que \n"); $$=format_operation($1, " >= ", $3);}
     | expr LTE expr {printf("Se encontro un menor o igual que \n"); $$=format_operation($1, " <= ", $3);}
+    | expr EEQ expr {printf("Se encontro un igual que \n"); $$=format_operation($1, " == ", $3);}
+    | expr NEQ expr {printf("Se encontro un diferente que \n"); $$=format_operation($1, " != ", $3);}
+    | ARRY OPRT items CPRT {printf("Se encontro la definicion de un array\n");}
 ;
-
+items:
+    %empty
+    | expr
+    | items COMM expr
+;
 %%
 
 int main(int argc, char *argv[]) {
