@@ -58,9 +58,9 @@ extern int yydebug;
     STR = 259,                     /* STR  */
     NUM = 260,                     /* NUM  */
     ECH = 261,                     /* ECH  */
-    SPHP = 262,                    /* SPHP  */
-    EPHP = 263,                    /* EPHP  */
-    BOOL = 264,                    /* BOOL  */
+    BOOL = 262,                    /* BOOL  */
+    SPHP = 263,                    /* SPHP  */
+    EPHP = 264,                    /* EPHP  */
     NAME = 265,                    /* NAME  */
     FRC = 266,                     /* FRC  */
     AS = 267,                      /* AS  */

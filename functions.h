@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 FILE *output_file;
 int elements_in_stack = 0;
@@ -60,6 +61,16 @@ char *format_variable(char *variable) {
     variable++;
     printf("Formatted variable: %s\n", variable);
     return variable;
+}
+
+char *format_boolean(char *boolean) {
+    // Realizar comparacion case-insensitive y retornar True o False.
+    if (strcasecmp("true", boolean) == 0) {
+        return "True";
+    }
+    else if (strcasecmp("false", boolean) == 0) {
+        return "False";
+    }
 }
 
 char *format_declaration(char *variable, char *expr) {

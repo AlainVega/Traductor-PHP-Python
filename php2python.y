@@ -17,8 +17,8 @@
 
 /* Declaracion de los Tokens necesarios */
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
-%token <str> ID STR NUM ECH
-%token SPHP EPHP BOOL NAME FRC AS ARRY APOP APUS ASUM
+%token <str> ID STR NUM ECH BOOL
+%token SPHP EPHP NAME FRC AS ARRY APOP APUS ASUM
         IF ELSE ELIF SWIH CASE BRK DFT FUNC WHIL FOR RTN PRNT
 
 /* 
@@ -66,7 +66,7 @@ statementsinifblock:
 ;
 /* TODO: Intentar hacer un array de instrucciones para despues poner en conditional con $4 */
 statementinifblock:
-    declaration SC {printf("Se encontro una declaracion dentro de un if\n"); write_declaration($1);}
+    declaration SC {printf("Se encontro una declaracion dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
     | conditional {printf("Se encontro una condicional dentro de un if\n"); write_if($1);}
 ;
@@ -86,7 +86,8 @@ for: FOR OPRT expr SC expr SC expr CPRT block {printf("Se encontro un bucle for\
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
-    | ID {printf("Se encontro una variable en una declaracion\n"); $$=format_variable($1);}
+    | ID {printf("Se encontro una variable en una expresion\n"); $$=format_variable($1);}
+    | BOOL {printf("Se encontro un booleano\n"); $$=format_boolean($1);}
     | expr PLUS expr {printf("Se encontro una suma\n"); $$=format_operation($1, " + ", $3);}
     | expr MINS expr {printf("Se encontro una resta\n"); $$=format_operation($1, " - ", $3);}
     | expr MULT expr {printf("Se encontro una multiplicacion\n"); $$=format_operation($1, " * ", $3);}

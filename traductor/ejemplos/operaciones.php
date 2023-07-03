@@ -17,4 +17,9 @@ $str2 = "Mathias";
 $str3 = $str1 . " " . $str2;
 echo $str3;
 
+$bool1 = true;
+$bool2 = false;
+echo $bool1 && $bool2;
+echo $bool1 || $bool2;
+
 ?>
