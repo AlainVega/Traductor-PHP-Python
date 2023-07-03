@@ -7,4 +7,7 @@ echo $x;
 $x = array("Mi", "nombre", "es", "Mathias");
 echo $x;
 
+$x = [6, 9];
+echo $x;
+
 ?>

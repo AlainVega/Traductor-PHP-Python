@@ -1,6 +1,7 @@
-if (3 < 1):
-	print("Esto tambien esta en el else\n")
-	print("Esto esta en el else\n")
-else:
-	print("Esto es otro print\n")
-	print("Esto es cierto en un bloque\n")
+y = 4
+x = [3, 3, 8, True, 3 == 2, "XD", "LOL", ]
+print(x)
+x = ["Mi", "nombre", "es", "Mathias", ]
+print(x)
+x = [6, 9, ]
+print(x)
