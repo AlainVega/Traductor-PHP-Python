@@ -1,5 +1,6 @@
-while (1 < 2):
-	b = 2
-	a = 1
-while (1 == 1):
-		print("loop infinito")
+if (3 < 1):
+	print("Esto tambien esta en el else\n")
+	print("Esto esta en el else\n")
+else:
+	print("Esto es otro print\n")
+	print("Esto es cierto en un bloque\n")

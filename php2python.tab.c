@@ -1485,24 +1485,30 @@ yyreduce:
 
   case 50: /* expr: ARRY OPRT parameters CPRT  */
 #line 112 "php2python.y"
-                                {printf("Se encontro la definicion de un array\n");}
+                                {printf("Se encontro la definicion de un array\n"); (yyval.str)=format_array();}
 #line 1490 "php2python.tab.c"
+    break;
+
+  case 51: /* parameters: %empty  */
+#line 115 "php2python.y"
+           {(yyval.str)=NULL;}
+#line 1496 "php2python.tab.c"
     break;
 
   case 52: /* parameters: expr  */
 #line 116 "php2python.y"
-           {printf("Se encontro la expresion %s como un parametro\n", (yyvsp[0].str)); (yyval.str)=(yyvsp[0].str);}
-#line 1496 "php2python.tab.c"
+           {printf("Se encontro la expresion %s como un parametro\n", (yyvsp[0].str)); (yyval.str)=(yyvsp[0].str); add_param_to_queue((yyvsp[0].str));}
+#line 1502 "php2python.tab.c"
     break;
 
   case 53: /* parameters: parameters COMM expr  */
 #line 117 "php2python.y"
-                           {printf("Se encontro una expresion (%s) separada por comas como parametros\n", (yyval.str)=(yyvsp[0].str));}
-#line 1502 "php2python.tab.c"
+                           {printf("Se encontro una expresion (%s) separada por comas como parametros\n", (yyvsp[0].str)); add_param_to_queue((yyvsp[0].str));}
+#line 1508 "php2python.tab.c"
     break;
 
 
-#line 1506 "php2python.tab.c"
+#line 1512 "php2python.tab.c"
 
       default: break;
     }

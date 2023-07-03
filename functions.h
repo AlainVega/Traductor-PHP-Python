@@ -6,6 +6,7 @@
 FILE *output_file;
 int elements_in_stack = 0;
 char statement_queue[50][1000];
+int elements_in_param_queue = 0;
 char param_queue[50][1000];
 int statements_in_if_block = 0;
 int statements_in_else_block = 0;
@@ -51,10 +52,16 @@ void substract_statement_to_while_block_counter() {
     --statements_in_while_block;
 }
 
+void add_param_to_queue(char *param) {
+    strcpy(param_queue[elements_in_param_queue], param);
+    printf("Added the following statement to param queue: %s\n", param_queue[elements_in_param_queue]);
+    printf("Elements in param_queue: %d\n", elements_in_param_queue);
+    elements_in_param_queue++;
+}
+
 void write_statements_in_block(char *first_line, int *statement_counter) {
-    // first_line se refiere a la primera linea que puede ser un if(), for() o else().
+    // first_line se refiere a la primera linea que puede ser un if (), for (), else o while.
     // El resto de las lineas representan los statements dentro de un bloque.
-    // Vaciar la cola de instrucciones.
     for (int i = *statement_counter - 1; i >= 0; i--) {
         char *statement = take_statement_from_array();
         strcat(first_line, "\n\t");
@@ -144,8 +151,7 @@ char *format_if(char *expr) {
     strcat(python_if, expr);
     strcat(python_if, "):");
 
-    if (elements_in_stack > 0)
-    {
+    if (elements_in_stack > 0) {
         write_statements_in_block(python_if, &statements_in_if_block);
     }
     
@@ -167,7 +173,7 @@ char *format_if_else(char *expr) {
     // Ahora escribir el else.
     strcat(python_if_else, "\nelse:");
 
-    if (statements_in_else_block) {
+    if (statements_in_else_block > 0) {
         write_statements_in_block(python_if_else, &statements_in_else_block);
     }
     
@@ -195,13 +201,26 @@ char *format_while(char *expr) {
     return python_while;
 }
 
-
 void write_while(char *while_loop) {
     printf("Writing while loop: %s\n", while_loop);
     fprintf(output_file, "%s\n", while_loop);
 }
+
 /*Hacer primero el while y despues este*/
 void write_for(char *for_loop) {
     printf("Writing for loop: %s\n", for_loop);
     fprintf(output_file, "%s\n", for_loop);
+}
+
+char *format_array() {
+    char *param_list = (char *) malloc(elements_in_param_queue * 1000);
+    strcat(param_list, "[");
+    for (int i = 0; i < elements_in_param_queue; i++) {
+        strcat(param_list, param_queue[i]);
+        strcat(param_list, ", ");
+    }
+    strcat(param_list, "]");
+    elements_in_param_queue = 0;
+    printf("Formatted array: %s\n", param_list);
+    return param_list;
 }
