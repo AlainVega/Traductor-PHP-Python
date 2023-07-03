@@ -28,7 +28,7 @@
 %token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT SQ1 SQ2 OPRT CPRT OBRC CBRC
 
-%type <str> expr declaration echo conditional parameters
+%type <str> expr declaration echo conditional parameters while for
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -50,8 +50,8 @@ statement:
     declaration SC {printf("Se encontro una declaracion\n"); write_declaration($1);}
     | echo SC {printf("Se encontro un echo\n"); write_echo($1);}
     | conditional {printf("Se encontro una condicional\n"); write_if($1);}
-    | while
-    | for
+    | while {printf("Se encontro un bucle while\n"); write_while($1);}
+    | for {printf("Se encontro un bucle for\n"); write_for($1);}
 ;
 declaration: ID EQ expr {$$=format_declaration($1, $3);};
 echo: ECH expr {$$=format_echo($2, tabcount);};
@@ -68,7 +68,6 @@ statementsinifblock:
 statementinifblock:
     declaration SC {printf("Se encontro una declaracion dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
-    | conditional {printf("Se encontro una condicional dentro de un if\n"); write_if($1);}
 ;
 statementsinelseblock: 
     %empty
@@ -81,8 +80,17 @@ statementinelseblock:
     | conditional {printf("Se encontro una condicional dentro de un else\n"); write_if($1);}
 ;
 block: OBRC statements CBRC {printf("Se encontro un bloque\n");};
-while: WHIL OPRT expr CPRT block {printf("Se encontro un bucle while\n");}
-for: FOR OPRT expr SC expr SC expr CPRT block {printf("Se encontro un bucle for\n");}
+while: WHIL OPRT expr CPRT OBRC statementsInWhileBlock CBRC {printf("Se encontro un while con bloque\n"); tabcount++; $$=format_while($3);};
+statementsInWhileBlock: 
+    %empty
+    | statementsInWhileBlock statementInWhileBlock
+;
+statementInWhileBlock: 
+    declaration SC {printf("Se encontro una declaracion dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
+    | echo SC {printf("Se encontro un echo dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
+    | conditional {printf("Se encontro una condicional dentro de un while\n");}
+;
+for: FOR OPRT expr SC expr SC expr CPRT block {printf("Se encontro un bucle for\n");};
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
@@ -105,7 +113,7 @@ expr:
 ;
 parameters:
     %empty
-    | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$=$3}
+    | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$=$1;}
     | parameters COMM expr {printf("Se encontro una expresion (%s) separada por comas como parametros\n", $$=$3);}
 ;
 

@@ -9,6 +9,7 @@ char statement_queue[50][1000];
 char param_queue[50][1000];
 int statements_in_if_block = 0;
 int statements_in_else_block = 0;
+int statements_in_while_block = 0;
 
 void create_output_file() {
     printf("Opened file.\n");
@@ -34,12 +35,20 @@ void add_statement_to_else_block_counter() {
     ++statements_in_else_block;
 }
 
+void add_statement_to_while_block_counter() {
+    ++statements_in_while_block;
+}
+
 void substract_statement_to_if_block_counter() {
     --statements_in_if_block;
 }
 
 void substract_statement_to_else_block_counter() {
     --statements_in_else_block;
+}
+
+void substract_statement_to_while_block_counter() {
+    --statements_in_while_block;
 }
 
 void write_statements_in_block(char *first_line, int *statement_counter) {
@@ -169,4 +178,30 @@ void write_if(char *ifcondition) {
     // Para este punto declaration ya fue formateado asi que se puede escribir en output_file.
     printf("Writing if condition: %s\n", ifcondition);
     fprintf(output_file, "%s\n", ifcondition);
+}
+
+char *format_while(char *expr) {
+    // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
+    // El espacio extra es para esto.
+    char *python_while = (char *) malloc(strlen(expr) + 1000);
+    strcat(python_while, "while (");
+    strcat(python_while, expr);
+    strcat(python_while, "):");
+
+    if (statements_in_while_block > 0) {
+        write_statements_in_block(python_while, &statements_in_while_block);
+    }
+
+    return python_while;
+}
+
+
+void write_while(char *while_loop) {
+    printf("Writing while loop: %s\n", while_loop);
+    fprintf(output_file, "%s\n", while_loop);
+}
+/*Hacer primero el while y despues este*/
+void write_for(char *for_loop) {
+    printf("Writing for loop: %s\n", for_loop);
+    fprintf(output_file, "%s\n", for_loop);
 }
