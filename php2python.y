@@ -105,7 +105,7 @@ expr:
 ;
 parameters:
     %empty
-    | expr {printf("Se encontro la expresion %s como un parametro\n", $1);}
+    | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$=$3}
     | parameters COMM expr {printf("Se encontro una expresion (%s) separada por comas como parametros\n", $$=$3);}
 ;
 
