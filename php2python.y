@@ -28,7 +28,7 @@
 %token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT OSQB CSQB OPRT CPRT OBRC CBRC
 
-%type <str> expr declaration echo conditional parameters while for functionDefinition arguments argument defaultValue
+%type <str> expr declaration echo conditional parameters while for functionDefinition arguments argument defaultValue functionCall
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -106,6 +106,7 @@ expr:
     | STR {$$=$1;}
     | ID {printf("Se encontro una variable en una expresion\n"); $$=format_variable($1);}
     | BOOL {printf("Se encontro un booleano\n"); $$=format_boolean($1);}
+    | functionCall {printf("Se encontro una llamada a funcion\n");}
     | expr PLUS expr {printf("Se encontro una suma\n"); $$=format_operation($1, " + ", $3);}
     | expr MINS expr {printf("Se encontro una resta\n"); $$=format_operation($1, " - ", $3);}
     | expr MULT expr {printf("Se encontro una multiplicacion\n"); $$=format_operation($1, " * ", $3);}
@@ -122,6 +123,7 @@ expr:
     | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); $$=format_array();}
     | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
 ;
+functionCall: NAME OPRT arguments CPRT {printf("Se encontro una llamada a la funcion %s\n", $1); $$=format_function_call($1, $3);};
 parameters:
     %empty {$$=NULL;}
     | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$=$1; add_param_to_queue($1);}
@@ -135,6 +137,7 @@ argument:
     argument COMM argument {$$=load_all_arguments($1, $3);}
     | ID {printf("Se encontro la variable %s como un argumento\n", $1); $$=format_variable($1);}
     | ID EQ defaultValue {printf("Se encontro la variable %s como un argumento, que tiene el valor por defecto %s\n", $1, $3); $$=format_default_argument(format_variable($1), $3);}
+    | defaultValue /*uso para el caso de una llamada a funcion. Ej: f(1, "hola")*/
 ;
 defaultValue:
     NUM {$$=$1;}

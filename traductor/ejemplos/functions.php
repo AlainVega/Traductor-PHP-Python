@@ -10,4 +10,9 @@ function sinArgumentos() {
     echo " adios";
 }
 
+$a = conArgumentos();
+$c = 10;
+$b = sinArgumentos($c);
+$d = conArgumentos(1,2, "hola", true);
+
 ?>

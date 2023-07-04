@@ -274,3 +274,12 @@ char *format_array() {
     printf("Formatted array: %s\n", param_list);
     return param_list;
 }
+
+char *format_function_call(char *function_name, char *function_arguments){
+    char *python_function_call = (char *) malloc(strlen(function_name) + strlen(function_arguments) + 2);
+    strcat(python_function_call, function_name);
+    strcat(python_function_call, "(");
+    strcat(python_function_call, function_arguments);
+    strcat(python_function_call, ")");
+    return python_function_call;
+}
