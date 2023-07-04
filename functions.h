@@ -10,6 +10,7 @@ char param_queue[50][1000];
 int statements_in_if_block = 0;
 int statements_in_else_block = 0;
 int statements_in_while_block = 0;
+int statements_in_function_block = 0;
 
 void create_output_file() {
     printf("Opened file.\n");
@@ -39,6 +40,10 @@ void add_statement_to_while_block_counter() {
     ++statements_in_while_block;
 }
 
+void add_statement_to_function_block_counter() {
+    ++statements_in_function_block;
+}
+
 void substract_statement_to_if_block_counter() {
     --statements_in_if_block;
 }
@@ -49,6 +54,10 @@ void substract_statement_to_else_block_counter() {
 
 void substract_statement_to_while_block_counter() {
     --statements_in_while_block;
+}
+
+void substract_statement_to_function_block_counter() {
+    --statements_in_function_block;
 }
 
 void write_statements_in_block(char *first_line, int *statement_counter) {
@@ -204,4 +213,41 @@ void write_while(char *while_loop) {
 void write_for(char *for_loop) {
     printf("Writing for loop: %s\n", for_loop);
     fprintf(output_file, "%s\n", for_loop);
+}
+
+char *format_default_argument(char *id, char *data) {
+    char *argument_formatted = (char *) malloc(strlen(id) + strlen(data) + 1);
+    strcat(argument_formatted, id);
+    strcat(argument_formatted, "=");
+    strcat(argument_formatted, data);
+    return argument_formatted;
+}
+
+char *load_all_arguments(char *arg1, char *arg2) {
+    char *arguments = (char *) malloc(strlen(arg1) + strlen(arg2) + 2);
+    strcat(arguments, arg1);
+    strcat(arguments, ", ");
+    strcat(arguments, arg2);
+    return arguments;
+}
+
+char *format_function(char *functionArguments, char* functionName) {
+    char *python_function = (char *) malloc(strlen(functionArguments) + strlen(functionName) + 1000);
+    
+    strcat(python_function, "def ");
+    strcat(python_function, functionName);
+    strcat(python_function, "(");
+    strcat(python_function, functionArguments);
+    strcat(python_function, ")");
+    strcat(python_function, ":");
+
+    if (statements_in_function_block > 0) {
+        write_statements_in_block(python_function, &statements_in_function_block);
+    }
+    return python_function;
+}
+
+void write_function(char *function) {
+    printf("Writing function: %s\n", function);
+    fprintf(output_file, "%s\n", function);
 }

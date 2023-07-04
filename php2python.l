@@ -96,6 +96,6 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 {while}	     {return WHIL;}
 {for}        {return FOR;}
 {return}     {return RTN;}
-{name}       {return NAME;}
+{name}       {yylval.str = (char *) strdup(yytext); return NAME;}
 
 %%

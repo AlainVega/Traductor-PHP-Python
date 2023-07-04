@@ -1103,7 +1103,7 @@ YY_RULE_SETUP
 case 55:
 YY_RULE_SETUP
 #line 99 "php2python.l"
-{return NAME;}
+{yylval.str = (char *) strdup(yytext); return NAME;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP

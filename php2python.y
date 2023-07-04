@@ -17,8 +17,8 @@
 
 /* Declaracion de los Tokens necesarios */
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
-%token <str> ID STR NUM ECH BOOL
-%token SPHP EPHP NAME FRC AS ARRY APOP APUS ASUM
+%token <str> ID STR NUM ECH BOOL NAME
+%token SPHP EPHP FRC AS ARRY APOP APUS ASUM
         IF ELSE ELIF SWIH CASE BRK DFT FUNC WHIL FOR RTN PRNT
 
 /* 
@@ -28,7 +28,7 @@
 %token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT SQ1 SQ2 OPRT CPRT OBRC CBRC
 
-%type <str> expr declaration echo conditional parameters while for
+%type <str> expr declaration echo conditional parameters while for functionDefinition arguments argument defaultValue
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -52,6 +52,7 @@ statement:
     | conditional {printf("Se encontro una condicional\n"); write_if($1);}
     | while {printf("Se encontro un bucle while\n"); write_while($1);}
     | for {printf("Se encontro un bucle for\n"); write_for($1);}
+    | functionDefinition {printf("Se encontro la definicion de una funcion\n"); write_function($1);}
 ;
 declaration: ID EQ expr {$$=format_declaration($1, $3);};
 echo: ECH expr {$$=format_echo($2, tabcount);};
@@ -91,6 +92,15 @@ statementInWhileBlock:
     | conditional {printf("Se encontro una condicional dentro de un while\n");}
 ;
 for: FOR OPRT expr SC expr SC expr CPRT block {printf("Se encontro un bucle for\n");};
+functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", $2, $4); tabcount++; $$=format_function($4, $2);};
+statementsInFunctionBlock: 
+    %empty
+    | statementsInFunctionBlock statementInFunctionBlock {printf("Se redujo el scope\n"); tabcount--;}
+;
+statementInFunctionBlock: 
+    declaration SC {printf("Se encontro una declaracion dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
+    | echo SC {printf("Se encontro un echo dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
+;
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
@@ -115,6 +125,20 @@ parameters:
     %empty
     | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$=$1;}
     | parameters COMM expr {printf("Se encontro una expresion (%s) separada por comas como parametros\n", $$=$3);}
+;
+arguments:
+    %empty {$$="";}
+    | argument 
+;
+argument: 
+    argument COMM argument {$$=load_all_arguments($1, $3);}
+    | ID {printf("Se encontro la variable %s como un argumento\n", $1); $$=format_variable($1);}
+    | ID EQ defaultValue {printf("Se encontro la variable %s como un argumento, que tiene el valor por defecto %s\n", $1, $3); $$=format_default_argument(format_variable($1), $3);}
+;
+defaultValue:
+    NUM {$$=$1;}
+    | STR {$$=$1;}
+    | BOOL {printf("Se encontro un booleano\n"); $$=format_boolean($1);}
 ;
 
 %%
