@@ -514,16 +514,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   175
+#define YYLAST   182
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  59
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  24
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  68
+#define YYNRULES  69
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  124
+#define YYNSTATES  127
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   313
@@ -580,11 +580,11 @@ static const yytype_uint8 yyrline[] =
 {
        0,    44,    44,    44,    46,    47,    50,    51,    52,    53,
       54,    56,    57,    59,    60,    61,    64,    65,    69,    70,
-      73,    74,    78,    79,    80,    83,    85,    86,    89,    90,
-      91,    93,    95,    96,    99,   100,   103,   104,   105,   106,
-     107,   108,   109,   110,   111,   112,   113,   114,   115,   116,
-     117,   118,   119,   120,   121,   122,   124,   126,   127,   128,
-     131,   132,   135,   136,   137,   138,   141,   142,   143
+      73,    74,    78,    79,    80,    82,    84,    85,    88,    89,
+      90,    92,    94,    95,    98,    99,   102,   103,   104,   105,
+     106,   107,   108,   109,   110,   111,   112,   113,   114,   115,
+     116,   117,   118,   119,   120,   121,   122,   124,   126,   127,
+     128,   131,   132,   135,   136,   137,   138,   141,   142,   143
 };
 #endif
 
@@ -622,7 +622,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-84)
+#define YYPACT_NINF (-70)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -636,19 +636,19 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-      10,   -84,    13,   -84,   -84,   150,    -9,    59,   -84,   -25,
-      21,   -19,   -84,    18,    24,   -84,   -84,   -84,    59,   -84,
-     -84,   -84,   -84,    12,    30,    59,   106,   -84,    59,    31,
-      59,   -84,   -84,   106,    19,    59,   106,   -20,    59,    59,
-      59,    59,    59,    59,    59,    59,    59,    59,    59,    59,
-      59,    40,    19,    80,     1,   -84,   -84,   -84,     3,    17,
-     -84,   -23,    59,   -84,    11,    11,    11,    11,    11,    48,
-      48,    48,    48,    11,    11,    48,    48,    15,    23,    16,
-      95,   -84,    19,   -84,   106,   -84,    28,    61,   -84,    46,
-     -84,   -84,    17,     4,   -84,   -84,   -84,    -1,    85,   -84,
-       5,   -84,    74,    77,   -84,   -84,    53,   -84,    79,    87,
-     -84,   -84,   -84,   -84,   -84,   -84,     0,   -84,    93,    94,
-     -84,   -84,   -84,   -84
+      12,   -70,    24,   -70,   -70,   137,     3,    15,   -70,   -27,
+      21,   -18,   -70,    19,    23,   -70,   -70,   -70,    15,   -17,
+     -70,   -70,   -70,     5,    11,    15,    93,   -70,    15,    18,
+      15,   -70,   -70,    93,    52,    78,    15,    93,   -19,    15,
+      15,    15,    15,    15,    15,    15,    15,    15,    15,    15,
+      15,    15,    34,    78,    67,     7,    36,   -70,   -70,   -70,
+      30,    45,   -70,   -24,    15,   -70,   116,   116,   116,   116,
+     116,   124,   124,   124,   124,   116,   116,   124,   124,     8,
+      32,    35,   -70,    47,   -70,    78,   -70,    93,   -70,    48,
+      57,   -70,    38,   -70,   -70,    45,     4,   -70,   -70,   -70,
+      -1,    71,   -70,     6,   -70,    64,    74,   -70,   -70,    42,
+     -70,    80,    81,   -70,   -70,   -70,   -70,   -70,   -70,     0,
+     -70,    86,    87,   -70,   -70,   -70,   -70
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -658,33 +658,33 @@ static const yytype_int8 yydefact[] =
 {
        0,     2,     0,     4,     1,     0,     0,     0,     3,     0,
        0,     0,     5,     0,     0,     8,     9,    10,     0,    38,
-      37,    36,    39,     0,     0,    57,    12,    40,     0,     0,
-       0,     6,     7,    11,    60,    57,    58,     0,     0,     0,
+      37,    36,    39,     0,     0,    58,    12,    40,     0,     0,
+       0,     6,     7,    11,     0,    61,    58,    59,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    60,     0,    63,    67,    66,    68,     0,    61,
-      65,     0,     0,    55,    41,    42,    44,    43,    45,    52,
-      53,    48,    49,    46,    47,    50,    51,     0,     0,     0,
-       0,    56,     0,    54,    59,    16,     0,     0,    13,     0,
-      26,    64,    62,     0,    18,    19,    32,     0,    14,    17,
-       0,    25,     0,     0,    30,    27,     0,    31,     0,     0,
-      33,    28,    29,    20,    34,    35,     0,    15,     0,     0,
-      24,    21,    22,    23
+       0,     0,     0,    61,     0,     0,    64,    68,    67,    69,
+       0,    62,    66,     0,     0,    55,    41,    42,    44,    43,
+      45,    52,    53,    48,    49,    46,    47,    50,    51,     0,
+       0,     0,    56,     0,    57,     0,    54,    60,    16,     0,
+       0,    13,     0,    26,    65,    63,     0,    18,    19,    32,
+       0,    14,    17,     0,    25,     0,     0,    30,    27,     0,
+      31,     0,     0,    33,    28,    29,    20,    34,    35,     0,
+      15,     0,     0,    24,    21,    22,    23
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -84,   -84,   -84,   -84,   -84,    -5,    -4,   -83,   -84,    34,
-     -84,   -84,   -84,   -84,   -84,   -84,   -84,   -84,    -3,   -84,
-      96,    76,    47,    50
+     -70,   -70,   -70,   -70,   -70,    -5,    -4,   -69,   -70,    22,
+     -70,   -70,   -70,   -70,   -70,   -70,   -70,   -70,    -3,   -70,
+      83,    69,    51,    37
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     3,     5,    12,    86,    87,    15,    93,    88,
-     116,   121,    16,    97,   105,    17,   100,   110,    36,    27,
-      37,    58,    59,    60
+       0,     2,     3,     5,    12,    89,    90,    15,    96,    91,
+     119,   124,    16,   100,   108,    17,   103,   113,    37,    27,
+      38,    60,    61,    62
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -692,46 +692,48 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      13,    14,     6,     6,    26,     7,     7,     6,     6,    62,
-       7,     7,    62,     4,   104,    33,     9,     9,     6,     1,
-      18,     7,    54,    55,    56,    51,    57,    53,    28,    29,
-      80,    83,    63,   120,    30,    64,    65,    66,    67,    68,
-      69,    70,    71,    72,    73,    74,    75,    76,    31,    82,
-      43,    44,    45,    46,    32,   101,   117,    81,    94,    84,
-      98,   107,    19,    20,    21,    34,    22,    23,    49,    50,
-      85,    90,    24,    38,    39,    40,    41,    89,    42,    43,
-      44,    45,    46,    35,    52,    47,    48,    -1,    -1,    -1,
-      -1,    95,   102,   103,    77,   108,   109,    49,    50,    55,
-      56,    96,    57,   106,   111,    -1,    -1,   112,   113,   114,
-      25,   118,   119,    38,    39,    40,    41,   115,    42,    43,
-      44,    45,    46,   122,   123,    47,    48,    99,    78,    92,
-      91,    61,     0,     0,    79,     0,     0,    49,    50,    38,
-      39,    40,    41,     0,    42,    43,    44,    45,    46,     0,
-       0,    47,    48,     6,     0,     0,     7,     0,     0,     0,
-       8,     0,     0,    49,    50,     0,     0,     9,     0,     0,
-       0,     0,     0,     0,    10,    11
+      13,    14,     6,     6,    26,     7,     7,     6,    64,     6,
+       7,     6,     7,    64,     7,    33,     9,     9,    19,    20,
+      21,     1,    22,    23,     4,    52,    28,    54,    24,    29,
+      86,   107,    18,    65,    34,    30,    66,    67,    68,    69,
+      70,    71,    72,    73,    74,    75,    76,    77,    78,    31,
+     123,    57,    58,    32,    59,   104,   120,    55,    35,    82,
+     101,    87,   110,    88,    36,    83,    25,    39,    40,    41,
+      42,    53,    43,    44,    45,    46,    47,    85,    97,    48,
+      49,    56,    57,    58,    84,    59,    92,    98,    79,   109,
+      93,    50,    51,    99,   114,   105,   106,   116,   111,   112,
+      39,    40,    41,    42,   115,    43,    44,    45,    46,    47,
+     117,   118,    48,    49,   121,   122,   125,   126,   102,    63,
+      94,    81,    80,     0,    50,    51,    39,    40,    41,    42,
+       0,    43,    44,    45,    46,    47,    95,     0,    48,    49,
+       6,     0,     0,     7,     0,     0,     0,     8,     0,     0,
+      50,    51,     0,     0,     9,    44,    45,    46,    47,     0,
+       0,    10,    11,    -1,    -1,    -1,    -1,     0,     0,     0,
+       0,     0,     0,    50,    51,     0,     0,     0,     0,     0,
+       0,    -1,    -1
 };
 
 static const yytype_int8 yycheck[] =
 {
-       5,     5,     3,     3,     7,     6,     6,     3,     3,    32,
-       6,     6,    32,     0,    97,    18,    17,    17,     3,     9,
-      29,     6,     3,     4,     5,    28,     7,    30,    53,     8,
-      29,    54,    52,   116,    53,    38,    39,    40,    41,    42,
-      43,    44,    45,    46,    47,    48,    49,    50,    30,    32,
-      39,    40,    41,    42,    30,    56,    56,    54,    30,    62,
-      56,    56,     3,     4,     5,    53,     7,     8,    57,    58,
-      55,    55,    13,    33,    34,    35,    36,    54,    38,    39,
-      40,    41,    42,    53,    53,    45,    46,    39,    40,    41,
-      42,    30,    97,    97,    54,   100,   100,    57,    58,     4,
-       5,    55,     7,    18,    30,    57,    58,    30,    55,    30,
-      51,   116,   116,    33,    34,    35,    36,    30,    38,    39,
-      40,    41,    42,    30,    30,    45,    46,    93,    52,    82,
-      80,    35,    -1,    -1,    54,    -1,    -1,    57,    58,    33,
-      34,    35,    36,    -1,    38,    39,    40,    41,    42,    -1,
-      -1,    45,    46,     3,    -1,    -1,     6,    -1,    -1,    -1,
-      10,    -1,    -1,    57,    58,    -1,    -1,    17,    -1,    -1,
-      -1,    -1,    -1,    -1,    24,    25
+       5,     5,     3,     3,     7,     6,     6,     3,    32,     3,
+       6,     3,     6,    32,     6,    18,    17,    17,     3,     4,
+       5,     9,     7,     8,     0,    28,    53,    30,    13,     8,
+      54,   100,    29,    52,    51,    53,    39,    40,    41,    42,
+      43,    44,    45,    46,    47,    48,    49,    50,    51,    30,
+     119,     4,     5,    30,     7,    56,    56,     5,    53,    52,
+      56,    64,    56,    55,    53,    29,    51,    33,    34,    35,
+      36,    53,    38,    39,    40,    41,    42,    32,    30,    45,
+      46,     3,     4,     5,    54,     7,    54,    30,    54,    18,
+      55,    57,    58,    55,    30,   100,   100,    55,   103,   103,
+      33,    34,    35,    36,    30,    38,    39,    40,    41,    42,
+      30,    30,    45,    46,   119,   119,    30,    30,    96,    36,
+      83,    54,    53,    -1,    57,    58,    33,    34,    35,    36,
+      -1,    38,    39,    40,    41,    42,    85,    -1,    45,    46,
+       3,    -1,    -1,     6,    -1,    -1,    -1,    10,    -1,    -1,
+      57,    58,    -1,    -1,    17,    39,    40,    41,    42,    -1,
+      -1,    24,    25,    39,    40,    41,    42,    -1,    -1,    -1,
+      -1,    -1,    -1,    57,    58,    -1,    -1,    -1,    -1,    -1,
+      -1,    57,    58
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -741,16 +743,16 @@ static const yytype_int8 yystos[] =
        0,     9,    60,    61,     0,    62,     3,     6,    10,    17,
       24,    25,    63,    64,    65,    66,    71,    74,    29,     3,
        4,     5,     7,     8,    13,    51,    77,    78,    53,     8,
-      53,    30,    30,    77,    53,    53,    77,    79,    33,    34,
-      35,    36,    38,    39,    40,    41,    42,    45,    46,    57,
-      58,    77,    53,    77,     3,     4,     5,     7,    80,    81,
-      82,    79,    32,    52,    77,    77,    77,    77,    77,    77,
-      77,    77,    77,    77,    77,    77,    77,    54,    80,    54,
-      29,    54,    32,    54,    77,    55,    64,    65,    68,    54,
-      55,    82,    81,    67,    30,    30,    55,    72,    56,    68,
-      75,    56,    64,    65,    66,    73,    18,    56,    64,    65,
-      76,    30,    30,    55,    30,    30,    69,    56,    64,    65,
-      66,    70,    30,    30
+      53,    30,    30,    77,    51,    53,    53,    77,    79,    33,
+      34,    35,    36,    38,    39,    40,    41,    42,    45,    46,
+      57,    58,    77,    53,    77,     5,     3,     4,     5,     7,
+      80,    81,    82,    79,    32,    52,    77,    77,    77,    77,
+      77,    77,    77,    77,    77,    77,    77,    77,    77,    54,
+      80,    54,    52,    29,    54,    32,    54,    77,    55,    64,
+      65,    68,    54,    55,    82,    81,    67,    30,    30,    55,
+      72,    56,    68,    75,    56,    64,    65,    66,    73,    18,
+      56,    64,    65,    76,    30,    30,    55,    30,    30,    69,
+      56,    64,    65,    66,    70,    30,    30
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
@@ -761,8 +763,8 @@ static const yytype_int8 yyr1[] =
       69,    69,    70,    70,    70,    71,    72,    72,    73,    73,
       73,    74,    75,    75,    76,    76,    77,    77,    77,    77,
       77,    77,    77,    77,    77,    77,    77,    77,    77,    77,
-      77,    77,    77,    77,    77,    77,    78,    79,    79,    79,
-      80,    80,    81,    81,    81,    81,    82,    82,    82
+      77,    77,    77,    77,    77,    77,    77,    78,    79,    79,
+      79,    80,    80,    81,    81,    81,    81,    82,    82,    82
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -773,8 +775,8 @@ static const yytype_int8 yyr2[] =
        0,     2,     2,     2,     1,     7,     0,     2,     2,     2,
        1,     8,     0,     2,     2,     2,     1,     1,     1,     1,
        1,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     3,     3,     4,     3,     4,     0,     1,     3,
-       0,     1,     3,     1,     3,     1,     1,     1,     1
+       3,     3,     3,     3,     4,     3,     4,     4,     0,     1,
+       3,     0,     1,     3,     1,     3,     1,     1,     1,     1
 };
 
 
@@ -1240,353 +1242,359 @@ yyreduce:
   case 2: /* $@1: %empty  */
 #line 44 "php2python.y"
               {printf("Se encontro un tag de inicio de PHP\n"); create_output_file();}
-#line 1244 "php2python.tab.c"
+#line 1246 "php2python.tab.c"
     break;
 
   case 3: /* program: SPHP $@1 statements EPHP  */
 #line 44 "php2python.y"
                                                                                                        {printf("Se encontro el final del tag de PHP\n");}
-#line 1250 "php2python.tab.c"
+#line 1252 "php2python.tab.c"
     break;
 
   case 6: /* statement: declaration SC  */
 #line 50 "php2python.y"
                    {printf("Se encontro una declaracion\n"); write_declaration((yyvsp[-1].str));}
-#line 1256 "php2python.tab.c"
+#line 1258 "php2python.tab.c"
     break;
 
   case 7: /* statement: echo SC  */
 #line 51 "php2python.y"
               {printf("Se encontro un echo\n"); write_echo((yyvsp[-1].str));}
-#line 1262 "php2python.tab.c"
+#line 1264 "php2python.tab.c"
     break;
 
   case 8: /* statement: conditional  */
 #line 52 "php2python.y"
                   {printf("Se encontro una condicional\n"); write_if((yyvsp[0].str));}
-#line 1268 "php2python.tab.c"
+#line 1270 "php2python.tab.c"
     break;
 
   case 9: /* statement: while  */
 #line 53 "php2python.y"
             {printf("Se encontro un bucle while\n"); write_while((yyvsp[0].str));}
-#line 1274 "php2python.tab.c"
+#line 1276 "php2python.tab.c"
     break;
 
   case 10: /* statement: functionDefinition  */
 #line 54 "php2python.y"
                          {printf("Se encontro la definicion de una funcion\n"); write_function((yyvsp[0].str));}
-#line 1280 "php2python.tab.c"
+#line 1282 "php2python.tab.c"
     break;
 
   case 11: /* declaration: ID EQ expr  */
 #line 56 "php2python.y"
                         {(yyval.str)=format_declaration((yyvsp[-2].str), (yyvsp[0].str));}
-#line 1286 "php2python.tab.c"
+#line 1288 "php2python.tab.c"
     break;
 
   case 12: /* echo: ECH expr  */
 #line 57 "php2python.y"
                {(yyval.str)=format_echo((yyvsp[0].str), tabcount);}
-#line 1292 "php2python.tab.c"
+#line 1294 "php2python.tab.c"
     break;
 
   case 13: /* conditional: IF OPRT expr CPRT statementinifblock  */
 #line 59 "php2python.y"
                                          {printf("Se encontro un if\n"); tabcount++; (yyval.str)=format_if((yyvsp[-2].str));}
-#line 1298 "php2python.tab.c"
+#line 1300 "php2python.tab.c"
     break;
 
   case 14: /* conditional: IF OPRT expr CPRT OBRC statementsinifblock CBRC  */
 #line 60 "php2python.y"
                                                       {printf("Se encontro un if con bloque\n"); tabcount++; (yyval.str)=format_if((yyvsp[-4].str));}
-#line 1304 "php2python.tab.c"
+#line 1306 "php2python.tab.c"
     break;
 
   case 15: /* conditional: IF OPRT expr CPRT OBRC statementsinifblock CBRC ELSE OBRC statementsinelseblock CBRC  */
 #line 61 "php2python.y"
                                                                                            {printf("Se encontro un if else con bloque\n"); tabcount++; (yyval.str)=format_if_else((yyvsp[-8].str));}
-#line 1310 "php2python.tab.c"
+#line 1312 "php2python.tab.c"
     break;
 
   case 17: /* statementsinifblock: statementsinifblock statementinifblock  */
 #line 65 "php2python.y"
                                              {printf("Se redujo el scope\n"); tabcount--;}
-#line 1316 "php2python.tab.c"
+#line 1318 "php2python.tab.c"
     break;
 
   case 18: /* statementinifblock: declaration SC  */
 #line 69 "php2python.y"
                    {printf("Se encontro una declaracion dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array((yyvsp[-1].str));}
-#line 1322 "php2python.tab.c"
+#line 1324 "php2python.tab.c"
     break;
 
   case 19: /* statementinifblock: echo SC  */
 #line 70 "php2python.y"
               {printf("Se encontro un echo dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array((yyvsp[-1].str));}
-#line 1328 "php2python.tab.c"
+#line 1330 "php2python.tab.c"
     break;
 
   case 21: /* statementsinelseblock: statementsinelseblock statementinelseblock  */
 #line 74 "php2python.y"
                                                  {printf("Se redujo el scope\n"); tabcount--;}
-#line 1334 "php2python.tab.c"
+#line 1336 "php2python.tab.c"
     break;
 
   case 22: /* statementinelseblock: declaration SC  */
 #line 78 "php2python.y"
                    {printf("Se encontro una declaracion dentro de un else\n"); write_declaration((yyvsp[-1].str));}
-#line 1340 "php2python.tab.c"
+#line 1342 "php2python.tab.c"
     break;
 
   case 23: /* statementinelseblock: echo SC  */
 #line 79 "php2python.y"
               {printf("Se encontro un echo dentro de un else\n"); add_statement_to_else_block_counter(); add_statement_to_array((yyvsp[-1].str));}
-#line 1346 "php2python.tab.c"
+#line 1348 "php2python.tab.c"
     break;
 
   case 24: /* statementinelseblock: conditional  */
 #line 80 "php2python.y"
                   {printf("Se encontro una condicional dentro de un else\n"); write_if((yyvsp[0].str));}
-#line 1352 "php2python.tab.c"
+#line 1354 "php2python.tab.c"
     break;
 
   case 25: /* while: WHIL OPRT expr CPRT OBRC statementsInWhileBlock CBRC  */
-#line 83 "php2python.y"
+#line 82 "php2python.y"
                                                             {printf("Se encontro un while con bloque\n"); tabcount++; (yyval.str)=format_while((yyvsp[-4].str));}
-#line 1358 "php2python.tab.c"
+#line 1360 "php2python.tab.c"
     break;
 
   case 28: /* statementInWhileBlock: declaration SC  */
-#line 89 "php2python.y"
+#line 88 "php2python.y"
                    {printf("Se encontro una declaracion dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array((yyvsp[-1].str));}
-#line 1364 "php2python.tab.c"
+#line 1366 "php2python.tab.c"
     break;
 
   case 29: /* statementInWhileBlock: echo SC  */
-#line 90 "php2python.y"
+#line 89 "php2python.y"
               {printf("Se encontro un echo dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array((yyvsp[-1].str));}
-#line 1370 "php2python.tab.c"
+#line 1372 "php2python.tab.c"
     break;
 
   case 30: /* statementInWhileBlock: conditional  */
-#line 91 "php2python.y"
+#line 90 "php2python.y"
                   {printf("Se encontro una condicional dentro de un while\n");}
-#line 1376 "php2python.tab.c"
+#line 1378 "php2python.tab.c"
     break;
 
   case 31: /* functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC  */
-#line 93 "php2python.y"
+#line 92 "php2python.y"
                                                                                       {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", (yyvsp[-6].str), (yyvsp[-4].str)); tabcount++; (yyval.str)=format_function((yyvsp[-4].str), (yyvsp[-6].str));}
-#line 1382 "php2python.tab.c"
+#line 1384 "php2python.tab.c"
     break;
 
   case 33: /* statementsInFunctionBlock: statementsInFunctionBlock statementInFunctionBlock  */
-#line 96 "php2python.y"
+#line 95 "php2python.y"
                                                          {printf("Se redujo el scope\n"); tabcount--;}
-#line 1388 "php2python.tab.c"
+#line 1390 "php2python.tab.c"
     break;
 
   case 34: /* statementInFunctionBlock: declaration SC  */
-#line 99 "php2python.y"
+#line 98 "php2python.y"
                    {printf("Se encontro una declaracion dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array((yyvsp[-1].str));}
-#line 1394 "php2python.tab.c"
+#line 1396 "php2python.tab.c"
     break;
 
   case 35: /* statementInFunctionBlock: echo SC  */
-#line 100 "php2python.y"
+#line 99 "php2python.y"
               {printf("Se encontro un echo dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array((yyvsp[-1].str));}
-#line 1400 "php2python.tab.c"
+#line 1402 "php2python.tab.c"
     break;
 
   case 36: /* expr: NUM  */
-#line 103 "php2python.y"
+#line 102 "php2python.y"
         {(yyval.str)=(yyvsp[0].str);}
-#line 1406 "php2python.tab.c"
+#line 1408 "php2python.tab.c"
     break;
 
   case 37: /* expr: STR  */
-#line 104 "php2python.y"
+#line 103 "php2python.y"
           {(yyval.str)=(yyvsp[0].str);}
-#line 1412 "php2python.tab.c"
+#line 1414 "php2python.tab.c"
     break;
 
   case 38: /* expr: ID  */
-#line 105 "php2python.y"
+#line 104 "php2python.y"
          {printf("Se encontro una variable en una expresion\n"); (yyval.str)=format_variable((yyvsp[0].str));}
-#line 1418 "php2python.tab.c"
+#line 1420 "php2python.tab.c"
     break;
 
   case 39: /* expr: BOOL  */
-#line 106 "php2python.y"
+#line 105 "php2python.y"
            {printf("Se encontro un booleano\n"); (yyval.str)=format_boolean((yyvsp[0].str));}
-#line 1424 "php2python.tab.c"
+#line 1426 "php2python.tab.c"
     break;
 
   case 40: /* expr: functionCall  */
-#line 107 "php2python.y"
+#line 106 "php2python.y"
                    {printf("Se encontro una llamada a funcion\n");}
-#line 1430 "php2python.tab.c"
+#line 1432 "php2python.tab.c"
     break;
 
   case 41: /* expr: expr PLUS expr  */
-#line 108 "php2python.y"
+#line 107 "php2python.y"
                      {printf("Se encontro una suma\n"); (yyval.str)=format_operation((yyvsp[-2].str), " + ", (yyvsp[0].str));}
-#line 1436 "php2python.tab.c"
+#line 1438 "php2python.tab.c"
     break;
 
   case 42: /* expr: expr MINS expr  */
-#line 109 "php2python.y"
+#line 108 "php2python.y"
                      {printf("Se encontro una resta\n"); (yyval.str)=format_operation((yyvsp[-2].str), " - ", (yyvsp[0].str));}
-#line 1442 "php2python.tab.c"
+#line 1444 "php2python.tab.c"
     break;
 
   case 43: /* expr: expr MULT expr  */
-#line 110 "php2python.y"
+#line 109 "php2python.y"
                      {printf("Se encontro una multiplicacion\n"); (yyval.str)=format_operation((yyvsp[-2].str), " * ", (yyvsp[0].str));}
-#line 1448 "php2python.tab.c"
+#line 1450 "php2python.tab.c"
     break;
 
   case 44: /* expr: expr DIV expr  */
-#line 111 "php2python.y"
+#line 110 "php2python.y"
                     {printf("Se encontro una division\n"); (yyval.str)=format_operation((yyvsp[-2].str), " / ", (yyvsp[0].str));}
-#line 1454 "php2python.tab.c"
+#line 1456 "php2python.tab.c"
     break;
 
   case 45: /* expr: expr CCTN expr  */
-#line 112 "php2python.y"
+#line 111 "php2python.y"
                      {printf("Se encontro una concatenacion\n"); (yyval.str)=format_operation((yyvsp[-2].str), " + ", (yyvsp[0].str));}
-#line 1460 "php2python.tab.c"
+#line 1462 "php2python.tab.c"
     break;
 
   case 46: /* expr: expr AND expr  */
-#line 113 "php2python.y"
+#line 112 "php2python.y"
                     {printf("Se encontro una conjuncion\n"); (yyval.str)=format_operation((yyvsp[-2].str), " and ", (yyvsp[0].str));}
-#line 1466 "php2python.tab.c"
+#line 1468 "php2python.tab.c"
     break;
 
   case 47: /* expr: expr OR expr  */
-#line 114 "php2python.y"
+#line 113 "php2python.y"
                    {printf("Se encontro una disyuncion\n"); (yyval.str)=format_operation((yyvsp[-2].str), " or ", (yyvsp[0].str));}
-#line 1472 "php2python.tab.c"
+#line 1474 "php2python.tab.c"
     break;
 
   case 48: /* expr: expr GT expr  */
-#line 115 "php2python.y"
+#line 114 "php2python.y"
                    {printf("Se encontro un mayor que \n"); (yyval.str)=format_operation((yyvsp[-2].str), " > ", (yyvsp[0].str));}
-#line 1478 "php2python.tab.c"
+#line 1480 "php2python.tab.c"
     break;
 
   case 49: /* expr: expr LT expr  */
-#line 116 "php2python.y"
+#line 115 "php2python.y"
                    {printf("Se encontro un menor que \n"); (yyval.str)=format_operation((yyvsp[-2].str), " < ", (yyvsp[0].str));}
-#line 1484 "php2python.tab.c"
+#line 1486 "php2python.tab.c"
     break;
 
   case 50: /* expr: expr GTE expr  */
-#line 117 "php2python.y"
+#line 116 "php2python.y"
                     {printf("Se encontro un mayor o igual que \n"); (yyval.str)=format_operation((yyvsp[-2].str), " >= ", (yyvsp[0].str));}
-#line 1490 "php2python.tab.c"
+#line 1492 "php2python.tab.c"
     break;
 
   case 51: /* expr: expr LTE expr  */
-#line 118 "php2python.y"
+#line 117 "php2python.y"
                     {printf("Se encontro un menor o igual que \n"); (yyval.str)=format_operation((yyvsp[-2].str), " <= ", (yyvsp[0].str));}
-#line 1496 "php2python.tab.c"
+#line 1498 "php2python.tab.c"
     break;
 
   case 52: /* expr: expr EEQ expr  */
-#line 119 "php2python.y"
+#line 118 "php2python.y"
                     {printf("Se encontro un igual que \n"); (yyval.str)=format_operation((yyvsp[-2].str), " == ", (yyvsp[0].str));}
-#line 1502 "php2python.tab.c"
+#line 1504 "php2python.tab.c"
     break;
 
   case 53: /* expr: expr NEQ expr  */
-#line 120 "php2python.y"
+#line 119 "php2python.y"
                     {printf("Se encontro un diferente que \n"); (yyval.str)=format_operation((yyvsp[-2].str), " != ", (yyvsp[0].str));}
-#line 1508 "php2python.tab.c"
+#line 1510 "php2python.tab.c"
     break;
 
   case 54: /* expr: ARRY OPRT parameters CPRT  */
-#line 121 "php2python.y"
+#line 120 "php2python.y"
                                 {printf("Se encontro la definicion de un array con array()\n"); (yyval.str)=format_array();}
-#line 1514 "php2python.tab.c"
+#line 1516 "php2python.tab.c"
     break;
 
   case 55: /* expr: OSQB parameters CSQB  */
-#line 122 "php2python.y"
+#line 121 "php2python.y"
                            {printf("Se encontro la definicion de un array con []\n"); (yyval.str)=format_array();}
-#line 1520 "php2python.tab.c"
+#line 1522 "php2python.tab.c"
     break;
 
-  case 56: /* functionCall: NAME OPRT arguments CPRT  */
+  case 56: /* expr: ID OSQB NUM CSQB  */
+#line 122 "php2python.y"
+                       {printf("Se encontro el acceso a un array\n"); (yyval.str)=format_array_access((yyvsp[-3].str), (yyvsp[-1].str));}
+#line 1528 "php2python.tab.c"
+    break;
+
+  case 57: /* functionCall: NAME OPRT arguments CPRT  */
 #line 124 "php2python.y"
                                        {printf("Se encontro una llamada a la funcion %s\n", (yyvsp[-3].str)); (yyval.str)=format_function_call((yyvsp[-3].str), (yyvsp[-1].str));}
-#line 1526 "php2python.tab.c"
+#line 1534 "php2python.tab.c"
     break;
 
-  case 57: /* parameters: %empty  */
+  case 58: /* parameters: %empty  */
 #line 126 "php2python.y"
            {(yyval.str)=NULL;}
-#line 1532 "php2python.tab.c"
+#line 1540 "php2python.tab.c"
     break;
 
-  case 58: /* parameters: expr  */
+  case 59: /* parameters: expr  */
 #line 127 "php2python.y"
            {printf("Se encontro la expresion %s como un parametro\n", (yyvsp[0].str)); (yyval.str)=(yyvsp[0].str); add_param_to_queue((yyvsp[0].str));}
-#line 1538 "php2python.tab.c"
+#line 1546 "php2python.tab.c"
     break;
 
-  case 59: /* parameters: parameters COMM expr  */
+  case 60: /* parameters: parameters COMM expr  */
 #line 128 "php2python.y"
                            {printf("Se encontro una expresion (%s) separada por comas como parametros\n", (yyvsp[0].str)); add_param_to_queue((yyvsp[0].str));}
-#line 1544 "php2python.tab.c"
+#line 1552 "php2python.tab.c"
     break;
 
-  case 60: /* arguments: %empty  */
+  case 61: /* arguments: %empty  */
 #line 131 "php2python.y"
            {(yyval.str)="";}
-#line 1550 "php2python.tab.c"
+#line 1558 "php2python.tab.c"
     break;
 
-  case 62: /* argument: argument COMM argument  */
+  case 63: /* argument: argument COMM argument  */
 #line 135 "php2python.y"
                            {(yyval.str)=load_all_arguments((yyvsp[-2].str), (yyvsp[0].str));}
-#line 1556 "php2python.tab.c"
+#line 1564 "php2python.tab.c"
     break;
 
-  case 63: /* argument: ID  */
+  case 64: /* argument: ID  */
 #line 136 "php2python.y"
          {printf("Se encontro la variable %s como un argumento\n", (yyvsp[0].str)); (yyval.str)=format_variable((yyvsp[0].str));}
-#line 1562 "php2python.tab.c"
+#line 1570 "php2python.tab.c"
     break;
 
-  case 64: /* argument: ID EQ defaultValue  */
+  case 65: /* argument: ID EQ defaultValue  */
 #line 137 "php2python.y"
                          {printf("Se encontro la variable %s como un argumento, que tiene el valor por defecto %s\n", (yyvsp[-2].str), (yyvsp[0].str)); (yyval.str)=format_default_argument(format_variable((yyvsp[-2].str)), (yyvsp[0].str));}
-#line 1568 "php2python.tab.c"
+#line 1576 "php2python.tab.c"
     break;
 
-  case 66: /* defaultValue: NUM  */
+  case 67: /* defaultValue: NUM  */
 #line 141 "php2python.y"
         {(yyval.str)=(yyvsp[0].str);}
-#line 1574 "php2python.tab.c"
+#line 1582 "php2python.tab.c"
     break;
 
-  case 67: /* defaultValue: STR  */
+  case 68: /* defaultValue: STR  */
 #line 142 "php2python.y"
           {(yyval.str)=(yyvsp[0].str);}
-#line 1580 "php2python.tab.c"
+#line 1588 "php2python.tab.c"
     break;
 
-  case 68: /* defaultValue: BOOL  */
+  case 69: /* defaultValue: BOOL  */
 #line 143 "php2python.y"
            {printf("Se encontro un booleano\n"); (yyval.str)=format_boolean((yyvsp[0].str));}
-#line 1586 "php2python.tab.c"
+#line 1594 "php2python.tab.c"
     break;
 
 
-#line 1590 "php2python.tab.c"
+#line 1598 "php2python.tab.c"
 
       default: break;
     }

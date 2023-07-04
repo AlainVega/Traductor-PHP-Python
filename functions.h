@@ -269,6 +269,18 @@ char *format_array() {
     return param_list;
 }
 
+char *format_array_access(char *variable_name, char *number) {
+    char *python_variable = format_variable(variable_name);
+    variable_name[0] = '\0';
+    char *array_access = (char *) malloc(strlen(python_variable) + strlen(number) + 100);
+    strcat(array_access, python_variable);
+    strcat(array_access, "[");
+    strcat(array_access, number);
+    strcat(array_access, "]");
+    printf("Formatted array access: %s\n", array_access);
+    return array_access;
+}
+
 char *format_function_call(char *function_name, char *function_arguments){
     char *python_function_call = (char *) malloc(strlen(function_name) + strlen(function_arguments) + 2);
     strcat(python_function_call, function_name);

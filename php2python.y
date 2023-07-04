@@ -79,7 +79,6 @@ statementinelseblock:
     | echo SC {printf("Se encontro un echo dentro de un else\n"); add_statement_to_else_block_counter(); add_statement_to_array($1);}
     | conditional {printf("Se encontro una condicional dentro de un else\n"); write_if($1);}
 ;
-block: OBRC statements CBRC {printf("Se encontro un bloque\n");};
 while: WHIL OPRT expr CPRT OBRC statementsInWhileBlock CBRC {printf("Se encontro un while con bloque\n"); tabcount++; $$=format_while($3);};
 statementsInWhileBlock: 
     %empty
@@ -120,6 +119,7 @@ expr:
     | expr NEQ expr {printf("Se encontro un diferente que \n"); $$=format_operation($1, " != ", $3);}
     | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); $$=format_array();}
     | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
+    | ID OSQB NUM CSQB {printf("Se encontro el acceso a un array\n"); $$=format_array_access($1, $3);}
 ;
 functionCall: NAME OPRT arguments CPRT {printf("Se encontro una llamada a la funcion %s\n", $1); $$=format_function_call($1, $3);};
 parameters:
