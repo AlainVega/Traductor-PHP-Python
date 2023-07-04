@@ -28,7 +28,7 @@
 %token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT OSQB CSQB OPRT CPRT OBRC CBRC
 
-%type <str> expr declaration echo conditional parameters while for functionDefinition arguments argument defaultValue functionCall
+%type <str> expr declaration echo conditional parameters while functionDefinition arguments argument defaultValue functionCall
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -51,7 +51,6 @@ statement:
     | echo SC {printf("Se encontro un echo\n"); write_echo($1);}
     | conditional {printf("Se encontro una condicional\n"); write_if($1);}
     | while {printf("Se encontro un bucle while\n"); write_while($1);}
-    | for {printf("Se encontro un bucle for\n"); write_for($1);}
     | functionDefinition {printf("Se encontro la definicion de una funcion\n"); write_function($1);}
 ;
 declaration: ID EQ expr {$$=format_declaration($1, $3);};
@@ -91,7 +90,6 @@ statementInWhileBlock:
     | echo SC {printf("Se encontro un echo dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
     | conditional {printf("Se encontro una condicional dentro de un while\n");}
 ;
-for: FOR OPRT expr SC expr SC expr CPRT block {printf("Se encontro un bucle for\n");};
 functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", $2, $4); tabcount++; $$=format_function($4, $2);};
 statementsInFunctionBlock: 
     %empty

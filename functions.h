@@ -219,12 +219,6 @@ void write_while(char *while_loop) {
     fprintf(output_file, "%s\n", while_loop);
 }
 
-/*Hacer primero el while y despues este*/
-void write_for(char *for_loop) {
-    printf("Writing for loop: %s\n", for_loop);
-    fprintf(output_file, "%s\n", for_loop);
-}
-
 char *format_default_argument(char *id, char *data) {
     char *argument_formatted = (char *) malloc(strlen(id) + strlen(data) + 1);
     strcat(argument_formatted, id);

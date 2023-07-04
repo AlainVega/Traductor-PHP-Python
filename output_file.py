@@ -1,10 +1,17 @@
-def conArgumentos(a=12, b=13, c="texto", d="texto"):
-	print("hola que tal?")
-	print(" adios")
-def sinArgumentos():
-	print("hola que tal?")
-	print(" adios")
-a = conArgumentos()
-c = 10
-b = sinArgumentos(c)
-d = conArgumentos(1, 2, "hola", True)
+a = 5 + 4
+x = 3
+y = 6
+z = x + y - a
+print(z)
+b = 3 + 2 * 2
+print(b)
+c = 15
+print(b * c)
+str1 = "Hola"
+str2 = "Mathias"
+str3 = str1 + " " + str2
+print(str3)
+bool1 = True
+bool2 = False
+print(bool1 and bool2)
+print(bool1 or bool2)
