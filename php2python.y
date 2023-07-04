@@ -26,7 +26,7 @@
    logicos, gramaticales, etc. 
 */
 %token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
-        PPL MMN SOR NOT SQ1 SQ2 OPRT CPRT OBRC CBRC
+        PPL MMN SOR NOT OSQB CSQB OPRT CPRT OBRC CBRC
 
 %type <str> expr declaration echo conditional parameters while for functionDefinition arguments argument defaultValue
 
@@ -119,12 +119,13 @@ expr:
     | expr LTE expr {printf("Se encontro un menor o igual que \n"); $$=format_operation($1, " <= ", $3);}
     | expr EEQ expr {printf("Se encontro un igual que \n"); $$=format_operation($1, " == ", $3);}
     | expr NEQ expr {printf("Se encontro un diferente que \n"); $$=format_operation($1, " != ", $3);}
-    | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array\n");}
+    | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); $$=format_array();}
+    | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
 ;
 parameters:
-    %empty
-    | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$=$1;}
-    | parameters COMM expr {printf("Se encontro una expresion (%s) separada por comas como parametros\n", $$=$3);}
+    %empty {$$=NULL;}
+    | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$=$1; add_param_to_queue($1);}
+    | parameters COMM expr {printf("Se encontro una expresion (%s) separada por comas como parametros\n", $3); add_param_to_queue($3);}
 ;
 arguments:
     %empty {$$="";}

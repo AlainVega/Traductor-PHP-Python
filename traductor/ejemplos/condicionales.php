@@ -1,6 +1,5 @@
 <?php
 
-
 if (3 < 1) {
     echo "Esto es cierto en un bloque\n";
     echo "Esto es otro print\n";

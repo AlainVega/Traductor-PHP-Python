@@ -957,12 +957,12 @@ YY_RULE_SETUP
 case 26:
 YY_RULE_SETUP
 #line 70 "php2python.l"
-{return SQ1;}
+{return OSQB;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 71 "php2python.l"
-{return SQ2;}
+{return CSQB;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP

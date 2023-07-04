@@ -67,8 +67,8 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 "--"	{return MMN;}
 "|"	    {return SOR;}
 "!"	    {return NOT;}
-"["	    {return SQ1;}
-"]"	    {return SQ2;}
+"["	    {return OSQB;}
+"]"	    {return CSQB;}
 "("	    {return OPRT;}
 ")"	    {return CPRT;}
 "{"	    {return OBRC;}

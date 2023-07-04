@@ -5,7 +5,8 @@
 
 FILE *output_file;
 int elements_in_stack = 0;
-char statement_queue[50][1000];
+char statement_stack[50][1000];
+int elements_in_param_queue = 0;
 char param_queue[50][1000];
 int statements_in_if_block = 0;
 int statements_in_else_block = 0;
@@ -13,19 +14,18 @@ int statements_in_while_block = 0;
 int statements_in_function_block = 0;
 
 void create_output_file() {
-    printf("Opened file.\n");
     output_file = fopen("output_file.py", "w");
 }
 
 void add_statement_to_array(char *statement) {
-    strcpy(statement_queue[elements_in_stack], statement);
-    printf("Added the following statement to stack: %s\n", statement_queue[elements_in_stack]);
+    strcpy(statement_stack[elements_in_stack], statement);
+    printf("Added the following statement to stack: %s\n", statement_stack[elements_in_stack]);
     elements_in_stack++;
 }
 
 char *take_statement_from_array() {
-    printf("Took out the following statement from stack: %s\n", statement_queue[elements_in_stack - 1]);
-    return statement_queue[--elements_in_stack];
+    printf("Took out the following statement from stack: %s\n", statement_stack[elements_in_stack - 1]);
+    return statement_stack[--elements_in_stack];
 }
 
 void add_statement_to_if_block_counter() {
@@ -60,16 +60,27 @@ void substract_statement_to_function_block_counter() {
     --statements_in_function_block;
 }
 
+void add_param_to_queue(char *param) {
+    strcpy(param_queue[elements_in_param_queue], param);
+    printf("Added the following statement to param queue: %s\n", param_queue[elements_in_param_queue]);
+    printf("Elements in param_queue: %d\n", elements_in_param_queue);
+    elements_in_param_queue++;
+}
+
 void write_statements_in_block(char *first_line, int *statement_counter) {
-    // first_line se refiere a la primera linea que puede ser un if(), for() o else().
+    // first_line se refiere a la primera linea que puede ser un if (), for (), else o while.
     // El resto de las lineas representan los statements dentro de un bloque.
-    // Vaciar la cola de instrucciones.
+    char *statements[100];
     for (int i = *statement_counter - 1; i >= 0; i--) {
         char *statement = take_statement_from_array();
-        strcat(first_line, "\n\t");
-        strcat(first_line, statement);
+        statements[i] = statement;
     }
     
+    for (int i = 0; *statement_counter > i; i++) {
+        strcat(first_line, "\n\t");
+        strcat(first_line, statements[i]);
+    }
+
     // Resetear el contador pasado a 0.
     *statement_counter = 0;
 }
@@ -153,8 +164,7 @@ char *format_if(char *expr) {
     strcat(python_if, expr);
     strcat(python_if, "):");
 
-    if (elements_in_stack > 0)
-    {
+    if (statements_in_if_block > 0) {
         write_statements_in_block(python_if, &statements_in_if_block);
     }
     
@@ -176,7 +186,7 @@ char *format_if_else(char *expr) {
     // Ahora escribir el else.
     strcat(python_if_else, "\nelse:");
 
-    if (statements_in_else_block) {
+    if (statements_in_else_block > 0) {
         write_statements_in_block(python_if_else, &statements_in_else_block);
     }
     
@@ -204,11 +214,11 @@ char *format_while(char *expr) {
     return python_while;
 }
 
-
 void write_while(char *while_loop) {
     printf("Writing while loop: %s\n", while_loop);
     fprintf(output_file, "%s\n", while_loop);
 }
+
 /*Hacer primero el while y despues este*/
 void write_for(char *for_loop) {
     printf("Writing for loop: %s\n", for_loop);
@@ -250,4 +260,17 @@ char *format_function(char *functionArguments, char* functionName) {
 void write_function(char *function) {
     printf("Writing function: %s\n", function);
     fprintf(output_file, "%s\n", function);
+}
+
+char *format_array() {
+    char *param_list = (char *) malloc(elements_in_param_queue * 1000);
+    strcat(param_list, "[");
+    for (int i = 0; i < elements_in_param_queue; i++) {
+        strcat(param_list, param_queue[i]);
+        strcat(param_list, ", ");
+    }
+    strcat(param_list, "]");
+    elements_in_param_queue = 0;
+    printf("Formatted array: %s\n", param_list);
+    return param_list;
 }

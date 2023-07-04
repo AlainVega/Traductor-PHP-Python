@@ -102,8 +102,8 @@ extern int yydebug;
     MMN = 303,                     /* MMN  */
     SOR = 304,                     /* SOR  */
     NOT = 305,                     /* NOT  */
-    SQ1 = 306,                     /* SQ1  */
-    SQ2 = 307,                     /* SQ2  */
+    OSQB = 306,                    /* OSQB  */
+    CSQB = 307,                    /* CSQB  */
     OPRT = 308,                    /* OPRT  */
     CPRT = 309,                    /* CPRT  */
     OBRC = 310,                    /* OBRC  */
