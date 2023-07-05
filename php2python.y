@@ -17,7 +17,7 @@
 
 /* Declaracion de los Tokens necesarios */
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
-%token <str> ID STR NUM ECH BOOL NAME
+%token <str> ID STR NUM ECH BOOL NAME CMNT
 %token SPHP EPHP FRC AS ARRY APOP APUS ASUM
         IF ELSE ELIF SWIH CASE BRK CONT DFT FUNC WHIL FOR RTN PRNT
 
@@ -54,6 +54,7 @@ statement:
     | while {printf("Se encontro un bucle while\n"); write_while($1);}
     | functionDefinition {printf("Se encontro la definicion de una funcion\n"); write_function($1);}
     | return SC {printf("Se encontro un retorno global\n"); write_return(translate_return($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
 ;
 declaration: ID EQ expr {$$=format_declaration($1, $3);};
 echo: ECH expr {$$=format_echo($2, tabcount);};
@@ -71,6 +72,7 @@ statementinifblock:
     declaration SC {printf("Se encontro una declaracion dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
     | return SC {printf("Se encontro un retorno dentro de un while\n"); add_statement_to_if_block_counter(); add_statement_to_array(translate_return($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); char *comment = format_one_line_comment($1); add_statement_to_if_block_counter(comment); add_statement_to_array(comment);}
 ;
 statementsinelseblock: 
     %empty
@@ -96,6 +98,7 @@ statementInWhileBlock:
     | return SC {printf("Se encontro un retorno dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array(translate_return($1));}
     | break SC {printf("Se encontro una sentencia break dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
     | continue SC {printf("Se encontro una sentencia continue dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
+    | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); char *comment = format_one_line_comment($1); add_statement_to_while_block_counter(comment); add_statement_to_array(comment);}
 ;
 break: BRK {$$="break";};
 continue: CONT {$$="continue";};
@@ -108,6 +111,7 @@ statementInFunctionBlock:
     declaration SC {printf("Se encontro una declaracion dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
     | return SC {printf("Se encontro un retorno dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array(format_return($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); char *comment = format_one_line_comment($1); add_statement_to_function_block_counter(comment); add_statement_to_array(comment);}
 ;
 return: RTN expr {printf("Se encontro un retorno de: %s\n", $2); $$=$2;};
 expr: 

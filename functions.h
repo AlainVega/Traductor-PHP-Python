@@ -309,3 +309,21 @@ void write_return(char *python_return) {
     printf("Writing return statement: %s\n", python_return);
     fprintf(output_file, "%s\n", python_return);
 }
+
+char *format_one_line_comment(char *comment) {
+    //Para este punto el comentario es php valido, asi que puede empezar con / o #
+    if (comment[0] == '/') { // Este tipo de comentario
+        comment[0] = '\0';
+        comment[1] = '#';
+        return ++comment;
+    } else { // Comentario estilo python, empieza con #
+        return comment;
+    }
+    
+    
+}
+
+void write_one_line_comment(char *comment) {
+    printf("Writing comment line: %s\n", comment);
+    fprintf(output_file, "%s\n", comment);
+}

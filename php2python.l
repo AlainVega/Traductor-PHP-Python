@@ -40,6 +40,7 @@ for         ([Ff][Oo][Rr])
 foreach	    ([Ff][Oo][Rr][Ee][Aa][Cc][Hh])
 as	        ([Aa][Ss])
 return      ([Rr][Ee][Tt][Uu][Rr][Nn])
+comment     (\/\/.*)|(#.*)
 
 %%
 
@@ -99,5 +100,6 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 {for}        {return FOR;}
 {return}     {return RTN;}
 {name}       {yylval.str = (char *) strdup(yytext); return NAME;}
+{comment}    {yylval.str = (char *) strdup(yytext); return CMNT;}
 
 %%

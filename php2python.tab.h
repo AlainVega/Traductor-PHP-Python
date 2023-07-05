@@ -60,55 +60,56 @@ extern int yydebug;
     ECH = 261,                     /* ECH  */
     BOOL = 262,                    /* BOOL  */
     NAME = 263,                    /* NAME  */
-    SPHP = 264,                    /* SPHP  */
-    EPHP = 265,                    /* EPHP  */
-    FRC = 266,                     /* FRC  */
-    AS = 267,                      /* AS  */
-    ARRY = 268,                    /* ARRY  */
-    APOP = 269,                    /* APOP  */
-    APUS = 270,                    /* APUS  */
-    ASUM = 271,                    /* ASUM  */
-    IF = 272,                      /* IF  */
-    ELSE = 273,                    /* ELSE  */
-    ELIF = 274,                    /* ELIF  */
-    SWIH = 275,                    /* SWIH  */
-    CASE = 276,                    /* CASE  */
-    BRK = 277,                     /* BRK  */
-    CONT = 278,                    /* CONT  */
-    DFT = 279,                     /* DFT  */
-    FUNC = 280,                    /* FUNC  */
-    WHIL = 281,                    /* WHIL  */
-    FOR = 282,                     /* FOR  */
-    RTN = 283,                     /* RTN  */
-    PRNT = 284,                    /* PRNT  */
-    EQ = 285,                      /* EQ  */
-    SC = 286,                      /* SC  */
-    CL = 287,                      /* CL  */
-    COMM = 288,                    /* COMM  */
-    PLUS = 289,                    /* PLUS  */
-    MINS = 290,                    /* MINS  */
-    DIV = 291,                     /* DIV  */
-    MULT = 292,                    /* MULT  */
-    MOD = 293,                     /* MOD  */
-    CCTN = 294,                    /* CCTN  */
-    EEQ = 295,                     /* EEQ  */
-    NEQ = 296,                     /* NEQ  */
-    GT = 297,                      /* GT  */
-    LT = 298,                      /* LT  */
-    AND = 299,                     /* AND  */
-    OR = 300,                      /* OR  */
-    PPL = 301,                     /* PPL  */
-    MMN = 302,                     /* MMN  */
-    SOR = 303,                     /* SOR  */
-    NOT = 304,                     /* NOT  */
-    OSQB = 305,                    /* OSQB  */
-    CSQB = 306,                    /* CSQB  */
-    OPRT = 307,                    /* OPRT  */
-    CPRT = 308,                    /* CPRT  */
-    OBRC = 309,                    /* OBRC  */
-    CBRC = 310,                    /* CBRC  */
-    GTE = 311,                     /* GTE  */
-    LTE = 312                      /* LTE  */
+    CMNT = 264,                    /* CMNT  */
+    SPHP = 265,                    /* SPHP  */
+    EPHP = 266,                    /* EPHP  */
+    FRC = 267,                     /* FRC  */
+    AS = 268,                      /* AS  */
+    ARRY = 269,                    /* ARRY  */
+    APOP = 270,                    /* APOP  */
+    APUS = 271,                    /* APUS  */
+    ASUM = 272,                    /* ASUM  */
+    IF = 273,                      /* IF  */
+    ELSE = 274,                    /* ELSE  */
+    ELIF = 275,                    /* ELIF  */
+    SWIH = 276,                    /* SWIH  */
+    CASE = 277,                    /* CASE  */
+    BRK = 278,                     /* BRK  */
+    CONT = 279,                    /* CONT  */
+    DFT = 280,                     /* DFT  */
+    FUNC = 281,                    /* FUNC  */
+    WHIL = 282,                    /* WHIL  */
+    FOR = 283,                     /* FOR  */
+    RTN = 284,                     /* RTN  */
+    PRNT = 285,                    /* PRNT  */
+    EQ = 286,                      /* EQ  */
+    SC = 287,                      /* SC  */
+    CL = 288,                      /* CL  */
+    COMM = 289,                    /* COMM  */
+    PLUS = 290,                    /* PLUS  */
+    MINS = 291,                    /* MINS  */
+    DIV = 292,                     /* DIV  */
+    MULT = 293,                    /* MULT  */
+    MOD = 294,                     /* MOD  */
+    CCTN = 295,                    /* CCTN  */
+    EEQ = 296,                     /* EEQ  */
+    NEQ = 297,                     /* NEQ  */
+    GT = 298,                      /* GT  */
+    LT = 299,                      /* LT  */
+    AND = 300,                     /* AND  */
+    OR = 301,                      /* OR  */
+    PPL = 302,                     /* PPL  */
+    MMN = 303,                     /* MMN  */
+    SOR = 304,                     /* SOR  */
+    NOT = 305,                     /* NOT  */
+    OSQB = 306,                    /* OSQB  */
+    CSQB = 307,                    /* CSQB  */
+    OPRT = 308,                    /* OPRT  */
+    CPRT = 309,                    /* CPRT  */
+    OBRC = 310,                    /* OBRC  */
+    CBRC = 311,                    /* CBRC  */
+    GTE = 312,                     /* GTE  */
+    LTE = 313                      /* LTE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -123,7 +124,7 @@ union YYSTYPE
 	char *id;
 	char *str;	
 
-#line 127 "php2python.tab.h"
+#line 128 "php2python.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
