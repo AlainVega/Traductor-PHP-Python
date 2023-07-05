@@ -71,8 +71,8 @@ statementsinifblock:
 statementinifblock:
     declaration SC {printf("Se encontro una declaracion dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
-    | return SC {printf("Se encontro un retorno dentro de un while\n"); add_statement_to_if_block_counter(); add_statement_to_array(translate_return($1));}
-    | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); char *comment = format_one_line_comment($1); add_statement_to_if_block_counter(comment); add_statement_to_array(comment);}
+    | return SC {printf("Se encontro un retorno dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array(translate_return($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un if\n", $1); add_statement_to_if_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
 statementsinelseblock: 
     %empty
@@ -83,7 +83,8 @@ statementinelseblock:
     declaration SC {printf("Se encontro una declaracion dentro de un else\n"); write_declaration($1);}
     | echo SC {printf("Se encontro un echo dentro de un else\n"); add_statement_to_else_block_counter(); add_statement_to_array($1);}
     | conditional {printf("Se encontro una condicional dentro de un else\n"); write_if($1);}
-    | return SC {printf("Se encontro un retorno dentro de un while\n"); add_statement_to_else_block_counter(); add_statement_to_array(translate_return($1));}
+    | return SC {printf("Se encontro un retorno dentro de un else\n"); add_statement_to_else_block_counter(); add_statement_to_array(translate_return($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un else\n", $1); add_statement_to_if_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
 block: OBRC statements CBRC {printf("Se encontro un bloque\n");};
 while: WHIL OPRT expr CPRT OBRC statementsInWhileBlock CBRC {printf("Se encontro un while con bloque\n"); tabcount++; $$=format_while($3);};
@@ -98,7 +99,7 @@ statementInWhileBlock:
     | return SC {printf("Se encontro un retorno dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array(translate_return($1));}
     | break SC {printf("Se encontro una sentencia break dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
     | continue SC {printf("Se encontro una sentencia continue dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
-    | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); char *comment = format_one_line_comment($1); add_statement_to_while_block_counter(comment); add_statement_to_array(comment);}
+    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un while\n", $1); add_statement_to_while_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
 break: BRK {$$="break";};
 continue: CONT {$$="continue";};
@@ -111,7 +112,7 @@ statementInFunctionBlock:
     declaration SC {printf("Se encontro una declaracion dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
     | return SC {printf("Se encontro un retorno dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array(format_return($1));}
-    | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); char *comment = format_one_line_comment($1); add_statement_to_function_block_counter(comment); add_statement_to_array(comment);}
+    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de una funcion\n", $1); add_statement_to_function_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
 return: RTN expr {printf("Se encontro un retorno de: %s\n", $2); $$=$2;};
 expr: 
