@@ -62,12 +62,12 @@ conditional:
     IF OPRT expr CPRT statementinifblock {printf("Se encontro un if\n"); tabcount++; $$=format_if($3);};
     | IF OPRT expr CPRT OBRC statementsinifblock CBRC {printf("Se encontro un if con bloque\n"); tabcount++; $$=format_if($3);}
     | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if else con bloque\n"); tabcount++; $$=format_if_else($3);}
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELIF OPRT expr CPRT OBRC statementsinelifblock CBRC ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if elseif else con bloque\n"); $$=format_if_elseif_else($3, $10);}
 ;
 statementsinifblock: 
     %empty
     | statementsinifblock statementinifblock {printf("Se redujo el scope\n"); tabcount--;}
 ;
-/* TODO: Intentar hacer un array de instrucciones para despues poner en conditional con $4 */
 statementinifblock:
     declaration SC {printf("Se encontro una declaracion dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
@@ -78,7 +78,6 @@ statementsinelseblock:
     %empty
     | statementsinelseblock statementinelseblock {printf("Se redujo el scope\n"); tabcount--;}
 ;
-/* TODO: Intentar hacer un array de instrucciones para despues poner en conditional con $4 */
 statementinelseblock:
     declaration SC {printf("Se encontro una declaracion dentro de un else\n"); write_declaration($1);}
     | echo SC {printf("Se encontro un echo dentro de un else\n"); add_statement_to_else_block_counter(); add_statement_to_array($1);}
@@ -86,7 +85,17 @@ statementinelseblock:
     | return SC {printf("Se encontro un retorno dentro de un else\n"); add_statement_to_else_block_counter(); add_statement_to_array(translate_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un else\n", $1); add_statement_to_if_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
-block: OBRC statements CBRC {printf("Se encontro un bloque\n");};
+statementsinelifblock: 
+    %empty
+    | statementsinelifblock statementinelifblock {printf("Se redujo el scope\n"); tabcount--;}
+;
+statementinelifblock:
+    declaration SC {printf("Se encontro una declaracion dentro de un else\n"); write_declaration($1);}
+    | echo SC {printf("Se encontro un echo dentro de un else\n"); add_statement_to_elif_block_counter(); add_statement_to_array($1);}
+    | conditional {printf("Se encontro una condicional dentro de un else\n"); write_if($1);}
+    | return SC {printf("Se encontro un retorno dentro de un else\n"); add_statement_to_elif_block_counter(); add_statement_to_array(translate_return($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un else\n", $1); add_statement_to_elif_block_counter(); add_statement_to_array(format_one_line_comment($1));}
+;
 while: WHIL OPRT expr CPRT OBRC statementsInWhileBlock CBRC {printf("Se encontro un while con bloque\n"); tabcount++; $$=format_while($3);};
 statementsInWhileBlock: 
     %empty
@@ -140,12 +149,12 @@ expr:
     | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); $$=format_array();}
     | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
     | OPRT expr CPRT {printf("Se encontro una expresion encerrada entre parentesis\n"); $$=format_operation("(", $2, ")");}
-    | expr QUES expr CL expr {printf("Se encontro un operador ternario con 1: %s, 2: %s y 3: %s\n",$1,$3,$5), $$=format_ternary_operator($1, $3, $5);}
+    | expr QUES expr CL expr {printf("Se encontro un operador ternario con 1: %s, 2: %s y 3: %s\n", $1, $3, $5), $$=format_ternary_operator($1, $3, $5);}
 ;
 functionCall: NAME OPRT arguments CPRT {printf("Se encontro una llamada a la funcion %s\n", $1); $$=format_function_call($1, $3);};
 parameters:
     %empty {$$=NULL;}
-    | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$=$1; add_param_to_queue($1);}
+    | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$ = $1; add_param_to_queue($1);}
     | parameters COMM expr {printf("Se encontro una expresion (%s) separada por comas como parametros\n", $3); add_param_to_queue($3);}
 ;
 arguments:

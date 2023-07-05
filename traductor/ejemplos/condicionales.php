@@ -1,24 +1,13 @@
 <?php
 
-if (3 < 1) {
-    echo "Esto es cierto en un bloque\n";
-    echo "Esto es otro print\n";
+if (1 > 1) {
+    echo "Esto esta en un if\n";
+}
+elseif (1 < 2) {
+    echo "Esto esta en un elif\n";
 }
 else {
-    echo "Esto esta en el else\n";
-    echo "Esto tambien esta en el else\n";
-    return "xd";
-}
-
-$x = 3;
-if (true) {
-    $y = 2;
-    echo "x: " . $x . " y: " . $y;
-}
-
-if (1 == 1) {
-    echo "Esto esta en otro bloque\n";
-    return 1;
+    echo "Esto esta en un else\n";
 }
 
 ?>

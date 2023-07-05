@@ -9,6 +9,7 @@ char statement_stack[50][1000];
 int elements_in_param_queue = 0;
 char param_queue[50][1000];
 int statements_in_if_block = 0;
+int statements_in_elif_block = 0;
 int statements_in_else_block = 0;
 int statements_in_while_block = 0;
 int statements_in_function_block = 0;
@@ -32,6 +33,10 @@ void add_statement_to_if_block_counter() {
     ++statements_in_if_block;
 }
 
+void add_statement_to_elif_block_counter() {
+    ++statements_in_elif_block;
+}
+
 void add_statement_to_else_block_counter() {
     ++statements_in_else_block;
 }
@@ -46,6 +51,10 @@ void add_statement_to_function_block_counter() {
 
 void substract_statement_to_if_block_counter() {
     --statements_in_if_block;
+}
+
+void substract_statement_to_elif_block_counter() {
+    --statements_in_elif_block;
 }
 
 void substract_statement_to_else_block_counter() {
@@ -191,6 +200,36 @@ char *format_if_else(char *expr) {
     }
     
     return python_if_else;
+}
+
+char *format_if_elseif_else(char *exprif, char *exprelseif) {
+    // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
+    // El espacio extra es para esto.
+    char *python_if_elif_else = (char *) malloc(strlen(exprif) + strlen(exprelseif) + 1000);
+    strcat(python_if_elif_else, "if (");
+    strcat(python_if_elif_else, exprif);
+    strcat(python_if_elif_else, "):");
+
+    if (statements_in_if_block > 0) {
+        write_statements_in_block(python_if_elif_else, &statements_in_if_block);
+    }
+
+    // Ahora escribir el else.
+    strcat(python_if_elif_else, "\nelif (");
+    strcat(python_if_elif_else, exprelseif);
+    strcat(python_if_elif_else, "):");
+
+    if (statements_in_else_block > 0) {
+        write_statements_in_block(python_if_elif_else, &statements_in_else_block);
+    }
+    
+    strcat(python_if_elif_else, "\nelse:");
+
+    if (statements_in_elif_block > 0) {
+        write_statements_in_block(python_if_elif_else, &statements_in_elif_block);
+    }
+
+    return python_if_elif_else;
 }
 
 void write_if(char *ifcondition) {

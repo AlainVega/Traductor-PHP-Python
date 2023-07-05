@@ -1,14 +1,6 @@
-while (1 < 2):
-	a = 1
-	b = 2
-	# comentario 1 en el bucle 1
-	# comentaroo 2 en el bucle 1
-	break
-######comentario 3 antes del bucle 2
-while (1 == 1):
-	print("loop infinito")
-	# comentario 4 en el bucle 2
-	continue
-	exit(True)
-## comentario 5 despues del bucle 2
-ternario = True if 10 >= 10 else False
+if (1 > 1):
+	print("Esto esta en un else\n")
+elif (1 < 2):
+	print("Esto esta en un elif\n")
+else:
+	print("Esto esta en un if\n")
