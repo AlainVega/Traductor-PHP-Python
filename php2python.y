@@ -19,16 +19,17 @@
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
 %token <str> ID STR NUM ECH BOOL NAME
 %token SPHP EPHP FRC AS ARRY APOP APUS ASUM
-        IF ELSE ELIF SWIH CASE BRK DFT FUNC WHIL FOR RTN PRNT
+        IF ELSE ELIF SWIH CASE BRK CONT DFT FUNC WHIL FOR RTN PRNT
 
 /* 
    Simbolos aritmeticos, de asignacion, igualdad, desigualdad
    logicos, gramaticales, etc. 
 */
-%token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
+%token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT AND OR
         PPL MMN SOR NOT OSQB CSQB OPRT CPRT OBRC CBRC
 
-%type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument defaultValue functionCall 
+%type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument 
+%type <str> defaultValue functionCall break continue
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -93,7 +94,11 @@ statementInWhileBlock:
     | echo SC {printf("Se encontro un echo dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
     | conditional {printf("Se encontro una condicional dentro de un while\n");}
     | return SC {printf("Se encontro un retorno dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array(translate_return($1));}
+    | break SC {printf("Se encontro una sentencia break dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
+    | continue SC {printf("Se encontro una sentencia continue dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
 ;
+break: BRK {$$="break";};
+continue: CONT {$$="continue";};
 functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", $2, $4); tabcount++; $$=format_function($4, $2);};
 statementsInFunctionBlock: 
     %empty

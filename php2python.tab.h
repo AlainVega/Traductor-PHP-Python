@@ -74,42 +74,41 @@ extern int yydebug;
     SWIH = 275,                    /* SWIH  */
     CASE = 276,                    /* CASE  */
     BRK = 277,                     /* BRK  */
-    DFT = 278,                     /* DFT  */
-    FUNC = 279,                    /* FUNC  */
-    WHIL = 280,                    /* WHIL  */
-    FOR = 281,                     /* FOR  */
-    RTN = 282,                     /* RTN  */
-    PRNT = 283,                    /* PRNT  */
-    EQ = 284,                      /* EQ  */
-    SC = 285,                      /* SC  */
-    CL = 286,                      /* CL  */
-    COMM = 287,                    /* COMM  */
-    PLUS = 288,                    /* PLUS  */
-    MINS = 289,                    /* MINS  */
-    DIV = 290,                     /* DIV  */
-    MULT = 291,                    /* MULT  */
-    MOD = 292,                     /* MOD  */
-    CCTN = 293,                    /* CCTN  */
-    EEQ = 294,                     /* EEQ  */
-    NEQ = 295,                     /* NEQ  */
-    GT = 296,                      /* GT  */
-    LT = 297,                      /* LT  */
-    GE = 298,                      /* GE  */
-    LE = 299,                      /* LE  */
-    AND = 300,                     /* AND  */
-    OR = 301,                      /* OR  */
-    PPL = 302,                     /* PPL  */
-    MMN = 303,                     /* MMN  */
-    SOR = 304,                     /* SOR  */
-    NOT = 305,                     /* NOT  */
-    OSQB = 306,                    /* OSQB  */
-    CSQB = 307,                    /* CSQB  */
-    OPRT = 308,                    /* OPRT  */
-    CPRT = 309,                    /* CPRT  */
-    OBRC = 310,                    /* OBRC  */
-    CBRC = 311,                    /* CBRC  */
-    GTE = 312,                     /* GTE  */
-    LTE = 313                      /* LTE  */
+    CONT = 278,                    /* CONT  */
+    DFT = 279,                     /* DFT  */
+    FUNC = 280,                    /* FUNC  */
+    WHIL = 281,                    /* WHIL  */
+    FOR = 282,                     /* FOR  */
+    RTN = 283,                     /* RTN  */
+    PRNT = 284,                    /* PRNT  */
+    EQ = 285,                      /* EQ  */
+    SC = 286,                      /* SC  */
+    CL = 287,                      /* CL  */
+    COMM = 288,                    /* COMM  */
+    PLUS = 289,                    /* PLUS  */
+    MINS = 290,                    /* MINS  */
+    DIV = 291,                     /* DIV  */
+    MULT = 292,                    /* MULT  */
+    MOD = 293,                     /* MOD  */
+    CCTN = 294,                    /* CCTN  */
+    EEQ = 295,                     /* EEQ  */
+    NEQ = 296,                     /* NEQ  */
+    GT = 297,                      /* GT  */
+    LT = 298,                      /* LT  */
+    AND = 299,                     /* AND  */
+    OR = 300,                      /* OR  */
+    PPL = 301,                     /* PPL  */
+    MMN = 302,                     /* MMN  */
+    SOR = 303,                     /* SOR  */
+    NOT = 304,                     /* NOT  */
+    OSQB = 305,                    /* OSQB  */
+    CSQB = 306,                    /* CSQB  */
+    OPRT = 307,                    /* OPRT  */
+    CPRT = 308,                    /* CPRT  */
+    OBRC = 309,                    /* OBRC  */
+    CBRC = 310,                    /* CBRC  */
+    GTE = 311,                     /* GTE  */
+    LTE = 312                      /* LTE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -124,7 +123,7 @@ union YYSTYPE
 	char *id;
 	char *str;	
 
-#line 128 "php2python.tab.h"
+#line 127 "php2python.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

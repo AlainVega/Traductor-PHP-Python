@@ -32,6 +32,7 @@ elseif	    ([Ee][Ll][Ss][Ee][Ii][Ff])
 switch	    ([Ss][Ww][Ii][Tt][Cc][Hh])
 case	    ([Cc][Aa][Ss][Ee])
 break	    ([Bb][Rr][Ee][Aa][Kk])
+continue    ([Cc][Oo][Nn][Tt][Ii][Nn][Uu][Ee])
 default	    ([Dd][Ee][Ff][Aa][Uu][Ll][Tt])
 function	([Ff][Uu][Nn][Cc][Tt][Ii][Oo][Nn])
 while	    ([Ww][Hh][Ii][Ll][Ee])
@@ -91,6 +92,7 @@ return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 {switch}	 {return SWIH;}
 {case}	     {return CASE;}
 {break}	     {return BRK;}
+{continue}   {return CONT;}
 {default}	 {return DFT;}
 {function}   {return FUNC;}
 {while}	     {return WHIL;}
