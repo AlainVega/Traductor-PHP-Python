@@ -7,6 +7,7 @@ if (3 < 1) {
 else {
     echo "Esto esta en el else\n";
     echo "Esto tambien esta en el else\n";
+    return "xd";
 }
 
 $x = 3;
@@ -17,6 +18,7 @@ if (true) {
 
 if (1 == 1) {
     echo "Esto esta en otro bloque\n";
+    return 1;
 }
 
 ?>

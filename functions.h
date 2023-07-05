@@ -297,6 +297,15 @@ char *format_return(char *expr) {
     return python_return;
 }
 
+char *translate_return(char *expr) {
+    char *python_exit = (char *) malloc(strlen(expr) + 6);
+    strcat(python_exit, "exit(");
+    strcat(python_exit, expr);
+    strcat(python_exit, ")");
+    return python_exit;
+}
+
 void write_return(char *python_return) {
+    printf("Writing return statement: %s\n", python_return);
     fprintf(output_file, "%s\n", python_return);
 }

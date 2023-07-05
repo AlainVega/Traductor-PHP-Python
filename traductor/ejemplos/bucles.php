@@ -7,6 +7,7 @@ while (1<2) {
 
 while (1 == 1) {
     echo "loop infinito";
+    return true;
 }
 
 ?>

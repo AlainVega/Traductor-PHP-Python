@@ -1,10 +1,12 @@
-y = 4
-x = [3, 3, y, True, 3 == 2, "XD", "LOL", ]
-print(x)
-x = ["Mi", "nombre", "es", "Mathias", ]
-print(x)
-x = [6, 9, ]
-print(x)
-print("$x[0]: " + x[0])
-y = x[0] + x[1]
-print("$x[0] + $x[1]: " + y)
+def conArgumentos(a=12, b=13, c="texto", d="texto"):
+	print("hola que tal?")
+	print(" adios")
+	return True
+def sinArgumentos():
+	print("hola que tal?")
+	print(" adios")
+a = conArgumentos()
+c = 10
+b = sinArgumentos(c)
+d = conArgumentos(1, 2, "hola", True)
+exit(1 == 1)

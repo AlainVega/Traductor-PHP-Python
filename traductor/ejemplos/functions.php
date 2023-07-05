@@ -16,6 +16,6 @@ $c = 10;
 $b = sinArgumentos($c);
 $d = conArgumentos(1,2, "hola", true);
 
-return 1;
+return 1==1;
 
 ?>
