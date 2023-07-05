@@ -22,4 +22,9 @@ $bool2 = false;
 echo $bool1 && $bool2;
 echo $bool1 || $bool2;
 
+# MOD, XOR, NOT
+$variable = 7 % 2;
+$xor = (1==1) ^ false;
+$imprimir = !$xor;
+echo $imprimir;
 ?>

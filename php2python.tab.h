@@ -100,7 +100,7 @@ extern int yydebug;
     OR = 301,                      /* OR  */
     PPL = 302,                     /* PPL  */
     MMN = 303,                     /* MMN  */
-    SOR = 304,                     /* SOR  */
+    XOR = 304,                     /* XOR  */
     NOT = 305,                     /* NOT  */
     OSQB = 306,                    /* OSQB  */
     CSQB = 307,                    /* CSQB  */

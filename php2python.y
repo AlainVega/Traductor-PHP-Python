@@ -26,7 +26,7 @@
    logicos, gramaticales, etc. 
 */
 %token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT AND OR
-        PPL MMN SOR NOT OSQB CSQB OPRT CPRT OBRC CBRC
+        PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC
 
 %type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument 
 %type <str> defaultValue functionCall break continue
@@ -37,7 +37,7 @@
    https://www.gnu.org/software/bison/manual/bison.html#Precedence-Decl
 */
 %left MOD MULT DIV PLUS MINS CCTN AND OR
-%right EQ
+%right EQ NOT
 %nonassoc GT LT GTE LTE NEQ EEQ
 
 %%
@@ -124,9 +124,12 @@ expr:
     | expr MINS expr {printf("Se encontro una resta\n"); $$=format_operation($1, " - ", $3);}
     | expr MULT expr {printf("Se encontro una multiplicacion\n"); $$=format_operation($1, " * ", $3);}
     | expr DIV expr {printf("Se encontro una division\n"); $$=format_operation($1, " / ", $3);}
+    | expr MOD expr {printf("Se encontro una operacion modulo\n"); $$=format_operation($1, " % ", $3);}
     | expr CCTN expr {printf("Se encontro una concatenacion\n"); $$=format_operation($1, " + ", $3);}
+    | NOT expr {printf("Se encontro una negacion logica\n"); $$=format_operation("", " not ", $2);}
     | expr AND expr {printf("Se encontro una conjuncion\n"); $$=format_operation($1, " and ", $3);}
     | expr OR expr {printf("Se encontro una disyuncion\n"); $$=format_operation($1, " or ", $3);}
+    | expr XOR expr {printf("Se encontro una disyuncion exclusiva\n"); $$=format_operation($1, " ^ ", $3);}
     | expr GT expr {printf("Se encontro un mayor que \n"); $$=format_operation($1, " > ", $3);}
     | expr LT expr {printf("Se encontro un menor que \n"); $$=format_operation($1, " < ", $3);}
     | expr GTE expr {printf("Se encontro un mayor o igual que \n"); $$=format_operation($1, " >= ", $3);}
@@ -135,6 +138,7 @@ expr:
     | expr NEQ expr {printf("Se encontro un diferente que \n"); $$=format_operation($1, " != ", $3);}
     | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); $$=format_array();}
     | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
+    | OPRT expr CPRT {printf("Se encontro una expresion encerrada entre parentesis\n"); $$=format_operation("(", $2, ")");}
 ;
 functionCall: NAME OPRT arguments CPRT {printf("Se encontro una llamada a la funcion %s\n", $1); $$=format_function_call($1, $3);};
 parameters:

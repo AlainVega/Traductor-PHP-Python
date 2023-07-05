@@ -65,9 +65,9 @@ comment     (\/\/.*)|(#.*)
 "<="	{return LTE;}
 "&&"	{return AND;}
 "||"	{return OR;}
+"^"	    {return XOR;}
 "++"	{return PPL;}
 "--"	{return MMN;}
-"|"	    {return SOR;}
 "!"	    {return NOT;}
 "["	    {return OSQB;}
 "]"	    {return CSQB;}
