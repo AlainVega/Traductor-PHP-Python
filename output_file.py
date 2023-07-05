@@ -1,17 +1,10 @@
-a = 5 + 4
-x = 3
-y = 6
-z = x + y - a
-print(z)
-b = 3 + 2 * 2
-print(b)
-c = 15
-print(b * c)
-str1 = "Hola"
-str2 = "Mathias"
-str3 = str1 + " " + str2
-print(str3)
-bool1 = True
-bool2 = False
-print(bool1 and bool2)
-print(bool1 or bool2)
+y = 4
+x = [3, 3, y, True, 3 == 2, "XD", "LOL", ]
+print(x)
+x = ["Mi", "nombre", "es", "Mathias", ]
+print(x)
+x = [6, 9, ]
+print(x)
+print("$x[0]: " + x[0])
+y = x[0] + x[1]
+print("$x[0] + $x[1]: " + y)
