@@ -277,3 +277,14 @@ char *format_function_call(char *function_name, char *function_arguments){
     strcat(python_function_call, ")");
     return python_function_call;
 }
+
+char *format_return(char *expr) {
+    char *python_return = (char *) malloc(strlen(expr) + 7);
+    strcat(python_return, "return ");
+    strcat(python_return, expr);
+    return python_return;
+}
+
+void write_return(char *python_return) {
+    fprintf(output_file, "%s\n", python_return);
+}

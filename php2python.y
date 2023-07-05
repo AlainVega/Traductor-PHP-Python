@@ -28,7 +28,7 @@
 %token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT GE LE AND OR
         PPL MMN SOR NOT OSQB CSQB OPRT CPRT OBRC CBRC
 
-%type <str> expr declaration echo conditional parameters while functionDefinition arguments argument defaultValue functionCall
+%type <str> expr declaration echo conditional parameters return while statementInWhileBlock functionDefinition arguments argument defaultValue functionCall 
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -52,6 +52,7 @@ statement:
     | conditional {printf("Se encontro una condicional\n"); write_if($1);}
     | while {printf("Se encontro un bucle while\n"); write_while($1);}
     | functionDefinition {printf("Se encontro la definicion de una funcion\n"); write_function($1);}
+    | return SC {printf("Se encontro un retorno global\n"); translate_return($1)}
 ;
 declaration: ID EQ expr {$$=format_declaration($1, $3);};
 echo: ECH expr {$$=format_echo($2, tabcount);};
@@ -98,7 +99,9 @@ statementsInFunctionBlock:
 statementInFunctionBlock: 
     declaration SC {printf("Se encontro una declaracion dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
+    | return SC {printf("Se encontro un retorno dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
 ;
+return: RTN expr {printf("Se encontro un retorno de: %s\n", $2); $$=format_return($2);};
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
