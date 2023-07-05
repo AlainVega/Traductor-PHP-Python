@@ -11,3 +11,4 @@ while (1 == 1):
 	continue
 	exit(True)
 ## comentario 5 despues del bucle 2
+ternario = True if 10 >= 10 else False

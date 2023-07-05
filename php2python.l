@@ -75,6 +75,7 @@ comment     (\/\/.*)|(#.*)
 ")"	    {return CPRT;}
 "{"	    {return OBRC;}
 "}"	    {return CBRC;}
+"?"     {return QUES;}
 {endPHP}     {return EPHP;}
 {digit}+     {yylval.str = (char *) strdup(yytext); return NUM;}
 {bool}       {yylval.str = (char *) strdup(yytext); return BOOL;}

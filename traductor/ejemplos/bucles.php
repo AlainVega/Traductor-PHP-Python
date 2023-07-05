@@ -17,4 +17,6 @@ while (1 == 1) {
 }
 ## comentario 5 despues del bucle 2
 
+$ternario = 10>=10 ? True : false;
+
 ?>

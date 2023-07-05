@@ -354,8 +354,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 58
-#define YY_END_OF_BUFFER 59
+#define YY_NUM_RULES 59
+#define YY_END_OF_BUFFER 60
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -365,23 +365,23 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[155] =
     {   0,
-        0,    0,   59,   58,    3,   25,   58,   57,   58,   12,
-       58,   58,   28,   29,   11,    8,    7,    9,   13,   10,
-       33,    6,    5,   17,    4,   16,   58,   56,   56,   56,
-       56,   56,   56,   56,   56,   56,   56,   56,   56,   56,
-       26,   27,   22,   30,   58,   31,   15,    0,   35,    0,
-       57,    2,   20,    0,   35,    0,   23,   24,   57,   33,
-       19,    0,   14,   18,   32,   56,   56,   37,   56,   56,
-       56,   56,   56,   56,   56,   56,   56,   44,   56,   56,
-       56,   56,   56,   21,    2,   57,    0,   56,   56,   56,
-       56,   56,   56,   56,   56,   54,   56,   56,   56,   56,
+        0,    0,   60,   59,    3,   25,   59,   58,   59,   12,
+       59,   59,   28,   29,   11,    8,    7,    9,   13,   10,
+       34,    6,    5,   17,    4,   16,   32,   57,   57,   57,
+       57,   57,   57,   57,   57,   57,   57,   57,   57,   57,
+       26,   27,   22,   30,   59,   31,   15,    0,   36,    0,
+       58,    2,   20,    0,   36,    0,   23,   24,   58,   34,
+       19,    0,   14,   18,   33,   57,   57,   38,   57,   57,
+       57,   57,   57,   57,   57,   57,   57,   45,   57,   57,
+       57,   57,   57,   21,    2,   58,    0,   57,   57,   57,
+       57,   57,   57,   57,   57,   55,   57,   57,   57,   57,
 
-       56,   56,    0,   56,   56,   48,   56,   56,   42,   45,
-       56,   56,   56,   56,   56,   56,   34,   56,    1,   38,
-       49,   56,   56,   56,   56,   56,   43,   56,   56,   53,
-       56,   56,   56,   46,   56,   56,   55,   47,   56,   56,
-       56,   51,   36,   56,   56,   56,   56,   50,   52,   39,
-       56,   41,   40,    0
+       57,   57,    0,   57,   57,   49,   57,   57,   43,   46,
+       57,   57,   57,   57,   57,   57,   35,   57,    1,   39,
+       50,   57,   57,   57,   57,   57,   44,   57,   57,   54,
+       57,   57,   57,   47,   57,   57,   56,   48,   57,   57,
+       57,   52,   37,   57,   57,   57,   57,   51,   53,   40,
+       57,   42,   41,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -996,140 +996,145 @@ YY_RULE_SETUP
 case 32:
 YY_RULE_SETUP
 #line 78 "php2python.l"
-{return EPHP;}
+{return QUES;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 79 "php2python.l"
-{yylval.str = (char *) strdup(yytext); return NUM;}
+{return EPHP;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 80 "php2python.l"
-{yylval.str = (char *) strdup(yytext); return BOOL;}
+{yylval.str = (char *) strdup(yytext); return NUM;}
 	YY_BREAK
 case 35:
-/* rule 35 can match eol */
 YY_RULE_SETUP
 #line 81 "php2python.l"
-{yylval.str = (char *) strdup(yytext); return STR;}
+{yylval.str = (char *) strdup(yytext); return BOOL;}
 	YY_BREAK
 case 36:
+/* rule 36 can match eol */
 YY_RULE_SETUP
 #line 82 "php2python.l"
-{return FRC;}
+{yylval.str = (char *) strdup(yytext); return STR;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 83 "php2python.l"
-{return AS;}
+{return FRC;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 84 "php2python.l"
-{return ARRY;}
+{return AS;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 85 "php2python.l"
-{return APOP;}
+{return ARRY;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 86 "php2python.l"
-{return APUS;}
+{return APOP;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 87 "php2python.l"
-{return ASUM;}
+{return APUS;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 88 "php2python.l"
-{return ECH;}
+{return ASUM;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 89 "php2python.l"
-{return PRNT;}
+{return ECH;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 90 "php2python.l"
-{return IF;}
+{return PRNT;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 91 "php2python.l"
-{return ELSE;}
+{return IF;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
 #line 92 "php2python.l"
-{return ELIF;}
+{return ELSE;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 93 "php2python.l"
-{return SWIH;}
+{return ELIF;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 #line 94 "php2python.l"
-{return CASE;}
+{return SWIH;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 95 "php2python.l"
-{return BRK;}
+{return CASE;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 96 "php2python.l"
-{return CONT;}
+{return BRK;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 #line 97 "php2python.l"
-{return DFT;}
+{return CONT;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 #line 98 "php2python.l"
-{return FUNC;}
+{return DFT;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
 #line 99 "php2python.l"
-{return WHIL;}
+{return FUNC;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 100 "php2python.l"
-{return FOR;}
+{return WHIL;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 #line 101 "php2python.l"
-{return RTN;}
+{return FOR;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
 #line 102 "php2python.l"
-{yylval.str = (char *) strdup(yytext); return NAME;}
+{return RTN;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
 #line 103 "php2python.l"
-{yylval.str = (char *) strdup(yytext); return CMNT;}
+{yylval.str = (char *) strdup(yytext); return NAME;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 105 "php2python.l"
+#line 104 "php2python.l"
+{yylval.str = (char *) strdup(yytext); return CMNT;}
+	YY_BREAK
+case 59:
+YY_RULE_SETUP
+#line 106 "php2python.l"
 ECHO;
 	YY_BREAK
-#line 1133 "lex.yy.c"
+#line 1138 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2134,6 +2139,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 105 "php2python.l"
+#line 106 "php2python.l"
 
 

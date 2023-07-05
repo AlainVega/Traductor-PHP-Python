@@ -327,3 +327,13 @@ void write_one_line_comment(char *comment) {
     printf("Writing comment line: %s\n", comment);
     fprintf(output_file, "%s\n", comment);
 }
+
+char *format_ternary_operator(char *expr1, char *expr2, char *expr3) {
+    char *python_ternary = (char *) malloc(strlen(expr1) + strlen(expr2)+ strlen(expr3) + 10);
+    strcat(python_ternary, expr2);
+    strcat(python_ternary, " if ");
+    strcat(python_ternary, expr1);
+    strcat(python_ternary, " else ");
+    strcat(python_ternary, expr3);
+    return python_ternary;
+}

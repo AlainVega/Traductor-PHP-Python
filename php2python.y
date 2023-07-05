@@ -26,7 +26,7 @@
    logicos, gramaticales, etc. 
 */
 %token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT AND OR
-        PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC
+        PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC QUES
 
 %type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument 
 %type <str> defaultValue functionCall break continue
@@ -36,7 +36,7 @@
    documentación de PHP.
    https://www.gnu.org/software/bison/manual/bison.html#Precedence-Decl
 */
-%left MOD MULT DIV PLUS MINS CCTN AND OR
+%left MOD MULT DIV PLUS MINS CCTN AND OR XOR QUES CL COMM
 %right EQ NOT
 %nonassoc GT LT GTE LTE NEQ EEQ
 
@@ -140,6 +140,7 @@ expr:
     | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); $$=format_array();}
     | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
     | OPRT expr CPRT {printf("Se encontro una expresion encerrada entre parentesis\n"); $$=format_operation("(", $2, ")");}
+    | expr QUES expr CL expr {printf("Se encontro un operador ternario con 1: %s, 2: %s y 3: %s\n",$1,$3,$5), $$=format_ternary_operator($1, $3, $5);}
 ;
 functionCall: NAME OPRT arguments CPRT {printf("Se encontro una llamada a la funcion %s\n", $1); $$=format_function_call($1, $3);};
 parameters:

@@ -108,8 +108,9 @@ extern int yydebug;
     CPRT = 309,                    /* CPRT  */
     OBRC = 310,                    /* OBRC  */
     CBRC = 311,                    /* CBRC  */
-    GTE = 312,                     /* GTE  */
-    LTE = 313                      /* LTE  */
+    QUES = 312,                    /* QUES  */
+    GTE = 313,                     /* GTE  */
+    LTE = 314                      /* LTE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -124,7 +125,7 @@ union YYSTYPE
 	char *id;
 	char *str;	
 
-#line 128 "php2python.tab.h"
+#line 129 "php2python.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
