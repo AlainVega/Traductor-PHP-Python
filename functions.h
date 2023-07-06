@@ -99,14 +99,19 @@ void write_statements_in_block(char *first_line, int *statement_counter) {
     // first_line se refiere a la primera linea que puede ser un if (), for (), else o while.
     // El resto de las lineas representan los statements dentro de un bloque.
     char *statements[100];
-    for (int i = *statement_counter - 1; i >= 0; i--) {
-        char *statement = take_statement_from_array();
-        statements[i] = statement;
+    if (*statement_counter > 0) {
+        for (int i = *statement_counter - 1; i >= 0; i--) {
+            char *statement = take_statement_from_array();
+            statements[i] = statement;
+        }
+        
+        for (int i = 0; *statement_counter > i; i++) {
+            strcat(first_line, "\n\t");
+            strcat(first_line, statements[i]);
+        }
     }
-    
-    for (int i = 0; *statement_counter > i; i++) {
-        strcat(first_line, "\n\t");
-        strcat(first_line, statements[i]);
+    else if (*statement_counter == 0) {
+        strcat(first_line, "\n\tpass");
     }
 
     // Resetear el contador pasado a 0.
@@ -137,7 +142,7 @@ char *format_declaration(char *variable, char *expr) {
     char *formatted_variable = format_variable(variable);
     // a = lambda b, c, d="nada" : (b := b + 1) - cA
     // Alocar memoria para el nuevo string.
-    char *declaration = (char *) malloc(strlen(variable) + strlen(expr));
+    char *declaration = malloc(strlen(variable) + strlen(expr) + 1000);
     printf("logitud de expresion: %i\n", (int)strlen(expr));
     // Poner en declaration la definicion de la variable con la expresion a la que es igual.
     strcat(declaration, formatted_variable);
@@ -149,7 +154,7 @@ char *format_declaration(char *variable, char *expr) {
 
 char *format_operation(char *expr1, char *operat, char *expr2) {
     // Para este punto expr1 y expr2 ya fueron formateados asi que se pueden agregar como tal.
-    char *operation = (char *) malloc(strlen(expr1) + strlen(operat) + strlen(expr2));
+    char *operation = malloc(strlen(expr1) + strlen(operat) + strlen(expr2));
 
     // Formatear la operacion en base al operador (operat) pasado.
     strcat(operation, expr1);
@@ -173,7 +178,7 @@ void write_expression(char *expr) {
 char *format_echo(char *expr, int tabcount) {
     // Para este punto expr ya fue formateado asi que ahora debe ser agregado dentro de print().
     // El espacio extra es para esto.
-    char *python_print = (char *) malloc(strlen(expr) + tabcount + 10);
+    char *python_print = malloc(strlen(expr) + tabcount + 10);
     if (tabcount > 0) {
         for (int i = 0; i < tabcount; i++) {
             strcat(python_print, "\t");
@@ -192,14 +197,11 @@ void write_echo(char *echo) {
 char *format_if(char *expr) {
     // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
     // El espacio extra es para esto.
-    char *python_if = (char *) malloc(strlen(expr) + 1000);
+    char *python_if = malloc(strlen(expr) + 1000);
     strcat(python_if, "if (");
     strcat(python_if, expr);
     strcat(python_if, "):");
-
-    if (statements_in_if_block > 0) {
-        write_statements_in_block(python_if, &statements_in_if_block);
-    }
+    write_statements_in_block(python_if, &statements_in_if_block);
     
     return python_if;
 }
@@ -207,51 +209,52 @@ char *format_if(char *expr) {
 char *format_if_else(char *expr) {
     // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
     // El espacio extra es para esto.
-    char *python_if_else = (char *) malloc(strlen(expr) + 1000);
-    strcat(python_if_else, "if (");
-    strcat(python_if_else, expr);
-    strcat(python_if_else, "):");
+    char *python_if_else = malloc(strlen(expr) + 1000);
 
-    if (statements_in_if_block > 0) {
-        write_statements_in_block(python_if_else, &statements_in_if_block);
-    }
+    /*
+        Sacar primero los statements del else y finalmente del if debido a que tenemos un stack
+        de statements, luego insertarlos en el orden invertido a python_if_elif_else.
+    */
+    char *python_else = malloc(1000);
+    strcat(python_else, "\nelse:");
+    write_statements_in_block(python_else, &statements_in_else_block);
 
-    // Ahora escribir el else.
-    strcat(python_if_else, "\nelse:");
-
-    if (statements_in_else_block > 0) {
-        write_statements_in_block(python_if_else, &statements_in_else_block);
-    }
+    char *python_if = malloc(strlen(expr) + 1000);
+    strcat(python_if, "if (");
+    strcat(python_if, expr);
+    strcat(python_if, "):");
+    write_statements_in_block(python_if_else, &statements_in_if_block);
     
     return python_if_else;
 }
 
 char *format_if_elseif_else(char *exprif, char *exprelseif) {
-    // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
-    // El espacio extra es para esto.
-    char *python_if_elif_else = (char *) malloc(strlen(exprif) + strlen(exprelseif) + 1000);
-    strcat(python_if_elif_else, "if (");
-    strcat(python_if_elif_else, exprif);
-    strcat(python_if_elif_else, "):");
-
-    if (statements_in_if_block > 0) {
-        write_statements_in_block(python_if_elif_else, &statements_in_if_block);
-    }
-
-    // Ahora escribir el else.
-    strcat(python_if_elif_else, "\nelif (");
-    strcat(python_if_elif_else, exprelseif);
-    strcat(python_if_elif_else, "):");
-
-    if (statements_in_else_block > 0) {
-        write_statements_in_block(python_if_elif_else, &statements_in_else_block);
-    }
+    // Puntero a char con el if entero.
+    char *python_if_elif_else = malloc(strlen(exprif) + strlen(exprelseif) + 1000);
     
-    strcat(python_if_elif_else, "\nelse:");
+    /*
+        Sacar primero los statements del else, luego del elif y finalmente del if debido a que tenemos un stack
+        de statements, luego insertarlos en el orden invertido a python_if_elif_else.
+    */
+    char *python_else = malloc(1000);
+    strcat(python_else, "\nelse:");
+    write_statements_in_block(python_else, &statements_in_else_block);
 
-    if (statements_in_elif_block > 0) {
-        write_statements_in_block(python_if_elif_else, &statements_in_elif_block);
-    }
+    char *python_elif = malloc(strlen(exprelseif) + 1000);
+    strcat(python_elif, "\nelif (");
+    strcat(python_elif, exprelseif);
+    strcat(python_elif, "):");
+    write_statements_in_block(python_elif, &statements_in_elif_block);
+
+    char *python_if = malloc(strlen(exprif) + 1000);
+    strcat(python_if, "if (");
+    strcat(python_if, exprif);
+    strcat(python_if, "):");
+    write_statements_in_block(python_if, &statements_in_if_block);
+
+    strcat(python_if_elif_else, python_if);
+    strcat(python_if_elif_else, python_elif);
+    strcat(python_if_elif_else, python_else);
 
     return python_if_elif_else;
 }
@@ -265,14 +268,11 @@ void write_if(char *ifcondition) {
 char *format_while(char *expr) {
     // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
     // El espacio extra es para esto.
-    char *python_while = (char *) malloc(strlen(expr) + 1000);
+    char *python_while = malloc(strlen(expr) + 1000);
     strcat(python_while, "while (");
     strcat(python_while, expr);
     strcat(python_while, "):");
-
-    if (statements_in_while_block > 0) {
-        write_statements_in_block(python_while, &statements_in_while_block);
-    }
+    write_statements_in_block(python_while, &statements_in_while_block);
 
     return python_while;
 }
@@ -283,7 +283,7 @@ void write_while(char *while_loop) {
 }
 
 char *format_default_argument(char *id, char *data) {
-    char *argument_formatted = (char *) malloc(strlen(id) + strlen(data) + 1);
+    char *argument_formatted = malloc(strlen(id) + strlen(data) + 1);
     strcat(argument_formatted, id);
     strcat(argument_formatted, "=");
     strcat(argument_formatted, data);
@@ -291,7 +291,7 @@ char *format_default_argument(char *id, char *data) {
 }
 
 char *load_all_arguments(char *arg1, char *arg2) {
-    char *arguments = (char *) malloc(strlen(arg1) + strlen(arg2) + 2);
+    char *arguments = malloc(strlen(arg1) + strlen(arg2) + 2);
     strcat(arguments, arg1);
     strcat(arguments, ", ");
     strcat(arguments, arg2);
@@ -299,7 +299,7 @@ char *load_all_arguments(char *arg1, char *arg2) {
 }
 
 char *format_function(char *functionArguments, char* functionName) {
-    char *python_function = (char *) malloc(strlen(functionArguments) + strlen(functionName) + 1000);
+    char *python_function = malloc(strlen(functionArguments) + strlen(functionName) + 1000);
     
     strcat(python_function, "def ");
     strcat(python_function, functionName);
@@ -307,10 +307,8 @@ char *format_function(char *functionArguments, char* functionName) {
     strcat(python_function, functionArguments);
     strcat(python_function, ")");
     strcat(python_function, ":");
+    write_statements_in_block(python_function, &statements_in_function_block);
 
-    if (statements_in_function_block > 0) {
-        write_statements_in_block(python_function, &statements_in_function_block);
-    }
     return python_function;
 }
 
@@ -320,7 +318,7 @@ void write_function(char *function) {
 }
 
 char *format_array() {
-    char *param_list = (char *) malloc(elements_in_param_queue * 1000);
+    char *param_list = malloc(elements_in_param_queue * 1000);
     strcat(param_list, "[");
     for (int i = 0; i < elements_in_param_queue; i++) {
         strcat(param_list, param_queue[i]);
@@ -335,7 +333,7 @@ char *format_array() {
 char *format_array_access(char *variable_name, char *number) {
     char *python_variable = format_variable(variable_name);
     variable_name[0] = '\0';
-    char *array_access = (char *) malloc(strlen(python_variable) + strlen(number) + 100);
+    char *array_access = malloc(strlen(python_variable) + strlen(number) + 100);
     strcat(array_access, python_variable);
     strcat(array_access, "[");
     strcat(array_access, number);
@@ -345,7 +343,7 @@ char *format_array_access(char *variable_name, char *number) {
 }
 
 char *format_function_call(char *function_name, char *function_arguments){
-    char *python_function_call = (char *) malloc(strlen(function_name) + strlen(function_arguments) + 2);
+    char *python_function_call = malloc(strlen(function_name) + strlen(function_arguments) + 2);
     strcat(python_function_call, function_name);
     strcat(python_function_call, "(");
     strcat(python_function_call, function_arguments);
@@ -354,14 +352,14 @@ char *format_function_call(char *function_name, char *function_arguments){
 }
 
 char *format_return(char *expr) {
-    char *python_return = (char *) malloc(strlen(expr) + 7);
+    char *python_return = malloc(strlen(expr) + 7);
     strcat(python_return, "return ");
     strcat(python_return, expr);
     return python_return;
 }
 
 char *translate_return(char *expr) {
-    char *python_exit = (char *) malloc(strlen(expr) + 6);
+    char *python_exit = malloc(strlen(expr) + 6);
     strcat(python_exit, "exit(");
     strcat(python_exit, expr);
     strcat(python_exit, ")");
@@ -390,7 +388,7 @@ void write_one_line_comment(char *comment) {
 }
 
 char *format_ternary_operator(char *expr1, char *expr2, char *expr3) {
-    char *python_ternary = (char *) malloc(strlen(expr1) + strlen(expr2)+ strlen(expr3) + 10);
+    char *python_ternary = malloc(strlen(expr1) + strlen(expr2)+ strlen(expr3) + 100);
     strcat(python_ternary, expr2);
     strcat(python_ternary, " if ");
     strcat(python_ternary, expr1);
@@ -405,15 +403,14 @@ foreach($a as $valor) {
 }
 */
 char *format_foreach1(char *arr_var, char *as_var) {
-    char *python_foreach1 = (char *) malloc(strlen(arr_var) + strlen(arr_var) + 1000);
+    char *python_foreach1 = malloc(strlen(arr_var) + strlen(arr_var) + 1000);
     strcat(python_foreach1, "for ");
     strcat(python_foreach1, as_var);
     strcat(python_foreach1, " in ");
     strcat(python_foreach1, arr_var);
     strcat(python_foreach1, ":");
-    if (statements_in_foreach_block > 0) {
-        write_statements_in_block(python_foreach1, &statements_in_foreach_block);
-    }
+    write_statements_in_block(python_foreach1, &statements_in_foreach_block);
+
     return python_foreach1;
 }
 
@@ -427,15 +424,14 @@ foreach(array(1, "hola") as $valor) {
 }
 */
 char *format_foreach2(char *parameters, char *as_var) {
-    char *python_foreach2 = (char *) malloc(strlen(parameters) + strlen(as_var) + 1000);
+    char *python_foreach2 = malloc(strlen(parameters) + strlen(as_var) + 1000);
     strcat(python_foreach2, "for ");
     strcat(python_foreach2, as_var);
     strcat(python_foreach2, " in [");
     strcat(python_foreach2, parameters);
     strcat(python_foreach2, "]:");
-    if (statements_in_foreach_block > 0) {
-        write_statements_in_block(python_foreach2, &statements_in_foreach_block);
-    }
+    write_statements_in_block(python_foreach2, &statements_in_foreach_block);
+
     return python_foreach2;
 }
 
@@ -455,15 +451,14 @@ char *poner_iterable(char *expr) {
 }
 
 char *format_for(char *declaration, char *expr2, char *expr3) {
-    char *python_for = (char *) malloc(strlen(declaration) + strlen(expr2) + strlen(expr3) + 1000);
+    char *python_for = malloc(strlen(declaration) + strlen(expr2) + strlen(expr3) + 1000);
     strcat(python_for, "for ");
     strcat(python_for, poner_variable(declaration));
     strcat(python_for, " in ");
     strcat(python_for, poner_iterable(expr2));
     strcat(python_for, ":");
-    if (statements_in_for_block > 0) {
-        write_statements_in_block(python_for, &statements_in_for_block);
-    }
+    write_statements_in_block(python_for, &statements_in_for_block);
+
     return python_for;
 }
 
@@ -473,7 +468,7 @@ void write_for(char *forpy) {
 }
 
 char *format_pre_increment(char *expr) {
-    char *python_pre_increment = (char *) malloc(strlen(expr) + strlen("(") + strlen(" := ") + strlen(" + 1") + strlen(")"));
+    char *python_pre_increment =  malloc(strlen(expr) + strlen("(") + strlen(" := ") + strlen(" + 1") + strlen(")") + 20);
     strcat(python_pre_increment, "(");
     strcat(python_pre_increment, expr);
     strcat(python_pre_increment, " := ");
@@ -484,7 +479,7 @@ char *format_pre_increment(char *expr) {
 }
 
 char *format_post_increment(char *expr) {
-    char *python_post_increment = (char *) malloc(strlen(expr) + 16);
+    char *python_post_increment = malloc(strlen(expr) + 20);
     strcat(python_post_increment, "((");
     strcat(python_post_increment, expr);
     strcat(python_post_increment, " := ");
@@ -496,7 +491,7 @@ char *format_post_increment(char *expr) {
 }
 
 char *format_pre_decrement(char *expr) {
-    char *python_pre_decrement = (char *) malloc(strlen(expr) + 10);
+    char *python_pre_decrement = malloc(strlen(expr) + 20);
     strcat(python_pre_decrement, "(");
     strcat(python_pre_decrement, expr);
     strcat(python_pre_decrement, " := ");
@@ -507,7 +502,7 @@ char *format_pre_decrement(char *expr) {
 }
 
 char *format_post_decrement(char *expr) {
-    char *python_post_decrement = (char *) malloc(strlen(expr) + 16);
+    char *python_post_decrement = malloc(strlen(expr) + 20);
     strcat(python_post_decrement, "((");
     strcat(python_post_decrement, expr);
     strcat(python_post_decrement, " := ");
@@ -519,7 +514,7 @@ char *format_post_decrement(char *expr) {
 }  
 
 char *format_anonymous_function(char *arguments, char *line) {
-    char *python_lambda_function = (char *) malloc(strlen(arguments) + strlen(line) + 10);
+    char *python_lambda_function = malloc(strlen(arguments) + strlen(line) + 15);
     strcat(python_lambda_function, "lambda ");
     strcat(python_lambda_function, arguments);
     strcat(python_lambda_function, " : ");
