@@ -135,10 +135,10 @@ char *format_declaration(char *variable, char *expr) {
     // Para este punto, expr ya fue formateado asi que se puede agregar como tal.
     // Sacar el caracter '$' de la variable.
     char *formatted_variable = format_variable(variable);
-
+    // a = lambda b, c, d="nada" : (b := b + 1) - cA
     // Alocar memoria para el nuevo string.
-    char *declaration = (char *) malloc(strlen(formatted_variable) + strlen(expr) + 1000);
-
+    char *declaration = (char *) malloc(strlen(variable) + strlen(expr));
+    printf("logitud de expresion: %i\n", (int)strlen(expr));
     // Poner en declaration la definicion de la variable con la expresion a la que es igual.
     strcat(declaration, formatted_variable);
     strcat(declaration, " = ");
@@ -473,7 +473,7 @@ void write_for(char *forpy) {
 }
 
 char *format_pre_increment(char *expr) {
-    char *python_pre_increment = (char *) malloc(strlen(expr) + 10);
+    char *python_pre_increment = (char *) malloc(strlen(expr) + strlen("(") + strlen(" := ") + strlen(" + 1") + strlen(")"));
     strcat(python_pre_increment, "(");
     strcat(python_pre_increment, expr);
     strcat(python_pre_increment, " := ");
@@ -517,3 +517,13 @@ char *format_post_decrement(char *expr) {
     strcat(python_post_decrement, " + 1)");
     return python_post_decrement;
 }  
+
+char *format_anonymous_function(char *arguments, char *line) {
+    char *python_lambda_function = (char *) malloc(strlen(arguments) + strlen(line) + 10);
+    strcat(python_lambda_function, "lambda ");
+    strcat(python_lambda_function, arguments);
+    strcat(python_lambda_function, " : ");
+    strcat(python_lambda_function, line);
+    printf("fun %s, longitud: %i\n", python_lambda_function, (int)strlen(python_lambda_function));
+    return python_lambda_function;
+}

@@ -34,4 +34,6 @@ while (1 == 1) {
     # funciona al parecer
 }
 
+$a = function($b, $c, $d="nada"){++$b -2*$c;};
+
 ?>

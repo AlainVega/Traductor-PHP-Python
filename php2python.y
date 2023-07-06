@@ -29,7 +29,7 @@
         PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC QUES
 
 %type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument 
-%type <str> defaultValue functionCall break continue foreach for
+%type <str> defaultValue functionCall break continue foreach for anonymousFunctionStatement
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -129,6 +129,17 @@ statementInFunctionBlock:
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de una funcion\n", $1); add_statement_to_function_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
 return: RTN expr {printf("Se encontro un retorno de: %s\n", $2); $$=$2;};
+anonymousFunctionStatement:
+    declaration SC {printf("Se reconocio una declaracion\n"); }
+    | expr SC {printf("Se reconocio la expresion: %s\n", $1); }
+    | echo SC {printf("Se reconocio un echo\n"); }
+    | conditional {printf("Se reconocio una condicional\n"); }
+    | while {printf("Se reconocio un bucle while\n"); }
+    | foreach {printf("Se reconocio un bucle foreach\n"); }
+    | for {printf("Se reconocio un bucle foreach\n"); }
+    | functionDefinition {printf("Se reconocio la definicion de una funcion\n");}
+    | return SC {printf("Se reconocio un retorno global\n"); }
+    | CMNT {printf("Se reconocio un comentario de linea: %s\n", $1); }
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
@@ -159,6 +170,7 @@ expr:
     | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
     | OPRT expr CPRT {printf("Se encontro una expresion encerrada entre parentesis\n"); $$=format_operation("(", $2, ")");}
     | expr QUES expr CL expr {printf("Se encontro un operador ternario con 1: %s, 2: %s y 3: %s\n", $1, $3, $5), $$=format_ternary_operator($1, $3, $5);}
+    | FUNC OPRT arguments CPRT OBRC anonymousFunctionStatement CBRC {printf("Se encontro una funcion anonima con argumentos: %s, y linea: %s\n", $3, $6); $$=format_anonymous_function($3, $6);}
 ;
 functionCall: NAME OPRT arguments CPRT {printf("Se encontro una llamada a la funcion %s\n", $1); $$=format_function_call($1, $3);};
 parameters:
