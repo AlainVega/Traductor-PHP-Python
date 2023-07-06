@@ -1,15 +1,24 @@
 if (1 > 1):
 	print("Esto esta en un if\n")
 elif (1 < 2):
-	print("Esto esta en un elif\n")
-	print("Esto tambien esta en un elif\n")
+	print("Esto esta en un elseif\n")
 else:
 	print("Esto esta en un else\n")
-	print("Esto tambien\n")
-	print("Y esto!\n")
 if (1 > 1):
-	pass
+	print("Esto esta en un if\n")
 elif (1 < 2):
-	pass
+	print("Esto esta en un elseif\n")
 else:
-	pass
+	print("Esto esta en un else\n")
+if (1 > 1):
+	print("Esto esta en un if\n")
+elif (1 < 2):
+	print("Esto esta en un elseif\n")
+else:
+	print("Esto esta en un else\n")
+if (1 > 1):
+	print("Esto esta en un if\n")
+elif (1 < 2):
+	print("Esto esta en un elseif\n")
+else:
+	print("Esto esta en un else\n")
