@@ -66,8 +66,18 @@ echo: ECH expr {$$=format_echo($2, tabcount);};
 conditional: 
     IF OPRT expr CPRT statementinifblock {printf("Se encontro un if\n"); tabcount++; $$=format_if($3);};
     | IF OPRT expr CPRT OBRC statementsinifblock CBRC {printf("Se encontro un if con bloque\n"); tabcount++; $$=format_if($3);}
-    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if else con bloque\n"); tabcount++; $$=format_if_else($3);}
-    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELIF OPRT expr CPRT OBRC statementsinelifblock CBRC ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if elseif else con bloque\n"); $$=format_if_elseif_else($3, $10);}
+    | IF OPRT expr CPRT statementinifblock ELSE statementinelseblock {printf("Se encontro un if else\n"); tabcount++; $$=format_if_else($3);}
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELSE statementinelseblock {printf("Se encontro un if con bloque y else\n"); tabcount++; $$=format_if_else($3);}
+    | IF OPRT expr CPRT statementinifblock ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if y else con bloque\n"); tabcount++; $$=format_if_else($3);}
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if con bloque y else con bloque\n"); tabcount++; $$=format_if_else($3);}
+    | IF OPRT expr CPRT statementinifblock ELIF OPRT expr CPRT statementinelifblock ELSE statementinelseblock {printf("Se encontro un if elseif else\n"); $$=format_if_elseif_else($3, $8);}
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELIF OPRT expr CPRT statementinelifblock ELSE statementinelseblock {printf("Se encontro un if con bloque elseif else\n"); $$=format_if_elseif_else($3, $10);}
+    | IF OPRT expr CPRT statementinifblock ELIF OPRT expr CPRT OBRC statementsinelifblock CBRC ELSE statementinelseblock {printf("Se encontro un if elseif con bloque else\n"); $$=format_if_elseif_else($3, $8);}
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELIF OPRT expr CPRT OBRC statementsinelifblock CBRC ELSE statementinelseblock {printf("Se encontro un if con bloque elseif con bloque else\n"); $$=format_if_elseif_else($3, $10);}
+    | IF OPRT expr CPRT statementinifblock ELIF OPRT expr CPRT statementinelifblock ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if elseif else con bloque\n"); $$=format_if_elseif_else($3, $8);}
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELIF OPRT expr CPRT statementinelifblock ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if con bloque elseif else con bloque\n"); $$=format_if_elseif_else($3, $10);}
+    | IF OPRT expr CPRT statementinifblock ELIF OPRT expr CPRT OBRC statementsinelifblock CBRC ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if con bloque elseif else con bloque\n"); $$=format_if_elseif_else($3, $8);}
+    | IF OPRT expr CPRT OBRC statementsinifblock CBRC ELIF OPRT expr CPRT OBRC statementsinelifblock CBRC ELSE OBRC statementsinelseblock CBRC {printf("Se encontro un if con bloque elseif con bloque else con bloque\n"); $$=format_if_elseif_else($3, $10);}
 ;
 statementsinifblock: 
     %empty

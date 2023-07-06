@@ -91,7 +91,7 @@ void substract_statement_to_for_block_counter() {
 void add_param_to_queue(char *param) {
     strcpy(param_queue[elements_in_param_queue], param);
     printf("Added the following statement to param queue: %s\n", param_queue[elements_in_param_queue]);
-    printf("Elements in param_queue: %d\n", elements_in_param_queue);
+    printf("Elements in param_queue: %d\n", elements_in_param_queue + 1);
     elements_in_param_queue++;
 }
 
@@ -259,14 +259,17 @@ char *format_if_else(char *expr) {
     strcat(python_if, "if (");
     strcat(python_if, expr);
     strcat(python_if, "):");
-    write_statements_in_block(python_if_else, &statements_in_if_block);
+    write_statements_in_block(python_if, &statements_in_if_block);
     
+    strcat(python_if_else, python_if);
+    strcat(python_if_else, python_else);
+
     return python_if_else;
 }
 
 char *format_if_elseif_else(char *exprif, char *exprelseif) {
     // Puntero a char con el if entero.
-    char *python_if_elif_else = (char *) malloc(strlen(exprif) + strlen(exprelseif) + 1000);
+    char *python_if_elif_else = (char *) malloc(strlen(exprif) + strlen(exprelseif) + 10000);
     
     /*
         Sacar primero los statements del else, luego del elif y finalmente del if debido a que tenemos un stack
