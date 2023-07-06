@@ -27,4 +27,9 @@ $variable = 7 % 2;
 $xor = (1==1) ^ false;
 $imprimir = !$xor;
 echo $imprimir;
+
+# Operadores de pre-incremento y pre-decremento
+$var = 10;
+echo ++$var;
+--$var;
 ?>

@@ -165,6 +165,11 @@ void write_declaration(char *declaration) {
     fprintf(output_file, "%s\n", declaration);
 }
 
+void write_expression(char *expr) {
+    printf("Writing declaration: %s\n", expr);
+    fprintf(output_file, "%s\n", expr);
+}
+
 char *format_echo(char *expr, int tabcount) {
     // Para este punto expr ya fue formateado asi que ahora debe ser agregado dentro de print().
     // El espacio extra es para esto.
@@ -466,3 +471,49 @@ void write_for(char *forpy) {
     printf("Writing for: %s\n", forpy);
     fprintf(output_file, "%s\n", forpy);
 }
+
+char *format_pre_increment(char *expr) {
+    char *python_pre_increment = (char *) malloc(strlen(expr) + 10);
+    strcat(python_pre_increment, "(");
+    strcat(python_pre_increment, expr);
+    strcat(python_pre_increment, " := ");
+    strcat(python_pre_increment, expr);
+    strcat(python_pre_increment, " + 1");
+    strcat(python_pre_increment, ")");
+    return python_pre_increment;
+}
+
+char *format_post_increment(char *expr) {
+    char *python_post_increment = (char *) malloc(strlen(expr) + 14);
+    strcat(python_post_increment, "(");
+    strcat(python_post_increment, expr);
+    strcat(python_post_increment, " := ");
+    strcat(python_post_increment, expr);
+    strcat(python_post_increment, " + 1");
+    strcat(python_post_increment, ")");
+    strcat(python_post_increment, " - 1");
+    return python_post_increment;
+}
+
+char *format_pre_decrement(char *expr) {
+    char *python_pre_decrement = (char *) malloc(strlen(expr) + 10);
+    strcat(python_pre_decrement, "(");
+    strcat(python_pre_decrement, expr);
+    strcat(python_pre_decrement, " := ");
+    strcat(python_pre_decrement, expr);
+    strcat(python_pre_decrement, " - 1");
+    strcat(python_pre_decrement, ")");
+    return python_pre_decrement;
+}
+
+char *format_post_decrement(char *expr) {
+    char *python_post_decrement = (char *) malloc(strlen(expr) + 14);
+    strcat(python_post_decrement, "(");
+    strcat(python_post_decrement, expr);
+    strcat(python_post_decrement, " := ");
+    strcat(python_post_decrement, expr);
+    strcat(python_post_decrement, " - 1");
+    strcat(python_post_decrement, ")");
+    strcat(python_post_decrement, " + 1");
+    return python_post_decrement;
+}  

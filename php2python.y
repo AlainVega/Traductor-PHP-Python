@@ -37,7 +37,7 @@
    https://www.gnu.org/software/bison/manual/bison.html#Precedence-Decl
 */
 %left MOD MULT DIV PLUS MINS CCTN AND OR XOR QUES CL COMM
-%right EQ NOT
+%right EQ NOT PPL MMN
 %nonassoc GT LT GTE LTE NEQ EEQ
 
 %%
@@ -48,15 +48,16 @@ statements:
     | statements statement
 ;
 statement:
-    declaration SC {printf("Se encontro una declaracion\n"); write_declaration($1);}
-    | echo SC {printf("Se encontro un echo\n"); write_echo($1);}
-    | conditional {printf("Se encontro una condicional\n"); write_if($1);}
-    | while {printf("Se encontro un bucle while\n"); write_while($1);}
-    | foreach {printf("Se encontro un bucle foreach\n"); write_foreach($1);}
-    | for {printf("Se encontro un bucle foreach\n"); write_for($1);}
-    | functionDefinition {printf("Se encontro la definicion de una funcion\n"); write_function($1);}
-    | return SC {printf("Se encontro un retorno global\n"); write_return(translate_return($1));}
-    | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
+    declaration SC {printf("Se reconocio una declaracion\n"); write_declaration($1);}
+    | expr SC {printf("Se reconocio la expresion: %s\n", $1); write_expression($1);}
+    | echo SC {printf("Se reconocio un echo\n"); write_echo($1);}
+    | conditional {printf("Se reconocio una condicional\n"); write_if($1);}
+    | while {printf("Se reconocio un bucle while\n"); write_while($1);}
+    | foreach {printf("Se reconocio un bucle foreach\n"); write_foreach($1);}
+    | for {printf("Se reconocio un bucle foreach\n"); write_for($1);}
+    | functionDefinition {printf("Se reconocio la definicion de una funcion\n"); write_function($1);}
+    | return SC {printf("Se reconocio un retorno global\n"); write_return(translate_return($1));}
+    | CMNT {printf("Se reconocio un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
 ;
 declaration: ID EQ expr {$$=format_declaration($1, $3);};
 echo: ECH expr {$$=format_echo($2, tabcount);};
@@ -138,6 +139,10 @@ expr:
     | expr DIV expr {printf("Se encontro una division\n"); $$=format_operation($1, " / ", $3);}
     | expr MOD expr {printf("Se encontro una operacion modulo\n"); $$=format_operation($1, " % ", $3);}
     | expr CCTN expr {printf("Se encontro una concatenacion\n"); $$=format_operation($1, " + ", $3);}
+    | PPL expr {printf("Se encontro un pre-incremento\n"); $$=format_pre_increment($2);}
+    | expr PPL {printf("Se encontro un pos-incremento\n"); $$=format_post_increment($1);}
+    | MMN expr {printf("Se encontro un pre-decremento\n"); $$=format_pre_decrement($2);}
+    | expr MMN {printf("Se encontro un pos-incremento\n"); $$=format_post_decrement($1);}
     | NOT expr {printf("Se encontro una negacion logica\n"); $$=format_operation("", " not ", $2);}
     | expr AND expr {printf("Se encontro una conjuncion\n"); $$=format_operation($1, " and ", $3);}
     | expr OR expr {printf("Se encontro una disyuncion\n"); $$=format_operation($1, " or ", $3);}
