@@ -29,7 +29,7 @@
         PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC QUES
 
 %type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument 
-%type <str> defaultValue functionCall break continue foreach
+%type <str> defaultValue functionCall break continue foreach for
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -52,7 +52,8 @@ statement:
     | echo SC {printf("Se encontro un echo\n"); write_echo($1);}
     | conditional {printf("Se encontro una condicional\n"); write_if($1);}
     | while {printf("Se encontro un bucle while\n"); write_while($1);}
-    | foreach {printf("Se encontro un bucle foreach\n"); write_while($1);}
+    | foreach {printf("Se encontro un bucle foreach\n"); write_foreach($1);}
+    | for {printf("Se encontro un bucle foreach\n"); write_for($1);}
     | functionDefinition {printf("Se encontro la definicion de una funcion\n"); write_function($1);}
     | return SC {printf("Se encontro un retorno global\n"); write_return(translate_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
@@ -181,10 +182,20 @@ statementsInForeach: %empty
     | statementsInForeach statementInForeach {printf("Se redujo el scope\n"); tabcount--;}
 ;
 statementInForeach:
-    declaration SC {printf("Se encontro una declaracion dentro de una foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array($1);}
-    | echo SC {printf("Se encontro un echo dentro de una foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array($1);}
+    declaration SC {printf("Se encontro una declaracion dentro de un foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array($1);}
+    | echo SC {printf("Se encontro un echo dentro de un foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array($1);}
     | return SC {printf("Se encontro un retorno dentro de un foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array(format_return($1));}
-    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de una foreach\n", $1); add_statement_to_foreach_block_counter(); add_statement_to_array(format_one_line_comment($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un foreach\n", $1); add_statement_to_foreach_block_counter(); add_statement_to_array(format_one_line_comment($1));}
+;
+for: FOR OPRT declaration SC expr SC declaration CPRT OBRC statementsInFor CBRC {printf("Se encontro un for\n"); tabcount++; $$=format_for($3, $5, $7);};
+statementsInFor: %empty
+    | statementsInFor statementInFor {printf("Se redujo el scope\n"); tabcount--;}
+;
+statementInFor: 
+    declaration SC {printf("Se encontro una declaracion dentro de un for\n"); add_statement_to_for_block_counter(); add_statement_to_array($1);}
+    | echo SC {printf("Se encontro un echo dentro de una for\n"); add_statement_to_for_block_counter(); add_statement_to_array($1);}
+    | return SC {printf("Se encontro un retorno dentro de un for\n"); add_statement_to_for_block_counter(); add_statement_to_array(format_return($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un for\n", $1); add_statement_to_for_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
 %%
 

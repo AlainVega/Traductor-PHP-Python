@@ -14,6 +14,8 @@ int statements_in_else_block = 0;
 int statements_in_while_block = 0;
 int statements_in_function_block = 0;
 int statements_in_foreach_block = 0;
+int statements_in_for_block = 0;
+
 
 void create_output_file() {
     output_file = fopen("output_file.py", "w");
@@ -54,6 +56,10 @@ void add_statement_to_foreach_block_counter() {
     ++statements_in_foreach_block;
 }
 
+void add_statement_to_for_block_counter() {
+    ++statements_in_for_block;
+}
+
 void substract_statement_to_if_block_counter() {
     --statements_in_if_block;
 }
@@ -76,6 +82,10 @@ void substract_statement_to_function_block_counter() {
 
 void substract_statement_to_foreach_block_counter() {
     --statements_in_foreach_block;
+}
+
+void substract_statement_to_for_block_counter() {
+    --statements_in_for_block;
 }
 
 void add_param_to_queue(char *param) {
@@ -367,8 +377,6 @@ char *format_one_line_comment(char *comment) {
     } else { // Comentario estilo python, empieza con #
         return comment;
     }
-    
-    
 }
 
 void write_one_line_comment(char *comment) {
@@ -429,4 +437,32 @@ char *format_foreach2(char *parameters, char *as_var) {
 void write_foreach(char *foreach) {
     printf("Writing foreach: %s\n", foreach);
     fprintf(output_file, "%s\n", foreach);
+}
+
+char *poner_variable(char *declaration) {
+    // Sacar la variable definida y retornar eso
+    return "i";
+}
+
+char *poner_iterable(char *expr) {
+    // Implementar la logica para definir el iterable equivalente en python
+    return "range(10)";
+}
+
+char *format_for(char *declaration, char *expr2, char *expr3) {
+    char *python_for = (char *) malloc(strlen(declaration) + strlen(expr2) + strlen(expr3) + 1000);
+    strcat(python_for, "for ");
+    strcat(python_for, poner_variable(declaration));
+    strcat(python_for, " in ");
+    strcat(python_for, poner_iterable(expr2));
+    strcat(python_for, ":");
+    if (statements_in_for_block > 0) {
+        write_statements_in_block(python_for, &statements_in_for_block);
+    }
+    return python_for;
+}
+
+void write_for(char *forpy) {
+    printf("Writing for: %s\n", forpy);
+    fprintf(output_file, "%s\n", forpy);
 }
