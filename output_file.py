@@ -1,15 +1,13 @@
-if (1 > 1):
-	print("Esto esta en un if\n")
-elif (1 < 2):
-	print("Esto esta en un elif\n")
-	print("Esto tambien esta en un elif\n")
-else:
-	print("Esto esta en un else\n")
-	print("Esto tambien\n")
-	print("Y esto!\n")
-if (1 > 1):
-	pass
-elif (1 < 2):
-	pass
-else:
-	pass
+a = lambda b, c, d = "nada" : (b := b - 1) + c
+True if True else False
+def saludar(nombre = "Alain", apellido = "Vega"):
+	print("Hola " + nombre + apellido + " como estas?")
+saludar()
+saludar("carlos")
+saludar("mathias", "martinez")
+def sumar(num1 = 0, num2 = 0):
+	return num1 + num2
+sumar()
+sumar(1)
+sumar(8, 2)
+exit(("Prueba"))

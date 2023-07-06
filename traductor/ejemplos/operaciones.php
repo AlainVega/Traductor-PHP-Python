@@ -32,6 +32,9 @@ echo $imprimir;
 $var = 10;
 echo ++$var;
 $var++;
+$var--;
+++$var;
+--$var;
 
 # Asignacion multiple
 $var1 = $var2 = $var++;

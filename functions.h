@@ -140,27 +140,50 @@ char *format_declaration(char *variable, char *expr) {
     // Para este punto, expr ya fue formateado asi que se puede agregar como tal.
     // Sacar el caracter '$' de la variable.
     char *formatted_variable = format_variable(variable);
-    // a = lambda b, c, d="nada" : (b := b + 1) - cA
+
+    // Calculamos la longitud de los strings que utilizaremos
+    size_t variable_length = strlen(formatted_variable);
+    size_t expr_length = strlen(expr);
+    size_t equal_length = strlen(" = ");
+
     // Alocar memoria para el nuevo string.
-    char *declaration = malloc(strlen(variable) + strlen(expr) + 1000);
-    printf("logitud de expresion: %i\n", (int)strlen(expr));
+    char *declaration = (char *) malloc(variable_length + expr_length + equal_length + 1);
+    printf("logitud de expresion: %i\n", (int)expr_length);
+
     // Poner en declaration la definicion de la variable con la expresion a la que es igual.
-    strcat(declaration, formatted_variable);
-    strcat(declaration, " = ");
-    strcat(declaration, expr);
+    size_t sum = 0; //posicionador del puntero declaration, para agregar mas cadenas el final del string.
+
+    // Concatenamos los strings
+    memcpy(declaration + sum, formatted_variable, variable_length);
+    sum += variable_length;
+    memcpy(declaration + sum, " = ", equal_length);
+    sum += equal_length;
+    memcpy(declaration + sum, expr, expr_length + 1);
     printf("Formatted declaration: %s\n", declaration);
+
     return declaration;
 }
 
 char *format_operation(char *expr1, char *operat, char *expr2) {
+    // Calculamos la longitud de los strings que utilizaremos
+    size_t expr1_length = strlen(expr1);
+    size_t expr2_length = strlen(expr2);
+    size_t operat_length = strlen(operat);
+
     // Para este punto expr1 y expr2 ya fueron formateados asi que se pueden agregar como tal.
-    char *operation = malloc(strlen(expr1) + strlen(operat) + strlen(expr2));
+    char *operation = (char *) malloc(expr1_length + operat_length + expr2_length + 1);
 
     // Formatear la operacion en base al operador (operat) pasado.
-    strcat(operation, expr1);
-    strcat(operation, operat);
-    strcat(operation, expr2);
+    size_t sum = 0; // Posicionador del puntero operation, para agregar mas strings al final de string.
+
+    // Concetenamos los strings
+    memcpy(operation + sum, expr1, expr1_length);
+     sum += expr1_length;
+    memcpy(operation + sum, operat, operat_length);
+     sum += operat_length;
+    memcpy(operation + sum, expr2, expr2_length + 1);
     printf("Formatted operation: %s\n", operation);
+
     return operation;
 }
 
@@ -178,15 +201,28 @@ void write_expression(char *expr) {
 char *format_echo(char *expr, int tabcount) {
     // Para este punto expr ya fue formateado asi que ahora debe ser agregado dentro de print().
     // El espacio extra es para esto.
-    char *python_print = malloc(strlen(expr) + tabcount + 10);
+    size_t expr_length = strlen(expr);
+    size_t tab_length = strlen("\t");
+    size_t print_length = strlen("print(");
+    size_t paren_length = strlen(")");
+
+    // Alocamos memoria para el string resultado
+    char *python_print = (char *) malloc(expr_length + tabcount*tab_length + print_length + paren_length + 1);
+    size_t sum = 0; // Posicionador del puntero python_print para poder agregar mas strings al final del string.
+
+    // Concatenamos los strings
     if (tabcount > 0) {
         for (int i = 0; i < tabcount; i++) {
-            strcat(python_print, "\t");
+            memcpy(python_print + sum, "\t", tab_length);
+            sum += i*tab_length;
         }
     }
-    strcat(python_print, "print(");
-    strcat(python_print, expr);
-    strcat(python_print, ")");
+    memcpy(python_print + sum, "print(", print_length);
+    sum += print_length;
+    memcpy(python_print + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_print + sum, ")", paren_length + 1);
+
     return python_print;
 }
 
@@ -197,7 +233,7 @@ void write_echo(char *echo) {
 char *format_if(char *expr) {
     // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
     // El espacio extra es para esto.
-    char *python_if = malloc(strlen(expr) + 1000);
+    char *python_if = (char *) malloc(strlen(expr) + 1000);
     strcat(python_if, "if (");
     strcat(python_if, expr);
     strcat(python_if, "):");
@@ -209,17 +245,17 @@ char *format_if(char *expr) {
 char *format_if_else(char *expr) {
     // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
     // El espacio extra es para esto.
-    char *python_if_else = malloc(strlen(expr) + 1000);
+    char *python_if_else = (char *) malloc(strlen(expr) + 1000);
 
     /*
         Sacar primero los statements del else y finalmente del if debido a que tenemos un stack
         de statements, luego insertarlos en el orden invertido a python_if_elif_else.
     */
-    char *python_else = malloc(1000);
+    char *python_else = (char *) malloc(1000);
     strcat(python_else, "\nelse:");
     write_statements_in_block(python_else, &statements_in_else_block);
 
-    char *python_if = malloc(strlen(expr) + 1000);
+    char *python_if = (char *) malloc(strlen(expr) + 1000);
     strcat(python_if, "if (");
     strcat(python_if, expr);
     strcat(python_if, "):");
@@ -230,23 +266,23 @@ char *format_if_else(char *expr) {
 
 char *format_if_elseif_else(char *exprif, char *exprelseif) {
     // Puntero a char con el if entero.
-    char *python_if_elif_else = malloc(strlen(exprif) + strlen(exprelseif) + 1000);
+    char *python_if_elif_else = (char *) malloc(strlen(exprif) + strlen(exprelseif) + 1000);
     
     /*
         Sacar primero los statements del else, luego del elif y finalmente del if debido a que tenemos un stack
         de statements, luego insertarlos en el orden invertido a python_if_elif_else.
     */
-    char *python_else = malloc(1000);
+    char *python_else = (char *) malloc(1000);
     strcat(python_else, "\nelse:");
     write_statements_in_block(python_else, &statements_in_else_block);
 
-    char *python_elif = malloc(strlen(exprelseif) + 1000);
+    char *python_elif = (char *) malloc(strlen(exprelseif) + 1000);
     strcat(python_elif, "\nelif (");
     strcat(python_elif, exprelseif);
     strcat(python_elif, "):");
     write_statements_in_block(python_elif, &statements_in_elif_block);
 
-    char *python_if = malloc(strlen(exprif) + 1000);
+    char *python_if = (char *) malloc(strlen(exprif) + 1000);
     strcat(python_if, "if (");
     strcat(python_if, exprif);
     strcat(python_if, "):");
@@ -268,7 +304,7 @@ void write_if(char *ifcondition) {
 char *format_while(char *expr) {
     // Para este punto expr ya fue formateado asi que ahora sera encerrado entre parentesis y se le agregara un ':' segun la sintaxis de Python.
     // El espacio extra es para esto.
-    char *python_while = malloc(strlen(expr) + 1000);
+    char *python_while = (char *) malloc(strlen(expr) + 1000);
     strcat(python_while, "while (");
     strcat(python_while, expr);
     strcat(python_while, "):");
@@ -283,23 +319,49 @@ void write_while(char *while_loop) {
 }
 
 char *format_default_argument(char *id, char *data) {
-    char *argument_formatted = malloc(strlen(id) + strlen(data) + 1);
-    strcat(argument_formatted, id);
-    strcat(argument_formatted, "=");
-    strcat(argument_formatted, data);
+    // Definimos las logitudes de las cadenas que utilizaremos
+    size_t id_length = strlen(id);
+    size_t data_length = strlen(data);
+    size_t equal_length = strlen(" = ");
+
+    // Alocamos memoria para la cadena resultante.
+    char *argument_formatted = (char *) malloc(id_length + data_length + equal_length +1);
+
+    size_t sum = 0; //Posicionador del puntero argument_formatted, para agregar mas strings al final del string resultante.
+
+    // Concatenamos los strings
+    memcpy(argument_formatted + sum, id, id_length);
+    sum += id_length; 
+    memcpy(argument_formatted + sum, " = ", equal_length);
+    sum += equal_length;
+    memcpy(argument_formatted + sum, data, data_length + 1);
+
     return argument_formatted;
 }
 
 char *load_all_arguments(char *arg1, char *arg2) {
-    char *arguments = malloc(strlen(arg1) + strlen(arg2) + 2);
-    strcat(arguments, arg1);
-    strcat(arguments, ", ");
-    strcat(arguments, arg2);
+    // Definimos las longitudes de las cadenas que utilizaremos
+    size_t arg1_length = strlen(arg1);
+    size_t arg2_length = strlen(arg2);
+    size_t comma_length = strlen(", ");
+
+    // Alocamos memoria para al string resultado
+    char *arguments = (char *) malloc(arg1_length + arg2_length + comma_length + 1);
+
+    size_t sum = 0; // Posicionador del puntero arguments para agregar mas strings al final del string resultante.
+
+    // Concatenamos los strings
+    memcpy(arguments + sum, arg1, arg1_length);
+    sum += arg1_length;
+    memcpy(arguments + sum, ", ", comma_length);
+    sum += comma_length;
+    memcpy(arguments + sum, arg2, arg2_length);
+
     return arguments;
 }
 
 char *format_function(char *functionArguments, char* functionName) {
-    char *python_function = malloc(strlen(functionArguments) + strlen(functionName) + 1000);
+    char *python_function = (char *) malloc(strlen(functionArguments) + strlen(functionName) + 1000);
     
     strcat(python_function, "def ");
     strcat(python_function, functionName);
@@ -318,7 +380,7 @@ void write_function(char *function) {
 }
 
 char *format_array() {
-    char *param_list = malloc(elements_in_param_queue * 1000);
+    char *param_list = (char *) malloc(elements_in_param_queue * 1000);
     strcat(param_list, "[");
     for (int i = 0; i < elements_in_param_queue; i++) {
         strcat(param_list, param_queue[i]);
@@ -333,7 +395,7 @@ char *format_array() {
 char *format_array_access(char *variable_name, char *number) {
     char *python_variable = format_variable(variable_name);
     variable_name[0] = '\0';
-    char *array_access = malloc(strlen(python_variable) + strlen(number) + 100);
+    char *array_access = (char *) malloc(strlen(python_variable) + strlen(number) + 100);
     strcat(array_access, python_variable);
     strcat(array_access, "[");
     strcat(array_access, number);
@@ -343,26 +405,65 @@ char *format_array_access(char *variable_name, char *number) {
 }
 
 char *format_function_call(char *function_name, char *function_arguments){
-    char *python_function_call = malloc(strlen(function_name) + strlen(function_arguments) + 2);
-    strcat(python_function_call, function_name);
-    strcat(python_function_call, "(");
-    strcat(python_function_call, function_arguments);
-    strcat(python_function_call, ")");
+    // Definimos las longitudes de las cadenas que utilizaremos
+    size_t fun_name_length = strlen(function_name);
+    size_t fun_args_length = strlen(function_arguments);
+    size_t paren1_length = strlen("(");
+    size_t paren2_length = strlen(")");
+
+    // Alocamos memoria para el string resultante
+    char *python_function_call = (char *) malloc(fun_name_length + fun_args_length + paren1_length + paren2_length + 1);
+
+    size_t sum = 0; // Posicionador del puntero python_function_call para agregar mas strings al final del string
+    
+    // Concatenamos lo strings
+    memcpy(python_function_call + sum, function_name, fun_name_length);
+    sum += fun_name_length;
+    memcpy(python_function_call + sum, "(", paren1_length);
+    sum += paren1_length;
+    memcpy(python_function_call + sum, function_arguments, fun_args_length);
+    sum += fun_args_length;
+    memcpy(python_function_call + sum, ")", paren2_length + 1);
+
     return python_function_call;
 }
 
 char *format_return(char *expr) {
-    char *python_return = malloc(strlen(expr) + 7);
-    strcat(python_return, "return ");
-    strcat(python_return, expr);
+    // Definimos las longitudes de las cadenas que usaremos
+    size_t expr_length = strlen(expr);
+    size_t return_length = strlen("return ");
+
+    // Alocamos memoria para el string resultante
+    char *python_return = (char *) malloc(expr_length + return_length + 1);
+
+    size_t sum = 0; // Posicionador del puntero python_return para concatenar strings
+
+    // Concatenamos los strings
+    memcpy(python_return + sum, "return ", return_length);
+    sum += return_length;
+    memcpy(python_return + sum, expr, expr_length + 1);
+
     return python_return;
 }
 
 char *translate_return(char *expr) {
-    char *python_exit = malloc(strlen(expr) + 6);
-    strcat(python_exit, "exit(");
-    strcat(python_exit, expr);
-    strcat(python_exit, ")");
+    // Definimos las longitudes de las cadenas que usaremos
+    size_t expr_length = strlen(expr);
+    size_t exit_length = strlen("exit(");
+    size_t paren_length = strlen(")");
+
+    // Alocamos memoria para el string resultante
+    char *python_exit = (char *) malloc(expr_length + exit_length + paren_length + 1);
+
+    size_t sum = 0; // Posicionador del puntero python_exit para concatenar strings
+
+    // Concatenamos los strings
+    memcpy(python_exit + sum, "exit(", exit_length);
+    sum += exit_length;
+    memcpy(python_exit + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_exit + sum, ")", paren_length + 1);
+
     return python_exit;
 }
 
@@ -388,12 +489,29 @@ void write_one_line_comment(char *comment) {
 }
 
 char *format_ternary_operator(char *expr1, char *expr2, char *expr3) {
-    char *python_ternary = malloc(strlen(expr1) + strlen(expr2)+ strlen(expr3) + 100);
-    strcat(python_ternary, expr2);
-    strcat(python_ternary, " if ");
-    strcat(python_ternary, expr1);
-    strcat(python_ternary, " else ");
-    strcat(python_ternary, expr3);
+    // Definimos la logitud de las cadenas que utilizaremos
+    size_t expr1_length = strlen(expr1);
+    size_t expr2_length = strlen(expr2);
+    size_t expr3_length = strlen(expr3);
+    size_t if_length = strlen(" if ");
+    size_t else_length = strlen(" else ");
+
+    // Alocamos memoria suficiente para la expresion
+    char *python_ternary = (char *) malloc(expr1_length + expr2_length + expr3_length + if_length + else_length + 1);
+
+    size_t sum = 0; //posicionador del puntero python_ternary poder agregar mas cadenas
+
+    // Concatenamos los strings.
+    memcpy(python_ternary + sum, expr2, expr2_length);
+    sum += expr2_length;
+    memcpy(python_ternary + sum, " if ", if_length);
+    sum += if_length;
+    memcpy(python_ternary + sum, expr1, expr1_length);
+    sum += expr1_length;
+    memcpy(python_ternary + sum, " else ", else_length);
+    sum += else_length;
+    memcpy(python_ternary + sum, expr3, expr3_length + 1);
+
     return python_ternary;
 }
 /*Para el foreach de la forma:
@@ -403,7 +521,7 @@ foreach($a as $valor) {
 }
 */
 char *format_foreach1(char *arr_var, char *as_var) {
-    char *python_foreach1 = malloc(strlen(arr_var) + strlen(arr_var) + 1000);
+    char *python_foreach1 = (char *) malloc(strlen(arr_var) + strlen(arr_var) + 1000);
     strcat(python_foreach1, "for ");
     strcat(python_foreach1, as_var);
     strcat(python_foreach1, " in ");
@@ -424,7 +542,7 @@ foreach(array(1, "hola") as $valor) {
 }
 */
 char *format_foreach2(char *parameters, char *as_var) {
-    char *python_foreach2 = malloc(strlen(parameters) + strlen(as_var) + 1000);
+    char *python_foreach2 = (char *) malloc(strlen(parameters) + strlen(as_var) + 1000);
     strcat(python_foreach2, "for ");
     strcat(python_foreach2, as_var);
     strcat(python_foreach2, " in [");
@@ -451,7 +569,7 @@ char *poner_iterable(char *expr) {
 }
 
 char *format_for(char *declaration, char *expr2, char *expr3) {
-    char *python_for = malloc(strlen(declaration) + strlen(expr2) + strlen(expr3) + 1000);
+    char *python_for = (char *) malloc(strlen(declaration) + strlen(expr2) + strlen(expr3) + 1000);
     strcat(python_for, "for ");
     strcat(python_for, poner_variable(declaration));
     strcat(python_for, " in ");
@@ -468,57 +586,147 @@ void write_for(char *forpy) {
 }
 
 char *format_pre_increment(char *expr) {
-    char *python_pre_increment =  malloc(strlen(expr) + strlen("(") + strlen(" := ") + strlen(" + 1") + strlen(")") + 20);
-    strcat(python_pre_increment, "(");
-    strcat(python_pre_increment, expr);
-    strcat(python_pre_increment, " := ");
-    strcat(python_pre_increment, expr);
-    strcat(python_pre_increment, " + 1");
-    strcat(python_pre_increment, ")");
+    // Definimos las longitudes de los strings que utilizaremos
+    size_t expr_length = strlen(expr);
+    size_t paren1_length = strlen("(");
+    size_t named_assig_length = strlen(" := ");
+    size_t plus_one_length = strlen(" + 1");
+    size_t paren2_length = strlen(")");
+
+    // Alocamos memoria para el string resultado
+    char *python_pre_increment = (char *) malloc(2*expr_length + paren1_length + named_assig_length + plus_one_length + paren2_length + 1);
+
+    size_t sum = 0; // Posicionador del puntero python_pre_increment para concatenar strings.
+
+    // Concatenamos los strings
+    memcpy(python_pre_increment + sum, "(", paren1_length);
+    sum += paren1_length;
+    memcpy(python_pre_increment + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_pre_increment + sum, " := ", named_assig_length);
+    sum += named_assig_length;
+    memcpy(python_pre_increment + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_pre_increment + sum, " + 1", plus_one_length);
+    sum += plus_one_length;
+    memcpy(python_pre_increment + sum, ")", paren2_length + 1);
+
     return python_pre_increment;
 }
 
 char *format_post_increment(char *expr) {
-    char *python_post_increment = malloc(strlen(expr) + 20);
-    strcat(python_post_increment, "((");
-    strcat(python_post_increment, expr);
-    strcat(python_post_increment, " := ");
-    strcat(python_post_increment, expr);
-    strcat(python_post_increment, " + 1");
-    strcat(python_post_increment, ")");
-    strcat(python_post_increment, " - 1)");
+    // Definimos las longitudes de los strings que utilizaremos
+    size_t expr_length = strlen(expr);
+    size_t paren_double_length = strlen("((");
+    size_t named_assig_length = strlen(" := ");
+    size_t plus_one_length = strlen(" + 1");
+    size_t paren_in_length = strlen(")");
+    size_t minus_one_length = strlen(" - 1)");
+
+    // Alocamos memoria para el string resultado
+    char *python_post_increment = (char *) malloc(2*expr_length + paren_double_length + named_assig_length + plus_one_length + paren_in_length + minus_one_length + 1);
+
+    size_t sum = 0; // Posicionador del puntero python_post_increment para concatenar strings.
+
+    // Concatenamos los strings
+    memcpy(python_post_increment + sum, "((", paren_double_length);
+    sum += paren_double_length;
+    memcpy(python_post_increment + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_post_increment + sum, " := ", named_assig_length);
+    sum += named_assig_length;
+    memcpy(python_post_increment + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_post_increment + sum, " + 1", plus_one_length);
+    sum += plus_one_length;
+    memcpy(python_post_increment + sum, ")", paren_in_length);
+    sum += paren_in_length;
+    memcpy(python_post_increment + sum, " - 1)", minus_one_length + 1);
+
     return python_post_increment;
 }
 
 char *format_pre_decrement(char *expr) {
-    char *python_pre_decrement = malloc(strlen(expr) + 20);
-    strcat(python_pre_decrement, "(");
-    strcat(python_pre_decrement, expr);
-    strcat(python_pre_decrement, " := ");
-    strcat(python_pre_decrement, expr);
-    strcat(python_pre_decrement, " - 1");
-    strcat(python_pre_decrement, ")");
+    // Definimos las longitudes de los strings que utilizaremos
+    size_t expr_length = strlen(expr);
+    size_t paren1_length = strlen("(");
+    size_t named_assig_length = strlen(" := ");
+    size_t minus_one_length = strlen(" - 1");
+    size_t paren2_length = strlen(")");
+
+    // Alocamos memoria para el string resultado
+    char *python_pre_decrement = (char *) malloc(2*expr_length + paren1_length + named_assig_length + minus_one_length + paren2_length + 1);
+
+    size_t sum = 0; // Posicionador del puntero python_pre_decrement para concatenar strings.
+
+    // Concatenamos los strings
+    memcpy(python_pre_decrement + sum, "(", paren1_length);
+    sum += paren1_length;
+    memcpy(python_pre_decrement + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_pre_decrement + sum, " := ", named_assig_length);
+    sum += named_assig_length;
+    memcpy(python_pre_decrement + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_pre_decrement + sum, " - 1", minus_one_length);
+    sum += minus_one_length;
+    memcpy(python_pre_decrement + sum, ")", paren2_length + 1);
     return python_pre_decrement;
 }
 
 char *format_post_decrement(char *expr) {
-    char *python_post_decrement = malloc(strlen(expr) + 20);
-    strcat(python_post_decrement, "((");
-    strcat(python_post_decrement, expr);
-    strcat(python_post_decrement, " := ");
-    strcat(python_post_decrement, expr);
-    strcat(python_post_decrement, " - 1");
-    strcat(python_post_decrement, ")");
-    strcat(python_post_decrement, " + 1)");
+    // Definimos las longitudes de los strings que utilizaremos
+    size_t expr_length = strlen(expr);
+    size_t paren_double_length = strlen("((");
+    size_t named_assig_length = strlen(" := ");
+    size_t minus_one_length = strlen(" - 1");
+    size_t paren_in_length = strlen(")");
+    size_t plus_one_length = strlen(" + 1)");
+
+    // Alocamos memoria para el string resultado
+    char *python_post_decrement = (char *) malloc(2*expr_length + paren_double_length + named_assig_length + minus_one_length + paren_in_length + plus_one_length + 1);
+
+    size_t sum = 0; // Posicionador del puntero python_post_decrement para concatenar strings.
+
+    // Concatenamos los strings
+    memcpy(python_post_decrement + sum, "((", paren_double_length);
+    sum += paren_double_length;
+    memcpy(python_post_decrement + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_post_decrement + sum, " := ", named_assig_length);
+    sum += named_assig_length;
+    memcpy(python_post_decrement + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_post_decrement + sum, " - 1", minus_one_length);
+    sum += minus_one_length;
+    memcpy(python_post_decrement + sum, ")", paren_in_length);
+    sum += paren_in_length;
+    memcpy(python_post_decrement + sum, " + 1)", plus_one_length + 1);
+
     return python_post_decrement;
 }  
 
 char *format_anonymous_function(char *arguments, char *line) {
-    char *python_lambda_function = malloc(strlen(arguments) + strlen(line) + 15);
-    strcat(python_lambda_function, "lambda ");
-    strcat(python_lambda_function, arguments);
-    strcat(python_lambda_function, " : ");
-    strcat(python_lambda_function, line);
+    // Definimos las longitudes de los strings que utilizaremos
+    size_t arguments_length = strlen(arguments);
+    size_t line_length = strlen(line);
+    size_t lambda_length = strlen("lambda ");
+    size_t colon_length = strlen(" : ");
+
+    // Alocamos memoria para el string resultado
+    char *python_lambda_function = (char *) malloc(arguments_length + lambda_length + colon_length + line_length);
+
+    size_t sum = 0; // Posicionador del puntero python_lambda_function para concatenar strings.
+
+    // Concatenamos los strings
+    memcpy(python_lambda_function + sum, "lambda ", lambda_length);
+    sum += lambda_length;
+    memcpy(python_lambda_function + sum, arguments, arguments_length);
+    sum += arguments_length;
+    memcpy(python_lambda_function + sum, " : ", colon_length);
+    sum += colon_length;
+    memcpy(python_lambda_function + sum, line, line_length + 1);
     printf("fun %s, longitud: %i\n", python_lambda_function, (int)strlen(python_lambda_function));
+
     return python_lambda_function;
 }
