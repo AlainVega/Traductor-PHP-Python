@@ -59,7 +59,9 @@ statement:
     | return SC {printf("Se reconocio un retorno global\n"); write_return(translate_return($1));}
     | CMNT {printf("Se reconocio un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
 ;
-declaration: ID EQ expr {$$=format_declaration($1, $3);};
+declaration: ID EQ expr {$$=format_declaration($1, $3);}
+    | ID EQ declaration {$$=format_declaration($1, $3);}
+;
 echo: ECH expr {$$=format_echo($2, tabcount);};
 conditional: 
     IF OPRT expr CPRT statementinifblock {printf("Se encontro un if\n"); tabcount++; $$=format_if($3);};

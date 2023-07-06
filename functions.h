@@ -137,7 +137,7 @@ char *format_declaration(char *variable, char *expr) {
     char *formatted_variable = format_variable(variable);
 
     // Alocar memoria para el nuevo string.
-    char *declaration = (char *) malloc(strlen(variable) + strlen(expr));
+    char *declaration = (char *) malloc(strlen(formatted_variable) + strlen(expr) + 1000);
 
     // Poner en declaration la definicion de la variable con la expresion a la que es igual.
     strcat(declaration, formatted_variable);
@@ -484,14 +484,14 @@ char *format_pre_increment(char *expr) {
 }
 
 char *format_post_increment(char *expr) {
-    char *python_post_increment = (char *) malloc(strlen(expr) + 14);
-    strcat(python_post_increment, "(");
+    char *python_post_increment = (char *) malloc(strlen(expr) + 16);
+    strcat(python_post_increment, "((");
     strcat(python_post_increment, expr);
     strcat(python_post_increment, " := ");
     strcat(python_post_increment, expr);
     strcat(python_post_increment, " + 1");
     strcat(python_post_increment, ")");
-    strcat(python_post_increment, " - 1");
+    strcat(python_post_increment, " - 1)");
     return python_post_increment;
 }
 
@@ -507,13 +507,13 @@ char *format_pre_decrement(char *expr) {
 }
 
 char *format_post_decrement(char *expr) {
-    char *python_post_decrement = (char *) malloc(strlen(expr) + 14);
-    strcat(python_post_decrement, "(");
+    char *python_post_decrement = (char *) malloc(strlen(expr) + 16);
+    strcat(python_post_decrement, "((");
     strcat(python_post_decrement, expr);
     strcat(python_post_decrement, " := ");
     strcat(python_post_decrement, expr);
     strcat(python_post_decrement, " - 1");
     strcat(python_post_decrement, ")");
-    strcat(python_post_decrement, " + 1");
+    strcat(python_post_decrement, " + 1)");
     return python_post_decrement;
 }  

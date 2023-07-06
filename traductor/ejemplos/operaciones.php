@@ -31,5 +31,10 @@ echo $imprimir;
 # Operadores de pre-incremento y pre-decremento
 $var = 10;
 echo ++$var;
---$var;
+$var++;
+
+# Asignacion multiple
+$var1 = $var2 = $var++;
+$var1 = $var = $var2 = $c--;
+
 ?>
