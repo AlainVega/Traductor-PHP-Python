@@ -12,6 +12,7 @@ int statements_in_if_block = 0;
 int statements_in_else_block = 0;
 int statements_in_while_block = 0;
 int statements_in_function_block = 0;
+int statements_in_foreach_block = 0;
 
 void create_output_file() {
     output_file = fopen("output_file.py", "w");
@@ -44,6 +45,10 @@ void add_statement_to_function_block_counter() {
     ++statements_in_function_block;
 }
 
+void add_statement_to_foreach_block_counter() {
+    ++statements_in_foreach_block;
+}
+
 void substract_statement_to_if_block_counter() {
     --statements_in_if_block;
 }
@@ -58,6 +63,10 @@ void substract_statement_to_while_block_counter() {
 
 void substract_statement_to_function_block_counter() {
     --statements_in_function_block;
+}
+
+void substract_statement_to_foreach_block_counter() {
+    --statements_in_foreach_block;
 }
 
 void add_param_to_queue(char *param) {
@@ -336,4 +345,49 @@ char *format_ternary_operator(char *expr1, char *expr2, char *expr3) {
     strcat(python_ternary, " else ");
     strcat(python_ternary, expr3);
     return python_ternary;
+}
+/*Para el foreach de la forma:
+$a = array(1, "hola");
+foreach($a as $valor) {
+    echo $valor;
+}
+*/
+char *format_foreach1(char *arr_var, char *as_var) {
+    char *python_foreach1 = (char *) malloc(strlen(arr_var) + strlen(arr_var) + 1000);
+    strcat(python_foreach1, "for ");
+    strcat(python_foreach1, as_var);
+    strcat(python_foreach1, " in ");
+    strcat(python_foreach1, arr_var);
+    strcat(python_foreach1, ":");
+    if (statements_in_foreach_block > 0) {
+        write_statements_in_block(python_foreach1, &statements_in_foreach_block);
+    }
+    return python_foreach1;
+}
+
+/*Para el foreach de la forma:
+foreach([1, "hola"] as $valor) {
+    echo $valor;
+}
+o de la forma:
+foreach(array(1, "hola") as $valor) {
+    echo $valor;
+}
+*/
+char *format_foreach2(char *parameters, char *as_var) {
+    char *python_foreach2 = (char *) malloc(strlen(parameters) + strlen(as_var) + 1000);
+    strcat(python_foreach2, "for ");
+    strcat(python_foreach2, as_var);
+    strcat(python_foreach2, " in [");
+    strcat(python_foreach2, parameters);
+    strcat(python_foreach2, "]:");
+    if (statements_in_foreach_block > 0) {
+        write_statements_in_block(python_foreach2, &statements_in_foreach_block);
+    }
+    return python_foreach2;
+}
+
+void write_foreach(char *foreach) {
+    printf("Writing foreach: %s\n", foreach);
+    fprintf(output_file, "%s\n", foreach);
 }

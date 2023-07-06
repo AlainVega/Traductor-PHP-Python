@@ -29,7 +29,7 @@
         PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC QUES
 
 %type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument 
-%type <str> defaultValue functionCall break continue
+%type <str> defaultValue functionCall break continue foreach
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -52,6 +52,7 @@ statement:
     | echo SC {printf("Se encontro un echo\n"); write_echo($1);}
     | conditional {printf("Se encontro una condicional\n"); write_if($1);}
     | while {printf("Se encontro un bucle while\n"); write_while($1);}
+    | foreach {printf("Se encontro un bucle foreach\n"); write_while($1);}
     | functionDefinition {printf("Se encontro la definicion de una funcion\n"); write_function($1);}
     | return SC {printf("Se encontro un retorno global\n"); write_return(translate_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
@@ -156,14 +157,26 @@ argument:
     argument COMM argument {$$=load_all_arguments($1, $3);}
     | ID {printf("Se encontro la variable %s como un argumento\n", $1); $$=format_variable($1);}
     | ID EQ defaultValue {printf("Se encontro la variable %s como un argumento, que tiene el valor por defecto %s\n", $1, $3); $$=format_default_argument(format_variable($1), $3);}
-    | defaultValue /*uso para el caso de una llamada a funcion. Ej: f(1, "hola")*/
+    | defaultValue /*uso para el caso de una llamada a funcion. Ej: f(1, "hola") y para el argumento del foreach. Ej: foreach([1, "true"] as $i) {}*/
 ;
 defaultValue:
     NUM {$$=$1;}
     | STR {$$=$1;}
     | BOOL {printf("Se encontro un booleano\n"); $$=format_boolean($1);}
 ;
-
+foreach: FRC OPRT ID AS ID CPRT OBRC statementsInForeach CBRC {printf("Se encontro un foreach con variable\n"); tabcount++; $$=format_foreach1(format_variable($3), format_variable($5));}
+    | FRC OPRT ARRY OPRT arguments CPRT AS ID CPRT OBRC statementsInForeach CBRC {printf("Se encontro un foreach con constructor y parametros: %s\n", $5); tabcount++; $$=format_foreach2($5, format_variable($8));}
+    | FRC OPRT OSQB arguments CSQB AS ID CPRT OBRC statementsInForeach CBRC {printf("Se encontro un foreach con [] y parametros: %s\n", $4); tabcount++; $$=format_foreach2($4, format_variable($7));}
+;
+statementsInForeach: %empty
+    | statementsInForeach statementInForeach {printf("Se redujo el scope\n"); tabcount--;}
+;
+statementInForeach:
+    declaration SC {printf("Se encontro una declaracion dentro de una foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array($1);}
+    | echo SC {printf("Se encontro un echo dentro de una foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array($1);}
+    | return SC {printf("Se encontro un retorno dentro de un foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array(format_return($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de una foreach\n", $1); add_statement_to_foreach_block_counter(); add_statement_to_array(format_one_line_comment($1));}
+;
 %%
 
 int main(int argc, char *argv[]) {

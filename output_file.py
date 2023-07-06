@@ -1,14 +1,13 @@
+# Bucle while
 while (1 < 2):
 	a = 1
 	b = 2
-	# comentario 1 en el bucle 1
-	# comentaroo 2 en el bucle 1
 	break
-######comentario 3 antes del bucle 2
-while (1 == 1):
-	print("loop infinito")
-	# comentario 4 en el bucle 2
-	continue
-	exit(True)
-## comentario 5 despues del bucle 2
-ternario = True if 10 >= 10 else False
+# Bucles for each
+arr = ["alain", "vega", ]
+for palabra in arr:
+	print("palabra" + palabra)
+for i in [1, True, "test"]:
+	print(i)
+for valor in [1, 2, 3, "hello"]:
+	print(valor)
