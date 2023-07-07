@@ -18,7 +18,7 @@ print(bool1 or bool2)
 # MOD, XOR, NOT
 variable = 7 % 2
 xor = (1 == 1) ^ False
-imprimir =  not xor
+imprimir = not xor
 print(imprimir)
 # Operadores de pre-incremento y pre-decremento
 var = 10
@@ -43,4 +43,17 @@ variable /= variable
 variable **= variable
 variable %= variable
 variable += variable
+variable &= variable
+variable |= variable
+variable ^= variable
+variable <<= variable
+variable >>= variable
+variable <<= variable
+variable >>= variable
+variable & variable
+variable | variable
+variable ^ variable
+variable ^ variable
+~variable
+not variable
 1 != 1

@@ -112,16 +112,27 @@ extern int yydebug;
     NOEQ = 313,                    /* NOEQ  */
     NEEE = 314,                    /* NEEE  */
     EEEQ = 315,                    /* EEEQ  */
-    EXPO = 316,                    /* EXPO  */
-    PLEQ = 317,                    /* PLEQ  */
-    MNEQ = 318,                    /* MNEQ  */
-    MUEQ = 319,                    /* MUEQ  */
-    EXEQ = 320,                    /* EXEQ  */
-    DIEQ = 321,                    /* DIEQ  */
-    MOEQ = 322,                    /* MOEQ  */
-    COEQ = 323,                    /* COEQ  */
-    GTE = 324,                     /* GTE  */
-    LTE = 325                      /* LTE  */
+    LTLT = 316,                    /* LTLT  */
+    GTGT = 317,                    /* GTGT  */
+    BAND = 318,                    /* BAND  */
+    BOR = 319,                     /* BOR  */
+    BXOR = 320,                    /* BXOR  */
+    EXPO = 321,                    /* EXPO  */
+    PLEQ = 322,                    /* PLEQ  */
+    MNEQ = 323,                    /* MNEQ  */
+    MUEQ = 324,                    /* MUEQ  */
+    EXEQ = 325,                    /* EXEQ  */
+    DIEQ = 326,                    /* DIEQ  */
+    MOEQ = 327,                    /* MOEQ  */
+    COEQ = 328,                    /* COEQ  */
+    OREQ = 329,                    /* OREQ  */
+    ADEQ = 330,                    /* ADEQ  */
+    XOEQ = 331,                    /* XOEQ  */
+    LLEQ = 332,                    /* LLEQ  */
+    GGEQ = 333,                    /* GGEQ  */
+    BNOT = 334,                    /* BNOT  */
+    GTE = 335,                     /* GTE  */
+    LTE = 336                      /* LTE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -136,7 +147,7 @@ union YYSTYPE
 	char *id;
 	char *str;	
 
-#line 140 "php2python.tab.h"
+#line 151 "php2python.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

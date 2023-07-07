@@ -56,6 +56,19 @@ $variable /= $variable;
 $variable **= $variable;
 $variable %= $variable;
 $variable .= $variable;
+$variable &= $variable;
+$variable |= $variable;
+$variable ^= $variable;
+$variable <<= $variable;
+$variable >>= $variable;
+$variable << $variable;
+$variable >> $variable;
+$variable & $variable;
+$variable | $variable;
+$variable ^ $variable;
+$variable xOr $variable;
+~$variable;
+!$variable;
 
 1 <> 1;
 

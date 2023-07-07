@@ -36,8 +36,8 @@
    documentación de PHP.
    https://www.gnu.org/software/bison/manual/bison.html#Precedence-Decl
 */
-%left MOD MULT DIV PLUS MINS CCTN AND OR XOR QUES CL COMM
-%right EQ NOT PPL MMN EXPO PLEQ MNEQ MUEQ EXEQ DIEQ MOEQ COEQ
+%left MOD MULT DIV PLUS MINS CCTN AND OR XOR QUES CL COMM LTLT GTGT BAND BOR BXOR
+%right EQ NOT PPL MMN EXPO PLEQ MNEQ MUEQ EXEQ DIEQ MOEQ COEQ OREQ ADEQ XOEQ LLEQ GGEQ BNOT
 %nonassoc GT LT GTE LTE NEQ EEQ
 
 %%
@@ -68,6 +68,11 @@ declaration: ID EQ expr {$$=format_declaration($1, " = ", $3);}
     | ID EXEQ expr {$$=format_declaration($1, " **= ", $3);}
     | ID MOEQ expr {$$=format_declaration($1, " %= ", $3);}
     | ID COEQ expr {$$=format_declaration($1, " += ", $3);}
+    | ID ADEQ expr {$$=format_declaration($1, " &= ", $3);}
+    | ID OREQ expr {$$=format_declaration($1, " |= ", $3);}
+    | ID XOEQ expr {$$=format_declaration($1, " ^= ", $3);}
+    | ID LLEQ expr {$$=format_declaration($1, " <<= ", $3);}
+    | ID GGEQ expr {$$=format_declaration($1, " >>= ", $3);}
 ;
 echo: ECH expr {$$=format_echo($2, tabcount);};
 conditional: 
@@ -175,10 +180,14 @@ expr:
     | expr PPL {printf("Se encontro un pos-incremento\n"); $$=format_post_increment($1);}
     | MMN expr {printf("Se encontro un pre-decremento\n"); $$=format_pre_decrement($2);}
     | expr MMN {printf("Se encontro un pos-incremento\n"); $$=format_post_decrement($1);}
-    | NOT expr {printf("Se encontro una negacion logica\n"); $$=format_operation("", " not ", $2);}
-    | expr AND expr {printf("Se encontro una conjuncion\n"); $$=format_operation($1, " and ", $3);}
-    | expr OR expr {printf("Se encontro una disyuncion\n"); $$=format_operation($1, " or ", $3);}
-    | expr XOR expr {printf("Se encontro una disyuncion exclusiva\n"); $$=format_operation($1, " ^ ", $3);}
+    | NOT expr {printf("Se encontro una negacion logica\n"); $$=format_operation("", "not ", $2);}
+    | BNOT expr {printf("Se encontro una negacion bit a bit\n"); $$=format_operation("", "~", $2);}
+    | expr AND expr {printf("Se encontro una conjuncion logica\n"); $$=format_operation($1, " and ", $3);}
+    | expr BAND expr {printf("Se encontro una conjuncion bit a bit\n"); $$=format_operation($1, " & ", $3);}
+    | expr OR expr {printf("Se encontro una disyuncion logica\n"); $$=format_operation($1, " or ", $3);}
+    | expr BOR expr {printf("Se encontro una disyuncion bit a bit"); $$=format_operation($1, " | ", $3);}
+    | expr XOR expr {printf("Se encontro una disyuncion exclusiva logica\n"); $$=format_operation($1, " ^ ", $3);}
+    | expr BXOR expr {printf("Se encontro una disyuncion exclusiva bit a bit\n"); $$=format_operation($1, " ^ ", $3);}
     | expr GT expr {printf("Se encontro un mayor que \n"); $$=format_operation($1, " > ", $3);}
     | expr LT expr {printf("Se encontro un menor que \n"); $$=format_operation($1, " < ", $3);}
     | expr GTE expr {printf("Se encontro un mayor o igual que \n"); $$=format_operation($1, " >= ", $3);}
@@ -188,6 +197,8 @@ expr:
     | expr NEQ expr {printf("Se encontro un diferente que != \n"); $$=format_operation($1, " != ", $3);}
     | expr NOEQ expr {printf("Se encontro un diferente que <> \n"); $$=format_operation($1, " != ", $3);}
     | expr NEEE expr {printf("Se encontro un no identico que !== "); $$=format_operation($1, " != ", $3);}
+    | expr LTLT expr {printf("Se encontro un desplazamiento de bits a la izquierda \n"); $$=format_operation($1, " <<= ", $3);}
+    | expr GTGT expr {printf("Se encontro un desplazamiento de bits a la derecha \n "); $$=format_operation($1, " >>= ", $3);}
     | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); $$=format_array();}
     | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
     | OPRT expr CPRT {printf("Se encontro una expresion encerrada entre parentesis\n"); $$=format_operation("(", $2, ")");}

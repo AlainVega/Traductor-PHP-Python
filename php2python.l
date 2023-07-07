@@ -41,6 +41,9 @@ foreach	    ([Ff][Oo][Rr][Ee][Aa][Cc][Hh])
 as	        ([Aa][Ss])
 return      ([Rr][Ee][Tt][Uu][Rr][Nn])
 comment     (\/\/.*)|(#.*)
+and         ([Aa][Nn][Dd])
+or          ([Oo][Rr])
+xor         ([Xx][Oo][Rr])
 
 %%
 
@@ -67,12 +70,18 @@ comment     (\/\/.*)|(#.*)
 "<"	    {return LT;}
 ">="	{return GTE;}
 "<="	{return LTE;}
+{and}   {return AND;}
 "&&"	{return AND;}
+"&"     {return BAND;}
+{or}    {return OR;}
 "||"	{return OR;}
-"^"	    {return XOR;}
+"|"     {return BOR;}
+{xor}   {return XOR;}
+"^"	    {return BXOR;}
 "++"	{return PPL;}
 "--"	{return MMN;}
 "!"	    {return NOT;}
+"~"     {return BNOT;}
 "+="    {return PLEQ;}
 "-="    {return MNEQ;}
 "*="    {return MUEQ;}
@@ -80,6 +89,11 @@ comment     (\/\/.*)|(#.*)
 "/="    {return DIEQ;}
 "%="    {return MOEQ;}
 ".="    {return COEQ;}
+"|="    {return OREQ;}
+"&="    {return ADEQ;}
+"^="    {return XOEQ;}
+"<<="   {return LLEQ;}
+">>="   {return GGEQ;}
 "["	    {return OSQB;}
 "]"	    {return CSQB;}
 "("	    {return OPRT;}
@@ -87,6 +101,8 @@ comment     (\/\/.*)|(#.*)
 "{"	    {return OBRC;}
 "}"	    {return CBRC;}
 "?"     {return QUES;}
+"<<"    {return LTLT;}
+">>"    {return GTGT;}
 {endPHP}     {return EPHP;}
 {digit}+     {yylval.str = (char *) strdup(yytext); return NUM;}
 {bool}       {yylval.str = (char *) strdup(yytext); return BOOL;}
