@@ -30,8 +30,8 @@ print((var := var + 1))
 # Asignacion multiple
 var1 = var2 = ((var := var + 1) - 1)
 var1 = var = var2 = ((c := c - 1) + 1)
-variable =  - 10
-variable2 =  - ((variable := variable + 1) - 1)
+variable = -10
+variable2 = -((variable := variable + 1) - 1)
 variable2 == variable
 variable2 != variable
 variable2 != variable
@@ -56,4 +56,6 @@ variable ^ variable
 variable ^ variable
 ~variable
 not variable
++1
+-10
 1 != 1

@@ -70,6 +70,9 @@ $variable xOr $variable;
 ~$variable;
 !$variable;
 
++1;
+-10;
+
 1 <> 1;
 
 ?>

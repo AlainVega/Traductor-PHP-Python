@@ -168,7 +168,8 @@ expr:
     | ID {printf("Se encontro una variable en una expresion\n"); $$=format_variable($1);}
     | BOOL {printf("Se encontro un booleano\n"); $$=format_boolean($1);}
     | functionCall {printf("Se encontro una llamada a funcion\n");}
-    | MINS expr {printf("Se encontro una expresion negativa\n"); $$=format_operation("", " - ", $2);}
+    | PLUS expr {printf("Se encontro una expresion positiva\n"); $$=format_operation("", "+", $2);}
+    | MINS expr {printf("Se encontro una expresion negativa\n"); $$=format_operation("", "-", $2);}
     | expr PLUS expr {printf("Se encontro una suma\n"); $$=format_operation($1, " + ", $3);}
     | expr MINS expr {printf("Se encontro una resta\n"); $$=format_operation($1, " - ", $3);}
     | expr MULT expr {printf("Se encontro una multiplicacion\n"); $$=format_operation($1, " * ", $3);}
