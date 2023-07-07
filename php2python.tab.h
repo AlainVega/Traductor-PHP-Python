@@ -66,8 +66,8 @@ extern int yydebug;
     FRC = 267,                     /* FRC  */
     AS = 268,                      /* AS  */
     ARRY = 269,                    /* ARRY  */
-    APOP = 270,                    /* APOP  */
-    APUS = 271,                    /* APUS  */
+    ARPO = 270,                    /* ARPO  */
+    ARPS = 271,                    /* ARPS  */
     ASUM = 272,                    /* ASUM  */
     IF = 273,                      /* IF  */
     ELSE = 274,                    /* ELSE  */

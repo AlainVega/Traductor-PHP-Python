@@ -1169,12 +1169,12 @@ YY_RULE_SETUP
 case 64:
 YY_RULE_SETUP
 #line 113 "php2python.l"
-{return APOP;}
+{return ARPO;}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
 #line 114 "php2python.l"
-{return APUS;}
+{return ARPS;}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP

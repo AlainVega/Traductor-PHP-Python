@@ -1,7 +1,8 @@
 <?php
 
-$y = 4;
-$x = array(1, [4, 5, 6]);
-echo $x;
+$x = array(1, 2, "x", "hola");
+array_push($x, [1, 2, 3]);
+$z = array_pop($x);
+echo $z;
 
 ?>

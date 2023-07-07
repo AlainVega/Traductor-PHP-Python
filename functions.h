@@ -382,13 +382,22 @@ void write_function(char *function) {
     fprintf(output_file, "%s\n", function);
 }
 
-char *format_array() {
+char *format_parameters() {
     char *param_list = (char *) malloc(elements_in_param_queue * 1000);
-    strcat(param_list, "[");
+    param_list[0] = '\0';
     for (int i = 0; i < elements_in_param_queue; i++) {
         strcat(param_list, param_queue[i]);
         strcat(param_list, ", ");
     }
+    elements_in_param_queue = 0;
+    return param_list;
+}
+
+char *format_array() {
+    char *param_list = (char *) malloc(elements_in_param_queue * 1000);
+    strcat(param_list, "[");
+    char *formatted_parameters = format_parameters();
+    strcat(param_list, formatted_parameters);
     strcat(param_list, "]");
     elements_in_param_queue = 0;
     printf("Formatted array: %s\n", param_list);
@@ -405,6 +414,28 @@ char *format_array_access(char *variable_name, char *number) {
     strcat(array_access, "]");
     printf("Formatted array access: %s\n", array_access);
     return array_access;
+}
+
+char *format_array_push(char *array_variable_name) {
+    char *python_variable = format_variable(array_variable_name);
+    char *python_array_append = (char *) malloc(strlen(python_variable) + elements_in_param_queue * 1000);
+    python_array_append[0] = '\0';
+    strcat(python_array_append, python_variable);
+    strcat(python_array_append, ".append(");
+    strcat(python_array_append, format_parameters());
+    strcat(python_array_append, ")");
+    return python_array_append;
+}
+
+char *format_array_pop(char *array_variable_name) {
+    char *python_variable = format_variable(array_variable_name);
+    char *python_array_pop = (char *) malloc(strlen(python_variable) + elements_in_param_queue * 1000);
+    python_array_pop[0] = '\0';
+    strcat(python_array_pop, python_variable);
+    strcat(python_array_pop, ".pop(");
+    strcat(python_array_pop, format_parameters());
+    strcat(python_array_pop, ")");
+    return python_array_pop;
 }
 
 char *format_function_call(char *function_name, char *function_arguments){

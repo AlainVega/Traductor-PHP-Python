@@ -110,8 +110,8 @@ xor         ([Xx][Oo][Rr])
 {foreach}    {return FRC;}
 {as}	     {return AS;}
 {array}	     {return ARRY;}
-{arraypop}   {return APOP;}
-{arraypush}  {return APUS;}
+{arraypop}   {return ARPO;}
+{arraypush}  {return ARPS;}
 {arraysum}   {return ASUM;}
 {echo}	     {return ECH;}
 {print}      {return PRNT;}
