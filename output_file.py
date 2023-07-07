@@ -6,5 +6,5 @@ if (x[0] == 1):
 	z = x.pop()
 	print(z)
 arr = [1, 2, 3, ]
-suma = sum(arr)
+suma = sum(arr, )
 suma2 = sum([1, 2, ], )
