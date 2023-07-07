@@ -205,6 +205,7 @@ expr:
     | OPRT expr CPRT {printf("Se encontro una expresion encerrada entre parentesis\n"); $$=format_operation("(", $2, ")");}
     | expr QUES expr CL expr {printf("Se encontro un operador ternario con 1: %s, 2: %s y 3: %s\n", $1, $3, $5), $$=format_ternary_operator($1, $3, $5);}
     | FUNC OPRT arguments CPRT OBRC anonymousFunctionStatement CBRC {printf("Se encontro una funcion anonima con argumentos: %s, y linea: %s\n", $3, $6); $$=format_anonymous_function($3, $6);}
+    | ID OSQB NUM CSQB {printf("Se encontro un acceso a un elemento de un array\n"); $$=format_array_access($1, $3);}
     | ARPS OPRT ID COMM parameters CPRT {printf("Se encontro una llamada a array_push\n"); $$=format_array_push($3);}
     | ARPO OPRT ID CPRT {printf("Se encontro una llamada a array_pop\n"); $$=format_array_pop($3);}
 ;
