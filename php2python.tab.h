@@ -131,8 +131,13 @@ extern int yydebug;
     LLEQ = 332,                    /* LLEQ  */
     GGEQ = 333,                    /* GGEQ  */
     BNOT = 334,                    /* BNOT  */
-    GTE = 335,                     /* GTE  */
-    LTE = 336                      /* LTE  */
+    ICAS = 335,                    /* ICAS  */
+    FCAS = 336,                    /* FCAS  */
+    BCAS = 337,                    /* BCAS  */
+    SCAS = 338,                    /* SCAS  */
+    ACAS = 339,                    /* ACAS  */
+    GTE = 340,                     /* GTE  */
+    LTE = 341                      /* LTE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -147,7 +152,7 @@ union YYSTYPE
 	char *id;
 	char *str;	
 
-#line 151 "php2python.tab.h"
+#line 156 "php2python.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

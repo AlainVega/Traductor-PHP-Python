@@ -72,3 +72,8 @@ Token | Simbolo o palabra | Significado | observacion |
 | ASUM | array_sum | funcion sumar arreglo | |
 | APUS | array_push | funcion agregar a arreglo | |
 | APOP | array_pop | funcion quitar de arreglo | |
+| ICAS | (int) | conversion de tipo a int | Tambien se admite (integer) |
+| FCAS | (float) | conversion de tipo a float | Tambien se admite (double) y (real) |
+| BCAS | (bool) | conversion de tipo a bool | Tambien se admite (boolean) |
+| SCAS | (string) | conversion de tipo a string | |
+| ACAS | (array) | conversion de tipo a array | |

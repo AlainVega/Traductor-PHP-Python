@@ -46,6 +46,11 @@ comment     (\/\/.*)|(#.*)
 and         ([Aa][Nn][Dd])
 or          ([Oo][Rr])
 xor         ([Xx][Oo][Rr])
+intCast     (\([ ]*[Ii][Nn][Tt][ ]*\))|(\([ ]*[Ii][Nn][Tt][Ee][Gg][Ee][Rr][ ]*\))
+floatCast   (\([ ]*[Ff][Ll][Oo][Aa][Tt][ ]*\))|(\([ ]*[Dd][Oo][Uu][Bb][Ll][Ee][ ]*\))
+boolCast    (\([ ]*[Bb][Oo][Oo][Ll][ ]*\))|(\([ ]*[Bb][Oo][Oo][Ll][Ee][Aa][Nn][ ]*\))
+stringCast  (\([ ]*[Ss][Tt][Rr][Ii][Nn][Gg][ ]*\))
+arrayCast   (\([ ]*[Aa][Rr][Rr][Aa][Yy][ ]*\))
 
 %%
 
@@ -132,5 +137,10 @@ xor         ([Xx][Oo][Rr])
 {return}     {return RTN;}
 {name}       {yylval.str = (char *) strdup(yytext); return NAME;}
 {comment}    {yylval.str = (char *) strdup(yytext); return CMNT;}
+{intCast}    {return ICAS;}
+{floatCast}  {return FCAS;}
+{boolCast}   {return BCAS;}
+{stringCast} {return SCAS;}
+{arrayCast}  {return ACAS;}
 
 %%

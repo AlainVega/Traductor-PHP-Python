@@ -89,4 +89,14 @@ $a = 0.9;
 $b = 90.80;
 $c = -1210.831;
 
+(arraY )$a;
+( iNt      )  10 ;
+( inTeger  )90.8;
+(float)10;
+(Double)90;
+(bool) "true";
+(BOOLEAN) "true";
+$o = 10;
+(string) $o;
+
 ?>

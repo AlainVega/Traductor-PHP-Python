@@ -768,3 +768,108 @@ char *format_anonymous_function(char *arguments, char *line) {
 
     return python_lambda_function;
 }
+
+char *format_int_cast(char *expr) {
+    // Definimos las longitudes de las cadenas a utilizar
+    size_t expr_length = strlen(expr);
+    size_t int_paren1_length = strlen("int(");
+    size_t paren2_length = strlen(")");
+
+    // Alocamos memoria para el string resulado
+    char *python_int_cast = (char *) malloc(expr_length + int_paren1_length + paren2_length + 1);
+
+    size_t sum = 0; //Posicionador del puntero python_int_cast para concatenar strings
+
+    // Concatenamos strings
+    memcpy(python_int_cast + sum, "int(", int_paren1_length);
+    sum += int_paren1_length;
+    memcpy(python_int_cast + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_int_cast + sum, ")", paren2_length);
+
+    return python_int_cast;
+}
+
+char *format_float_cast(char *expr) {
+    // Definimos las longitudes de las cadenas a utilizar
+    size_t expr_length = strlen(expr);
+    size_t float_paren1_length = strlen("float(");
+    size_t paren2_length = strlen(")");
+
+    // Alocamos memoria para el string resulado
+    char *python_float_cast = (char *) malloc(expr_length + float_paren1_length + paren2_length + 1);
+
+    size_t sum = 0; //Posicionador del puntero python_float_cast para concatenar strings
+
+    // Concatenamos strings
+    memcpy(python_float_cast + sum, "float(", float_paren1_length);
+    sum += float_paren1_length;
+    memcpy(python_float_cast + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_float_cast + sum, ")", paren2_length);
+
+    return python_float_cast;
+}
+
+char *format_bool_cast(char *expr) {
+    // Definimos las longitudes de las cadenas a utilizar
+    size_t expr_length = strlen(expr);
+    size_t bool_paren1_length = strlen("bool(");
+    size_t paren2_length = strlen(")");
+
+    // Alocamos memoria para el string resulado
+    char *python_bool_cast = (char *) malloc(expr_length + bool_paren1_length + paren2_length + 1);
+
+    size_t sum = 0; //Posicionador del puntero python_bool_cast para concatenar strings
+
+    // Concatenamos strings
+    memcpy(python_bool_cast + sum, "bool(", bool_paren1_length);
+    sum += bool_paren1_length;
+    memcpy(python_bool_cast + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_bool_cast + sum, ")", paren2_length);
+
+    return python_bool_cast;
+}
+
+char *format_string_cast(char *expr) {
+    // Definimos las longitudes de las cadenas a utilizar
+    size_t expr_length = strlen(expr);
+    size_t string_paren1_length = strlen("str(");
+    size_t paren2_length = strlen(")");
+
+    // Alocamos memoria para el string resulado
+    char *python_string_cast = (char *) malloc(expr_length + string_paren1_length + paren2_length + 1);
+
+    size_t sum = 0; //Posicionador del puntero python_string_cast para concatenar strings
+
+    // Concatenamos strings
+    memcpy(python_string_cast + sum, "str(", string_paren1_length);
+    sum += string_paren1_length;
+    memcpy(python_string_cast + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_string_cast + sum, ")", paren2_length);
+
+    return python_string_cast;
+}
+
+char *format_array_cast(char *expr) {
+    // Definimos las longitudes de las cadenas a utilizar
+    size_t expr_length = strlen(expr);
+    size_t array_paren1_length = strlen("list(");
+    size_t paren2_length = strlen(")");
+
+    // Alocamos memoria para el string resulado
+    char *python_array_cast = (char *) malloc(expr_length + array_paren1_length + paren2_length + 1);
+
+    size_t sum = 0; //Posicionador del puntero python_array_cast para concatenar strings
+
+    // Concatenamos strings
+    memcpy(python_array_cast + sum, "list(", array_paren1_length);
+    sum += array_paren1_length;
+    memcpy(python_array_cast + sum, expr, expr_length);
+    sum += expr_length;
+    memcpy(python_array_cast + sum, ")", paren2_length);
+
+    return python_array_cast;
+}

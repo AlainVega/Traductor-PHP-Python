@@ -41,7 +41,7 @@
    https://www.gnu.org/software/bison/manual/bison.html#Precedence-Decl
 */
 %left MOD MULT DIV PLUS MINS CCTN AND OR XOR QUES CL COMM LTLT GTGT BAND BOR BXOR
-%right EQ NOT PPL MMN EXPO PLEQ MNEQ MUEQ EXEQ DIEQ MOEQ COEQ OREQ ADEQ XOEQ LLEQ GGEQ BNOT
+%right EQ NOT PPL MMN EXPO PLEQ MNEQ MUEQ EXEQ DIEQ MOEQ COEQ OREQ ADEQ XOEQ LLEQ GGEQ BNOT ICAS FCAS BCAS SCAS ACAS
 %nonassoc GT LT GTE LTE NEQ EEQ EEEQ NEEE NOEQ
 
 %%
@@ -220,6 +220,11 @@ expr:
     | ID OSQB NUM CSQB {printf("Se encontro un acceso a un elemento de un array\n"); $$=format_array_access($1, $3);}
     | ARPS OPRT ID COMM parameters CPRT {printf("Se encontro una llamada a array_push\n"); $$=format_array_push($3);}
     | ARPO OPRT ID CPRT {printf("Se encontro una llamada a array_pop\n"); $$=format_array_pop($3);}
+    | ICAS expr {printf("Se encontro una conversion a tipo entero\n"); $$=format_int_cast($2);}
+    | FCAS expr {printf("Se encontro una conversion a tipo flotante\n"); $$=format_float_cast($2);}
+    | BCAS expr {printf("Se encontro una conversion a tipo booleano\n"); $$=format_bool_cast($2);}
+    | SCAS expr {printf("Se encontro una conversion a tipo cadena\n"); $$=format_string_cast($2);}
+    | ACAS expr {printf("Se encontro una conversion a tipo arreglo\n"); $$=format_array_cast($2);}
 ;
 functionCall: NAME OPRT arguments CPRT {printf("Se encontro una llamada a la funcion %s\n", $1); $$=format_function_call($1, $3);};
 parameters:

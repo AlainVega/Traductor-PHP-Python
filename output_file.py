@@ -69,3 +69,12 @@ while i < 10:
 a = 0.9
 b = 90.80
 c = -1210.831
+list(a)
+int(10)
+int(90.8)
+float(10)
+float(90)
+bool("true")
+bool("true")
+o = 10
+str(o)
