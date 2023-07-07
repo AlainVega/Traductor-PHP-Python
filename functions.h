@@ -15,7 +15,8 @@ int statements_in_while_block = 0;
 int statements_in_function_block = 0;
 int statements_in_foreach_block = 0;
 int statements_in_for_block = 0;
-
+int obligatory_argument_counter = 0;
+int optional_argument_counter = 0;
 
 void create_output_file() {
     output_file = fopen("output_file.py", "w");
@@ -86,6 +87,26 @@ void substract_statement_to_foreach_block_counter() {
 
 void substract_statement_to_for_block_counter() {
     --statements_in_for_block;
+}
+
+void add_to_obligatory_argument_counter() {
+    ++obligatory_argument_counter;
+}
+
+int reset_obligatory_argument_counter() {
+    int counter = obligatory_argument_counter;
+    obligatory_argument_counter = 0;
+    return counter;
+}
+
+void add_to_optinal_argument_counter() {
+    ++optional_argument_counter;
+}
+
+int reset_optional_argument_counter() {
+    int counter = optional_argument_counter;
+    optional_argument_counter = 0;
+    return counter;
 }
 
 void add_param_to_queue(char *param) {

@@ -65,7 +65,7 @@ statement:
     | return SC {printf("Se reconocio un retorno global\n"); write_return(translate_return($1));}
     | CMNT {printf("Se reconocio un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
 ;
-declaration: ID EQ expr {$$=format_declaration($1, " = ", $3); put_symbol(format_variable($1), VAR);}
+declaration: ID EQ expr {$$=format_declaration($1, " = ", $3); put_symbol(format_variable($1), VAR, 0, 0);}
     | ID EQ declaration {$$=format_declaration($1, " = ", $3);}
     | ID PLEQ expr {$$=format_declaration($1, " += ", $3);}
     | ID MNEQ expr {$$=format_declaration($1, " -= ", $3);}
@@ -150,7 +150,7 @@ statementInWhileBlock:
 ;
 break: BRK {$$="break";};
 continue: CONT {$$="continue";};
-functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", $2, $4); tabcount++; $$=format_function($4, $2); put_symbol($2, FUN);};
+functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", $2, $4); tabcount++; $$=format_function($4, $2); put_symbol($2, FUN, reset_obligatory_argument_counter(), reset_optional_argument_counter());};
 statementsInFunctionBlock: 
     %empty
     | statementsInFunctionBlock statementInFunctionBlock {printf("Se redujo el scope\n"); tabcount--;}
@@ -227,10 +227,10 @@ expr:
     | SCAS expr {printf("Se encontro una conversion a tipo cadena\n"); $$=format_string_cast($2);}
     | ACAS expr {printf("Se encontro una conversion a tipo arreglo\n"); $$=format_array_cast($2);}
 ;
-functionCall: NAME OPRT arguments CPRT {printf("Se encontro una llamada a la funcion %s\n", $1); $$=format_function_call($1, $3);};
+functionCall: NAME OPRT arguments CPRT {printf("Se encontro una llamada a la funcion %s\n", $1); if (is_argument_count_correct($1, $3) == 0) {yyerror("Cantidad de argumentos incorrectos para la llamada de una funcion"); YYERROR;} else {$$=format_function_call($1, $3);};};
 parameters:
     %empty {$$=NULL;}
-    | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$ = $1; add_param_to_queue($1);}
+    | expr {printf("Se encontro la expresion %s como un parametro\n", $1); $$=$1; add_param_to_queue($1);}
     | parameters COMM expr {printf("Se encontro una expresion (%s) separada por comas como parametros\n", $3); add_param_to_queue($3);}
 ;
 arguments:
@@ -239,8 +239,8 @@ arguments:
 ;
 argument: 
     argument COMM argument {$$=load_all_arguments($1, $3);}
-    | ID {printf("Se encontro la variable %s como un argumento\n", $1); $$=format_variable($1);}
-    | ID EQ defaultValue {printf("Se encontro la variable %s como un argumento, que tiene el valor por defecto %s\n", $1, $3); $$=format_default_argument(format_variable($1), $3);}
+    | ID {printf("Se encontro la variable %s como un argumento\n", $1); $$=format_variable($1); add_to_obligatory_argument_counter();}
+    | ID EQ defaultValue {printf("Se encontro la variable %s como un argumento, que tiene el valor por defecto %s\n", $1, $3); $$=format_default_argument(format_variable($1), $3); add_to_optinal_argument_counter();}
     | defaultValue /*uso para el caso de una llamada a funcion. Ej: f(1, "hola") y para el argumento del foreach. Ej: foreach([1, "true"] as $i) {}*/
 ;
 defaultValue:
@@ -283,6 +283,6 @@ int main(int argc, char *argv[]) {
 }
 
 int yyerror(char *message) {
-    printf("Error: %s on line %d\n", message, yylineno);
+    printf("Error: %s at line %d\n", message, yylineno);
     return -1;
 }
