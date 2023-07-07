@@ -612,7 +612,7 @@ char *format_for(char *declaration, char *expr2, char *expr3) {
     strcat(python_for, expr2);
     strcat(python_for, ":");
     write_statements_in_block(python_for, &statements_in_for_block);
-    strcat(python_for, "\n");
+    strcat(python_for, "\n\t");
     strcat(python_for, expr3);
 
     return python_for;
