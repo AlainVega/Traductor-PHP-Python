@@ -25,8 +25,8 @@
    Simbolos aritmeticos, de asignacion, igualdad, desigualdad
    logicos, gramaticales, etc. 
 */
-%token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT AND OR
-        PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC QUES
+%token EQ SC CL COMM PLUS MINS DIV MULT MOD CCTN EEQ NEQ GT LT AND OR 
+        PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC QUES NOEQ NEEE EEEQ 
 
 %type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument 
 %type <str> defaultValue functionCall break continue foreach for anonymousFunctionStatement
@@ -37,7 +37,7 @@
    https://www.gnu.org/software/bison/manual/bison.html#Precedence-Decl
 */
 %left MOD MULT DIV PLUS MINS CCTN AND OR XOR QUES CL COMM
-%right EQ NOT PPL MMN
+%right EQ NOT PPL MMN EXPO PLEQ MNEQ MUEQ EXEQ DIEQ MOEQ COEQ
 %nonassoc GT LT GTE LTE NEQ EEQ
 
 %%
@@ -59,8 +59,15 @@ statement:
     | return SC {printf("Se reconocio un retorno global\n"); write_return(translate_return($1));}
     | CMNT {printf("Se reconocio un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
 ;
-declaration: ID EQ expr {$$=format_declaration($1, $3);}
-    | ID EQ declaration {$$=format_declaration($1, $3);}
+declaration: ID EQ expr {$$=format_declaration($1, " = ", $3);}
+    | ID EQ declaration {$$=format_declaration($1, " = ", $3);}
+    | ID PLEQ expr {$$=format_declaration($1, " += ", $3);}
+    | ID MNEQ expr {$$=format_declaration($1, " -= ", $3);}
+    | ID MUEQ expr {$$=format_declaration($1, " *= ", $3);}
+    | ID DIEQ expr {$$=format_declaration($1, " /= ", $3);}
+    | ID EXEQ expr {$$=format_declaration($1, " **= ", $3);}
+    | ID MOEQ expr {$$=format_declaration($1, " %= ", $3);}
+    | ID COEQ expr {$$=format_declaration($1, " += ", $3);}
 ;
 echo: ECH expr {$$=format_echo($2, tabcount);};
 conditional: 
@@ -156,11 +163,13 @@ expr:
     | ID {printf("Se encontro una variable en una expresion\n"); $$=format_variable($1);}
     | BOOL {printf("Se encontro un booleano\n"); $$=format_boolean($1);}
     | functionCall {printf("Se encontro una llamada a funcion\n");}
+    | MINS expr {printf("Se encontro una expresion negativa\n"); $$=format_operation("", " - ", $2);}
     | expr PLUS expr {printf("Se encontro una suma\n"); $$=format_operation($1, " + ", $3);}
     | expr MINS expr {printf("Se encontro una resta\n"); $$=format_operation($1, " - ", $3);}
     | expr MULT expr {printf("Se encontro una multiplicacion\n"); $$=format_operation($1, " * ", $3);}
     | expr DIV expr {printf("Se encontro una division\n"); $$=format_operation($1, " / ", $3);}
     | expr MOD expr {printf("Se encontro una operacion modulo\n"); $$=format_operation($1, " % ", $3);}
+    | expr EXPO expr {printf("Se encontro una exponenciacion\n"); $$=format_operation($1, " ** ", $3);}
     | expr CCTN expr {printf("Se encontro una concatenacion\n"); $$=format_operation($1, " + ", $3);}
     | PPL expr {printf("Se encontro un pre-incremento\n"); $$=format_pre_increment($2);}
     | expr PPL {printf("Se encontro un pos-incremento\n"); $$=format_post_increment($1);}
@@ -175,7 +184,10 @@ expr:
     | expr GTE expr {printf("Se encontro un mayor o igual que \n"); $$=format_operation($1, " >= ", $3);}
     | expr LTE expr {printf("Se encontro un menor o igual que \n"); $$=format_operation($1, " <= ", $3);}
     | expr EEQ expr {printf("Se encontro un igual que \n"); $$=format_operation($1, " == ", $3);}
-    | expr NEQ expr {printf("Se encontro un diferente que \n"); $$=format_operation($1, " != ", $3);}
+    | expr EEEQ expr {printf("Se encontro un identico que === \n"); $$=format_operation($1, " == ", $3);}
+    | expr NEQ expr {printf("Se encontro un diferente que != \n"); $$=format_operation($1, " != ", $3);}
+    | expr NOEQ expr {printf("Se encontro un diferente que <> \n"); $$=format_operation($1, " != ", $3);}
+    | expr NEEE expr {printf("Se encontro un no identico que !== "); $$=format_operation($1, " != ", $3);}
     | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); $$=format_array();}
     | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
     | OPRT expr CPRT {printf("Se encontro una expresion encerrada entre parentesis\n"); $$=format_operation("(", $2, ")");}

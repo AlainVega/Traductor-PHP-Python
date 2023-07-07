@@ -136,7 +136,7 @@ char *format_boolean(char *boolean) {
     }
 }
 
-char *format_declaration(char *variable, char *expr) {
+char *format_declaration(char *variable, char *operat, char *expr) {
     // Para este punto, expr ya fue formateado asi que se puede agregar como tal.
     // Sacar el caracter '$' de la variable.
     char *formatted_variable = format_variable(variable);
@@ -144,10 +144,10 @@ char *format_declaration(char *variable, char *expr) {
     // Calculamos la longitud de los strings que utilizaremos
     size_t variable_length = strlen(formatted_variable);
     size_t expr_length = strlen(expr);
-    size_t equal_length = strlen(" = ");
+    size_t operat_length = strlen(operat);
 
     // Alocar memoria para el nuevo string.
-    char *declaration = (char *) malloc(variable_length + expr_length + equal_length + 1);
+    char *declaration = (char *) malloc(variable_length + expr_length + operat_length + 1);
     printf("logitud de expresion: %i\n", (int)expr_length);
 
     // Poner en declaration la definicion de la variable con la expresion a la que es igual.
@@ -156,8 +156,8 @@ char *format_declaration(char *variable, char *expr) {
     // Concatenamos los strings
     memcpy(declaration + sum, formatted_variable, variable_length);
     sum += variable_length;
-    memcpy(declaration + sum, " = ", equal_length);
-    sum += equal_length;
+    memcpy(declaration + sum, operat, operat_length);
+    sum += operat_length;
     memcpy(declaration + sum, expr, expr_length + 1);
     printf("Formatted declaration: %s\n", declaration);
 

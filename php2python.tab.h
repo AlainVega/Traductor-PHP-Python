@@ -109,8 +109,19 @@ extern int yydebug;
     OBRC = 310,                    /* OBRC  */
     CBRC = 311,                    /* CBRC  */
     QUES = 312,                    /* QUES  */
-    GTE = 313,                     /* GTE  */
-    LTE = 314                      /* LTE  */
+    NOEQ = 313,                    /* NOEQ  */
+    NEEE = 314,                    /* NEEE  */
+    EEEQ = 315,                    /* EEEQ  */
+    EXPO = 316,                    /* EXPO  */
+    PLEQ = 317,                    /* PLEQ  */
+    MNEQ = 318,                    /* MNEQ  */
+    MUEQ = 319,                    /* MUEQ  */
+    EXEQ = 320,                    /* EXEQ  */
+    DIEQ = 321,                    /* DIEQ  */
+    MOEQ = 322,                    /* MOEQ  */
+    COEQ = 323,                    /* COEQ  */
+    GTE = 324,                     /* GTE  */
+    LTE = 325                      /* LTE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -125,7 +136,7 @@ union YYSTYPE
 	char *id;
 	char *str;	
 
-#line 129 "php2python.tab.h"
+#line 140 "php2python.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

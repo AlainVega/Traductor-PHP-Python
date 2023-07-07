@@ -40,4 +40,23 @@ $var--;
 $var1 = $var2 = $var++;
 $var1 = $var = $var2 = $c--;
 
+$variable = -10;
+
+$variable2 = -$variable++;
+
+$variable2 === $variable;
+$variable2 !== $variable;
+$variable2 <> $variable;
+
+#comentario
+$variable += $variable;
+$variable -= $variable;
+$variable *= $variable;
+$variable /= $variable;
+$variable **= $variable;
+$variable %= $variable;
+$variable .= $variable;
+
+1 <> 1;
+
 ?>
