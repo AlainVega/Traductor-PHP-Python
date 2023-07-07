@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define VAR 0
+#define FUN 1
 
 // Definicion de la tabla de simbolos
 
@@ -30,7 +32,7 @@ void print_symbols() {
     symbol *temp = symbol_table;
     printf("Elements in symbol table: ");
     while (temp != NULL) {
-        printf("%s -> ", temp->name);
+        printf("%s (%s) -> ", temp->name, temp->type == VAR ? "VAR" : "FUN");
         temp = temp->next;
     }
 }
