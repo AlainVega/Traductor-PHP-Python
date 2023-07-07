@@ -10,4 +10,10 @@ if ($x[0] == 1) {
     echo $z;
 }
 
+$arr = [1,2,3];
+
+$suma = array_sum($arr);
+
+$suma2 = array_sum([1,2]);
+
 ?>

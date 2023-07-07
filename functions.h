@@ -437,6 +437,26 @@ char *format_array_pop(char *array_variable_name) {
     strcat(python_array_pop, ")");
     return python_array_pop;
 }
+/*Para formatear: array_sum($array_variable)*/
+char *format_array_sum(char *array_variable_name) {
+    char *python_variable = format_variable(array_variable_name);
+    char *python_array_sum = (char *) malloc(strlen(python_variable) + elements_in_param_queue * 1000);
+    python_array_sum[0] = '\0';
+    strcat(python_array_sum, "sum(");
+    strcat(python_array_sum, python_variable);
+    strcat(python_array_sum, format_parameters());
+    strcat(python_array_sum, ")");
+    return python_array_sum;
+}
+/*Para formatear: array_sum([1,2,3])*/
+char *format_array_sum2() {
+    char *python_array_sum = (char *) malloc(elements_in_param_queue * 1000);
+    python_array_sum[0] = '\0';
+    strcat(python_array_sum, "sum(");
+    strcat(python_array_sum, format_parameters());
+    strcat(python_array_sum, ")");
+    return python_array_sum;
+}
 
 char *format_function_call(char *function_name, char *function_arguments){
     // Definimos las longitudes de las cadenas que utilizaremos

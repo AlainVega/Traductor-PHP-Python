@@ -1,18 +1,10 @@
-if (1 > 1):
-	print("Esto esta en un if\n")
-elif (1 < 2):
-	print("Esto esta en un elseif\n")
-else:
-	print("Esto esta en un else\n")
-if (1 > 1):
-	print("Esto esta en un if\n")
-elif (1 < 2):
-	print("Esto esta en un elseif\n")
-else:
-	print("Esto esta en un else\n")
-if (1 > 1):
-	print("Esto esta en un if\n")
-elif (1 < 2):
-	print("Esto esta en un elseif\n")
-else:
-	print("Esto esta en un else\n")
+x = [1, 2, "x", "hola", ]
+x.append([1, 2, 3, ], )
+z = x.pop()
+print(z)
+if (x[0] == 1):
+	z = x.pop()
+	print(z)
+arr = [1, 2, 3, ]
+suma = sum(arr)
+suma2 = sum([1, 2, ], )
