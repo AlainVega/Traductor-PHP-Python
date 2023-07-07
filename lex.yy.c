@@ -162,8 +162,27 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
     
-    #define YY_LESS_LINENO(n)
-    #define YY_LINENO_REWIND_TO(ptr)
+    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
+     *       access to the local variable yy_act. Since yyless() is a macro, it would break
+     *       existing scanners that call yyless() from OUTSIDE yylex.
+     *       One obvious solution it to make yy_act a global. I tried that, and saw
+     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
+     *       normally declared as a register variable-- so it is not worth it.
+     */
+    #define  YY_LESS_LINENO(n) \
+            do { \
+                int yyl;\
+                for ( yyl = n; yyl < yyleng; ++yyl )\
+                    if ( yytext[yyl] == '\n' )\
+                        --yylineno;\
+            }while(0)
+    #define YY_LINENO_REWIND_TO(dst) \
+            do {\
+                const char *p;\
+                for ( p = yy_cp-1; p >= (dst); --p)\
+                    if ( *p == '\n' )\
+                        --yylineno;\
+            }while(0)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -546,6 +565,15 @@ static const flex_int16_t yy_chk[282] =
       180
     } ;
 
+/* Table of booleans, true if rule could match eol. */
+static const flex_int32_t yy_rule_can_match_eol[84] =
+    {   0,
+0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0,     };
+
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
 
@@ -563,7 +591,7 @@ char *yytext;
 #line 1 "php2python.l"
 #line 2 "php2python.l"
     #include "php2python.tab.h"
-#line 567 "lex.yy.c"
+#line 595 "lex.yy.c"
 /* Definicion de ciertas expresiones regulares que se utilizaran en el analizador lexico */
 /* Segun la documentacion de PHP los nombres de las variables son case sensitive
    mientras que los nombres de las funciones (incluso las definidas por el usuario)
@@ -572,7 +600,7 @@ char *yytext;
    - https://www.php.net/manual/en/functions.user-defined.php
    - https://www.php.net/manual/en/language.variables.basics.php
 */
-#line 576 "lex.yy.c"
+#line 604 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -789,10 +817,10 @@ YY_DECL
 		}
 
 	{
-#line 48 "php2python.l"
+#line 49 "php2python.l"
 
 
-#line 796 "lex.yy.c"
+#line 824 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -838,6 +866,16 @@ yy_find_action:
 
 		YY_DO_BEFORE_ACTION;
 
+		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
+			{
+			int yyl;
+			for ( yyl = 0; yyl < yyleng; ++yyl )
+				if ( yytext[yyl] == '\n' )
+					
+    yylineno++;
+;
+			}
+
 do_action:	/* This label is used only to access EOF actions. */
 
 		switch ( yy_act )
@@ -851,422 +889,422 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 50 "php2python.l"
+#line 51 "php2python.l"
 {return SPHP;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 51 "php2python.l"
+#line 52 "php2python.l"
 {yylval.str = (char *) strdup(yytext); return ID;}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 52 "php2python.l"
+#line 53 "php2python.l"
 {;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 53 "php2python.l"
+#line 54 "php2python.l"
 {return EQ;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 54 "php2python.l"
+#line 55 "php2python.l"
 {return SC;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 55 "php2python.l"
+#line 56 "php2python.l"
 {return CL;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 56 "php2python.l"
+#line 57 "php2python.l"
 {return COMM;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 57 "php2python.l"
+#line 58 "php2python.l"
 {return PLUS;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 58 "php2python.l"
+#line 59 "php2python.l"
 {return MINS;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 59 "php2python.l"
+#line 60 "php2python.l"
 {return DIV;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 60 "php2python.l"
+#line 61 "php2python.l"
 {return MULT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 61 "php2python.l"
+#line 62 "php2python.l"
 {return EXPO;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 62 "php2python.l"
+#line 63 "php2python.l"
 {return MOD;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 63 "php2python.l"
+#line 64 "php2python.l"
 {return CCTN;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 64 "php2python.l"
+#line 65 "php2python.l"
 {return EEQ;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 65 "php2python.l"
+#line 66 "php2python.l"
 {return EEEQ;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 66 "php2python.l"
+#line 67 "php2python.l"
 {return NEQ;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 67 "php2python.l"
+#line 68 "php2python.l"
 {return NEEE;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 68 "php2python.l"
+#line 69 "php2python.l"
 {return NOEQ;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 69 "php2python.l"
+#line 70 "php2python.l"
 {return GT;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 70 "php2python.l"
+#line 71 "php2python.l"
 {return LT;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 71 "php2python.l"
+#line 72 "php2python.l"
 {return GTE;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 72 "php2python.l"
+#line 73 "php2python.l"
 {return LTE;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 73 "php2python.l"
+#line 74 "php2python.l"
 {return AND;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 74 "php2python.l"
+#line 75 "php2python.l"
 {return AND;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 75 "php2python.l"
+#line 76 "php2python.l"
 {return BAND;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 76 "php2python.l"
+#line 77 "php2python.l"
 {return OR;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 77 "php2python.l"
+#line 78 "php2python.l"
 {return OR;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 78 "php2python.l"
+#line 79 "php2python.l"
 {return BOR;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 79 "php2python.l"
+#line 80 "php2python.l"
 {return XOR;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 80 "php2python.l"
+#line 81 "php2python.l"
 {return BXOR;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 81 "php2python.l"
+#line 82 "php2python.l"
 {return PPL;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 82 "php2python.l"
+#line 83 "php2python.l"
 {return MMN;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 83 "php2python.l"
+#line 84 "php2python.l"
 {return NOT;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 84 "php2python.l"
+#line 85 "php2python.l"
 {return BNOT;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 85 "php2python.l"
+#line 86 "php2python.l"
 {return PLEQ;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 86 "php2python.l"
+#line 87 "php2python.l"
 {return MNEQ;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 87 "php2python.l"
+#line 88 "php2python.l"
 {return MUEQ;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 88 "php2python.l"
+#line 89 "php2python.l"
 {return EXEQ;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 89 "php2python.l"
+#line 90 "php2python.l"
 {return DIEQ;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 90 "php2python.l"
+#line 91 "php2python.l"
 {return MOEQ;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 91 "php2python.l"
+#line 92 "php2python.l"
 {return COEQ;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 92 "php2python.l"
+#line 93 "php2python.l"
 {return OREQ;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 93 "php2python.l"
+#line 94 "php2python.l"
 {return ADEQ;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 94 "php2python.l"
+#line 95 "php2python.l"
 {return XOEQ;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 95 "php2python.l"
+#line 96 "php2python.l"
 {return LLEQ;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 96 "php2python.l"
+#line 97 "php2python.l"
 {return GGEQ;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 97 "php2python.l"
+#line 98 "php2python.l"
 {return OSQB;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 98 "php2python.l"
+#line 99 "php2python.l"
 {return CSQB;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 99 "php2python.l"
+#line 100 "php2python.l"
 {return OPRT;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 100 "php2python.l"
+#line 101 "php2python.l"
 {return CPRT;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 101 "php2python.l"
+#line 102 "php2python.l"
 {return OBRC;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 102 "php2python.l"
+#line 103 "php2python.l"
 {return CBRC;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 103 "php2python.l"
+#line 104 "php2python.l"
 {return QUES;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 104 "php2python.l"
+#line 105 "php2python.l"
 {return LTLT;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 105 "php2python.l"
+#line 106 "php2python.l"
 {return GTGT;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 106 "php2python.l"
+#line 107 "php2python.l"
 {return EPHP;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 107 "php2python.l"
+#line 108 "php2python.l"
 {yylval.str = (char *) strdup(yytext); return NUM;}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 108 "php2python.l"
+#line 109 "php2python.l"
 {yylval.str = (char *) strdup(yytext); return BOOL;}
 	YY_BREAK
 case 60:
 /* rule 60 can match eol */
 YY_RULE_SETUP
-#line 109 "php2python.l"
+#line 110 "php2python.l"
 {yylval.str = (char *) strdup(yytext); return STR;}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 110 "php2python.l"
+#line 111 "php2python.l"
 {return FRC;}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 111 "php2python.l"
+#line 112 "php2python.l"
 {return AS;}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 112 "php2python.l"
+#line 113 "php2python.l"
 {return ARRY;}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 113 "php2python.l"
+#line 114 "php2python.l"
 {return ARPO;}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 114 "php2python.l"
+#line 115 "php2python.l"
 {return ARPS;}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 115 "php2python.l"
+#line 116 "php2python.l"
 {return ASUM;}
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 116 "php2python.l"
+#line 117 "php2python.l"
 {return ECH;}
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 117 "php2python.l"
+#line 118 "php2python.l"
 {return PRNT;}
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 118 "php2python.l"
+#line 119 "php2python.l"
 {return IF;}
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 119 "php2python.l"
+#line 120 "php2python.l"
 {return ELSE;}
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 120 "php2python.l"
+#line 121 "php2python.l"
 {return ELIF;}
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 121 "php2python.l"
+#line 122 "php2python.l"
 {return SWIH;}
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 122 "php2python.l"
+#line 123 "php2python.l"
 {return CASE;}
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 123 "php2python.l"
+#line 124 "php2python.l"
 {return BRK;}
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 124 "php2python.l"
+#line 125 "php2python.l"
 {return CONT;}
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 125 "php2python.l"
+#line 126 "php2python.l"
 {return DFT;}
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 126 "php2python.l"
+#line 127 "php2python.l"
 {return FUNC;}
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 127 "php2python.l"
+#line 128 "php2python.l"
 {return WHIL;}
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 128 "php2python.l"
+#line 129 "php2python.l"
 {return FOR;}
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 129 "php2python.l"
+#line 130 "php2python.l"
 {return RTN;}
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 130 "php2python.l"
+#line 131 "php2python.l"
 {yylval.str = (char *) strdup(yytext); return NAME;}
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 131 "php2python.l"
+#line 132 "php2python.l"
 {yylval.str = (char *) strdup(yytext); return CMNT;}
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 133 "php2python.l"
+#line 134 "php2python.l"
 ECHO;
 	YY_BREAK
-#line 1270 "lex.yy.c"
+#line 1308 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1634,6 +1672,10 @@ static int yy_get_next_buffer (void)
 
 	*--yy_cp = (char) c;
 
+    if ( c == '\n' ){
+        --yylineno;
+    }
+
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
 	(yy_c_buf_p) = yy_cp;
@@ -1710,6 +1752,11 @@ static int yy_get_next_buffer (void)
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
 	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
+
+	if ( c == '\n' )
+		
+    yylineno++;
+;
 
 	return c;
 }
@@ -2177,6 +2224,9 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
+    /* We do not touch yylineno unless the option is enabled. */
+    yylineno =  1;
+    
     (yy_buffer_stack) = NULL;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
@@ -2271,6 +2321,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 133 "php2python.l"
+#line 134 "php2python.l"
 
 

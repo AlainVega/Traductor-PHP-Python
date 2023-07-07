@@ -7,7 +7,7 @@
     #define FUN 1
     int yylex(void);
     int yyerror(char *message);
-
+    extern int yylineno;
     int tabcount = 0;
 %}
 
@@ -18,6 +18,7 @@
 	char *id;
 	char *str;	
 }
+%locations
 
 /* Declaracion de los Tokens necesarios */
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
@@ -277,6 +278,6 @@ int main(int argc, char *argv[]) {
 }
 
 int yyerror(char *message) {
-    printf("Error: %s\n", message);
+    printf("Error: %s on line %d\n", message, yylineno);
     return -1;
 }
