@@ -29,7 +29,7 @@
         PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC QUES NOEQ NEEE EEEQ 
 
 %type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument 
-%type <str> defaultValue functionCall break continue foreach for anonymousFunctionStatement
+%type <str> defaultValue functionCall break continue foreach for anonymousFunctionStatement print
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -51,6 +51,7 @@ statement:
     declaration SC {printf("Se reconocio una declaracion\n"); write_declaration($1);}
     | expr SC {printf("Se reconocio la expresion: %s\n", $1); write_expression($1);}
     | echo SC {printf("Se reconocio un echo\n"); write_echo($1);}
+    | print SC {printf("Se reconocio un print\n"); write_echo($1);}
     | conditional {printf("Se reconocio una condicional\n"); write_if($1);}
     | while {printf("Se reconocio un bucle while\n"); write_while($1);}
     | foreach {printf("Se reconocio un bucle foreach\n"); write_foreach($1);}
@@ -75,6 +76,7 @@ declaration: ID EQ expr {$$=format_declaration($1, " = ", $3);}
     | ID GGEQ expr {$$=format_declaration($1, " >>= ", $3);}
 ;
 echo: ECH expr {$$=format_echo($2, tabcount);};
+print: PRNT expr {$$=format_echo($2, tabcount);};
 conditional: 
     IF OPRT expr CPRT statementinifblock {printf("Se encontro un if\n"); tabcount++; $$=format_if($3);};
     | IF OPRT expr CPRT OBRC statementsinifblock CBRC {printf("Se encontro un if con bloque\n"); tabcount++; $$=format_if($3);}
@@ -98,6 +100,7 @@ statementsinifblock:
 statementinifblock:
     declaration SC {printf("Se encontro una declaracion dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
+    | print SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array($1);}
     | return SC {printf("Se encontro un retorno dentro de un if\n"); add_statement_to_if_block_counter(); add_statement_to_array(translate_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un if\n", $1); add_statement_to_if_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
@@ -108,6 +111,7 @@ statementsinelseblock:
 statementinelseblock:
     declaration SC {printf("Se encontro una declaracion dentro de un else\n"); write_declaration($1);}
     | echo SC {printf("Se encontro un echo dentro de un else\n"); add_statement_to_else_block_counter(); add_statement_to_array($1);}
+    | print SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_else_block_counter(); add_statement_to_array($1);}
     | conditional {printf("Se encontro una condicional dentro de un else\n"); write_if($1);}
     | return SC {printf("Se encontro un retorno dentro de un else\n"); add_statement_to_else_block_counter(); add_statement_to_array(translate_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un else\n", $1); add_statement_to_if_block_counter(); add_statement_to_array(format_one_line_comment($1));}
@@ -119,6 +123,7 @@ statementsinelifblock:
 statementinelifblock:
     declaration SC {printf("Se encontro una declaracion dentro de un else\n"); write_declaration($1);}
     | echo SC {printf("Se encontro un echo dentro de un else\n"); add_statement_to_elif_block_counter(); add_statement_to_array($1);}
+    | print SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_elif_block_counter(); add_statement_to_array($1);}
     | conditional {printf("Se encontro una condicional dentro de un else\n"); write_if($1);}
     | return SC {printf("Se encontro un retorno dentro de un else\n"); add_statement_to_elif_block_counter(); add_statement_to_array(translate_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un else\n", $1); add_statement_to_elif_block_counter(); add_statement_to_array(format_one_line_comment($1));}
@@ -131,6 +136,7 @@ statementsInWhileBlock:
 statementInWhileBlock: 
     declaration SC {printf("Se encontro una declaracion dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
+    | print SC {printf("Se encontro un echo dentro de un if\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
     | conditional {printf("Se encontro una condicional dentro de un while\n");}
     | return SC {printf("Se encontro un retorno dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array(translate_return($1));}
     | break SC {printf("Se encontro una sentencia break dentro de un while\n"); add_statement_to_while_block_counter(); add_statement_to_array($1);}
@@ -147,6 +153,7 @@ statementsInFunctionBlock:
 statementInFunctionBlock: 
     declaration SC {printf("Se encontro una declaracion dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
+    | print SC {printf("Se encontro un echo dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array($1);}
     | return SC {printf("Se encontro un retorno dentro de una funcion\n"); add_statement_to_function_block_counter(); add_statement_to_array(format_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de una funcion\n", $1); add_statement_to_function_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
@@ -155,6 +162,7 @@ anonymousFunctionStatement:
     declaration SC {printf("Se reconocio una declaracion\n"); }
     | expr SC {printf("Se reconocio la expresion: %s\n", $1); }
     | echo SC {printf("Se reconocio un echo\n"); }
+    | print SC {printf("Se reconocio un print\n"); }
     | conditional {printf("Se reconocio una condicional\n"); }
     | while {printf("Se reconocio un bucle while\n"); }
     | foreach {printf("Se reconocio un bucle foreach\n"); }
@@ -240,6 +248,7 @@ statementsInForeach: %empty
 statementInForeach:
     declaration SC {printf("Se encontro una declaracion dentro de un foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de un foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array($1);}
+    | print SC {printf("Se encontro un echo dentro de un foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array($1);}
     | return SC {printf("Se encontro un retorno dentro de un foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array(format_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un foreach\n", $1); add_statement_to_foreach_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
@@ -253,6 +262,7 @@ statementsInFor: %empty
 statementInFor: 
     declaration SC {printf("Se encontro una declaracion dentro de un for\n"); add_statement_to_for_block_counter(); add_statement_to_array($1);}
     | echo SC {printf("Se encontro un echo dentro de una for\n"); add_statement_to_for_block_counter(); add_statement_to_array($1);}
+    | print SC {printf("Se encontro un echo dentro de una for\n"); add_statement_to_for_block_counter(); add_statement_to_array($1);}
     | return SC {printf("Se encontro un retorno dentro de un for\n"); add_statement_to_for_block_counter(); add_statement_to_array(format_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un for\n", $1); add_statement_to_for_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;

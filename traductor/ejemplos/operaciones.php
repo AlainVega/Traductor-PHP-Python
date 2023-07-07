@@ -75,4 +75,14 @@ $variable xOr $variable;
 
 1 <> 1;
 
+print "Hola mundo";
+
+if (1==1) {
+    print "1 es igual a 1";
+}
+
+for ($i = 0; $i < 10; $i++) {
+    print "i: ".$i;
+}
+
 ?>
