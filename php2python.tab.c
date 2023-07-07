@@ -1819,7 +1819,7 @@ yyreduce:
 
   case 17: /* declaration: ID EQ expr  */
 #line 68 "php2python.y"
-                        {(yyval.str)=format_declaration((yyvsp[-2].str), " = ", (yyvsp[0].str)); put_symbol(format_variable((yyvsp[-2].str)), VAR);}
+                        {(yyval.str)=format_declaration((yyvsp[-2].str), " = ", (yyvsp[0].str)); put_symbol(format_variable((yyvsp[-2].str)), VAR, 0, 0);}
 #line 1824 "php2python.tab.c"
     break;
 
@@ -2191,7 +2191,7 @@ yyreduce:
 
   case 83: /* functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC  */
 #line 153 "php2python.y"
-                                                                                      {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", (yyvsp[-6].str), (yyvsp[-4].str)); tabcount++; (yyval.str)=format_function((yyvsp[-4].str), (yyvsp[-6].str)); put_symbol((yyvsp[-6].str), FUN);}
+                                                                                      {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", (yyvsp[-6].str), (yyvsp[-4].str)); tabcount++; (yyval.str)=format_function((yyvsp[-4].str), (yyvsp[-6].str)); put_symbol((yyvsp[-6].str), FUN, reset_obligatory_argument_counter(), reset_optional_argument_counter());}
 #line 2196 "php2python.tab.c"
     break;
 
@@ -2611,7 +2611,7 @@ yyreduce:
 
   case 154: /* functionCall: NAME OPRT arguments CPRT  */
 #line 231 "php2python.y"
-                                       {printf("Se encontro una llamada a la funcion %s\n", (yyvsp[-3].str)); (yyval.str)=format_function_call((yyvsp[-3].str), (yyvsp[-1].str));}
+                                       {printf("Se encontro una llamada a la funcion %s\n", (yyvsp[-3].str)); if (is_argument_count_correct((yyvsp[-3].str), (yyvsp[-1].str)) == 0) {yyerror("Cantidad de argumentos incorrectos para la llamada de una funcion"); YYERROR;} else {(yyval.str)=format_function_call((yyvsp[-3].str), (yyvsp[-1].str));};}
 #line 2616 "php2python.tab.c"
     break;
 
@@ -2623,7 +2623,7 @@ yyreduce:
 
   case 156: /* parameters: expr  */
 #line 234 "php2python.y"
-           {printf("Se encontro la expresion %s como un parametro\n", (yyvsp[0].str)); (yyval.str) = (yyvsp[0].str); add_param_to_queue((yyvsp[0].str));}
+           {printf("Se encontro la expresion %s como un parametro\n", (yyvsp[0].str)); (yyval.str)=(yyvsp[0].str); add_param_to_queue((yyvsp[0].str));}
 #line 2628 "php2python.tab.c"
     break;
 
@@ -2647,13 +2647,13 @@ yyreduce:
 
   case 161: /* argument: ID  */
 #line 243 "php2python.y"
-         {printf("Se encontro la variable %s como un argumento\n", (yyvsp[0].str)); (yyval.str)=format_variable((yyvsp[0].str));}
+         {printf("Se encontro la variable %s como un argumento\n", (yyvsp[0].str)); (yyval.str)=format_variable((yyvsp[0].str)); add_to_obligatory_argument_counter();}
 #line 2652 "php2python.tab.c"
     break;
 
   case 162: /* argument: ID EQ defaultValue  */
 #line 244 "php2python.y"
-                         {printf("Se encontro la variable %s como un argumento, que tiene el valor por defecto %s\n", (yyvsp[-2].str), (yyvsp[0].str)); (yyval.str)=format_default_argument(format_variable((yyvsp[-2].str)), (yyvsp[0].str));}
+                         {printf("Se encontro la variable %s como un argumento, que tiene el valor por defecto %s\n", (yyvsp[-2].str), (yyvsp[0].str)); (yyval.str)=format_default_argument(format_variable((yyvsp[-2].str)), (yyvsp[0].str)); add_to_optinal_argument_counter();}
 #line 2658 "php2python.tab.c"
     break;
 
@@ -2984,6 +2984,6 @@ int main(int argc, char *argv[]) {
 }
 
 int yyerror(char *message) {
-    printf("Error: %s on line %d\n", message, yylineno);
+    printf("Error: %s at line %d\n", message, yylineno);
     return -1;
 }
