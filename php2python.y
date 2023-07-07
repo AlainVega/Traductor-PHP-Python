@@ -1,6 +1,10 @@
 %{
     #include <stdio.h>
     #include "functions.h"
+    #include "symboltable.h"
+    // Estos valores se utilizan como tipo para la tabla de symbolos
+    #define VAR 0
+    #define FUN 1
     int yylex(void);
     int yyerror(char *message);
 
@@ -60,7 +64,7 @@ statement:
     | return SC {printf("Se reconocio un retorno global\n"); write_return(translate_return($1));}
     | CMNT {printf("Se reconocio un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
 ;
-declaration: ID EQ expr {$$=format_declaration($1, " = ", $3);}
+declaration: ID EQ expr {$$=format_declaration($1, " = ", $3); put_symbol(format_variable($1), VAR);}
     | ID EQ declaration {$$=format_declaration($1, " = ", $3);}
     | ID PLEQ expr {$$=format_declaration($1, " += ", $3);}
     | ID MNEQ expr {$$=format_declaration($1, " -= ", $3);}
