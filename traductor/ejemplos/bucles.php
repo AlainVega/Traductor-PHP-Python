@@ -16,8 +16,14 @@ foreach ([1, true, "test"] as $i) {
 foreach (array(1,2,3, "hello") as $valor) {
     echo $valor;
 }
-# Bucle for (falta traducir)
+# Bucle for
 for ($i = 0; $i < 10; $i = $i + 1) {
     echo "falta";
 }
+
+$resultado = 0;
+for ($j = 1; $j <= 100; $j++) {
+    $resultado = $j*2 -$j;
+}
+
 ?>

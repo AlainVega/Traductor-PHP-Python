@@ -572,13 +572,17 @@ char *poner_iterable(char *expr) {
 }
 
 char *format_for(char *declaration, char *expr2, char *expr3) {
-    char *python_for = (char *) malloc(strlen(declaration) + strlen(expr2) + strlen(expr3) + 1000);
-    strcat(python_for, "for ");
-    strcat(python_for, poner_variable(declaration));
-    strcat(python_for, " in ");
-    strcat(python_for, poner_iterable(expr2));
+    char *python_for = (char *) malloc(strlen(declaration) + strlen(expr2) + strlen(expr3) + 2*strlen("\n") + strlen("while ") + strlen(":") + 1000);
+    python_for[0] = '\0';
+
+    strcat(python_for, declaration);
+    strcat(python_for, "\n");
+    strcat(python_for, "while ");
+    strcat(python_for, expr2);
     strcat(python_for, ":");
     write_statements_in_block(python_for, &statements_in_for_block);
+    strcat(python_for, "\n");
+    strcat(python_for, expr3);
 
     return python_for;
 }

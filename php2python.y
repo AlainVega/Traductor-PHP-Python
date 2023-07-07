@@ -216,7 +216,10 @@ statementInForeach:
     | return SC {printf("Se encontro un retorno dentro de un foreach\n"); add_statement_to_foreach_block_counter(); add_statement_to_array(format_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un foreach\n", $1); add_statement_to_foreach_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
-for: FOR OPRT declaration SC expr SC declaration CPRT OBRC statementsInFor CBRC {printf("Se encontro un for\n"); tabcount++; $$=format_for($3, $5, $7);};
+for: 
+    FOR OPRT declaration SC expr SC declaration CPRT OBRC statementsInFor CBRC {printf("Se encontro un for\n"); tabcount++; $$=format_for($3, $5, $7);}
+    | FOR OPRT declaration SC expr SC expr CPRT OBRC statementsInFor CBRC {printf("Se encontro un for\n"); tabcount++; $$=format_for($3, $5, $7);};    
+;
 statementsInFor: %empty
     | statementsInFor statementInFor {printf("Se redujo el scope\n"); tabcount--;}
 ;
