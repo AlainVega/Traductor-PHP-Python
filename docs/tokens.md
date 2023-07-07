@@ -1,12 +1,12 @@
 # Diccionario de tokens
-Token | Simbolo o palabra | Significado | observacion |
+Token | Simbolo o palabra | Significado | Observacion |
 | --- | ----------------- | ----------- | ----------- |
 | SPHP | <?php | Simbolo inicial de todo programa PHP |  | 
 | EPHP | ?> | Simbolo final de todo programa PHP |  |
 | EQ | = | Asignacion |  | 
 | SC | ; | Delimitador de sentencia |  |
-| CL | : | dos puntos |  |
-| CM | , | coma |  |
+| CL | : | Dos puntos | Se utiliza en el operador ternario |
+| CM | , | Coma |  |
 | PLUS | + | Operador de suma o suma unaria| Utilizado tanto para la suma x+y como la identidad. +x |
 | MINS | - | Operador de resta o resta unaria| Utilizado tanto para la resta x-y como el opuesto. -x |
 | DIV | / | Operador de division |  |
@@ -59,21 +59,21 @@ Token | Simbolo o palabra | Significado | observacion |
 | DFT | default | Palabra reservada default |  |
 | WHIL | while | Estructura de control de bucle while |  |
 | FOR | for | Estructura de control de bucle for |  |
-| AS | as | palabra reservada utilizada en bucles foreach |  |
+| AS | as | Palabra reservada utilizada en bucles foreach |  |
 | FUNC | function | Palabra reservada para definicion de funciones |  |
 | RTN | return | Palabra reservada para el retorno |  |
-| ECH | echo | construccion del lenguaje para la impresion |  |
-| PRNT | print | constructor de lenguaje para la impresion |  |
-| NAME | name | nombre de funcion | |
-| BOOL | bool | tipo de dato booleano | |
-| STR | string | tipo de dato cadena | |
-| FCR | foreach | bucle foreach | |
-| ARRY | array | tipo de dato arreglo | |
-| ASUM | array_sum | funcion sumar arreglo | |
-| APUS | array_push | funcion agregar a arreglo | |
-| APOP | array_pop | funcion quitar de arreglo | |
-| ICAS | (int) | conversion de tipo a int | Tambien se admite (integer) |
-| FCAS | (float) | conversion de tipo a float | Tambien se admite (double) y (real) |
-| BCAS | (bool) | conversion de tipo a bool | Tambien se admite (boolean) |
-| SCAS | (string) | conversion de tipo a string | |
-| ACAS | (array) | conversion de tipo a array | |
+| ECH | echo | Construccion del lenguaje para la impresion |  |
+| PRNT | print | Constructor de lenguaje para la impresion |  |
+| NAME | name | Nombre de funcion | |
+| BOOL | bool | Tipo de dato booleano | |
+| STR | string | Tipo de dato cadena | |
+| FCR | foreach | Bucle foreach | |
+| ARRY | array | Tipo de dato arreglo | |
+| ASUM | array_sum | Funcion sumar arreglo | |
+| APUS | array_push | Funcion agregar a arreglo | |
+| APOP | array_pop | Funcion quitar de arreglo | |
+| ICAS | (int) | Conversion de tipo a int | Tambien se admite (integer) |
+| FCAS | (float) | Conversion de tipo a float | Tambien se admite (double) |
+| BCAS | (bool) | Conversion de tipo a bool | Tambien se admite (boolean) |
+| SCAS | (string) | Conversion de tipo a string | |
+| ACAS | (array) | Conversion de tipo a array | |
