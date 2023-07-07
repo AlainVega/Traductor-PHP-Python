@@ -14,6 +14,8 @@
 */
 
 digit       [0-9]
+int         ([1-9]{digit}*)|0
+float       {digit}+\.{digit}+
 startPHP    (<\?php)
 endPHP      (\?>)
 id          \$([a-zA-Z_][a-zA-Z_0-9]*)
@@ -104,7 +106,8 @@ xor         ([Xx][Oo][Rr])
 "<<"    {return LTLT;}
 ">>"    {return GTGT;}
 {endPHP}     {return EPHP;}
-{digit}+     {yylval.str = (char *) strdup(yytext); return NUM;}
+{int}        {yylval.str = (char *) strdup(yytext); return NUM;}
+{float}      {yylval.str = (char *) strdup(yytext); return NUM;}
 {bool}       {yylval.str = (char *) strdup(yytext); return BOOL;}
 {string}     {yylval.str = (char *) strdup(yytext); return STR;}
 {foreach}    {return FRC;}
