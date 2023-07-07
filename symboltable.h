@@ -35,7 +35,7 @@ void print_symbols() {
     printf("Elements in symbol table: ");
     while (temp != NULL) {
         if (temp->type == VAR) {
-            printf("%s (%s) -> ", temp->name, "VAR");
+            printf("%s (%s, array: %s) -> ", temp->name, "VAR", temp->dimension == 1 ? "Yes" : "No");
         }
         else {
             printf("%s (%s, obligatory arguments: %d, optional_arguments: %d) -> ", temp->name, temp->type == VAR ? "VAR" : "FUN", temp->obligatory_argument_counter, temp->optional_argument_counter);
@@ -44,12 +44,13 @@ void print_symbols() {
     }
 }
 
-symbol *put_symbol(char const *name, int type, int obligatory_arguments_counter, int optional_arguments_counter) {
+symbol *put_symbol(char const *name, int type, int obligatory_arguments_counter, int optional_arguments_counter, int is_array) {
     symbol *sym = (symbol *) malloc(sizeof(symbol));
     sym->name = strdup(name);
     sym->type = type;
     sym->obligatory_argument_counter = obligatory_arguments_counter;
     sym->optional_argument_counter = optional_arguments_counter;
+    sym->dimension = is_array;
     sym->next = symbol_table;
     symbol_table = sym;
     print_symbols();
@@ -91,4 +92,11 @@ int is_argument_count_correct(char *function_name, char *arguments) {
         return 0;
     }
     return 1;
+}
+
+int is_array_variable(char *variable_name) {
+    printf("Variable %s\n", variable_name);
+    symbol *entry = get_symbol(variable_name);
+    printf("Variable %s %d\n", entry->name, entry->dimension);
+    return entry->dimension;
 }
