@@ -3,6 +3,7 @@
 %}
 
 %option noyywrap
+%option yylineno
 
 /* Definicion de ciertas expresiones regulares que se utilizaran en el analizador lexico */
 /* Segun la documentacion de PHP los nombres de las variables son case sensitive

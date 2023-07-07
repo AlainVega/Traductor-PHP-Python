@@ -7,7 +7,7 @@
     #define FUN 1
     int yylex(void);
     int yyerror(char *message);
-
+    extern int yylineno;
     int tabcount = 0;
 %}
 
@@ -18,6 +18,7 @@
 	char *id;
 	char *str;	
 }
+%locations
 
 /* Declaracion de los Tokens necesarios */
 /* Palabras reservadas ademas etiquedas inicio php y fin php */
@@ -149,7 +150,7 @@ statementInWhileBlock:
 ;
 break: BRK {$$="break";};
 continue: CONT {$$="continue";};
-functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", $2, $4); tabcount++; $$=format_function($4, $2);};
+functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", $2, $4); tabcount++; $$=format_function($4, $2); put_symbol($2, FUN);};
 statementsInFunctionBlock: 
     %empty
     | statementsInFunctionBlock statementInFunctionBlock {printf("Se redujo el scope\n"); tabcount--;}
@@ -282,6 +283,6 @@ int main(int argc, char *argv[]) {
 }
 
 int yyerror(char *message) {
-    printf("Error: %s\n", message);
+    printf("Error: %s on line %d\n", message, yylineno);
     return -1;
 }
