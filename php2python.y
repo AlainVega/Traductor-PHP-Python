@@ -287,6 +287,6 @@ int main(int argc, char *argv[]) {
 }
 
 int yyerror(char *message) {
-    printf("Error: %s at line %d\n", message, yylineno);
+    printf("Error: %s en la linea %d\n", message, yylineno);
     return -1;
 }

@@ -95,8 +95,9 @@ int is_argument_count_correct(char *function_name, char *arguments) {
 }
 
 int is_array_variable(char *variable_name) {
-    printf("Variable %s\n", variable_name);
     symbol *entry = get_symbol(variable_name);
-    printf("Variable %s %d\n", entry->name, entry->dimension);
+    if (entry == NULL) {
+        printf("Entry not found for variable %s\n", variable_name);
+    }
     return entry->dimension;
 }

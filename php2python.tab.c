@@ -1822,7 +1822,7 @@ yyreduce:
 
   case 17: /* declaration: ID EQ expr  */
 #line 71 "php2python.y"
-                        {(yyval.str)=format_declaration((yyvsp[-2].str), " = ", (yyvsp[0].str)); if (is_variable_array == 1) { put_symbol(format_variable((yyvsp[-2].str)), VAR, 0, 0, is_variable_array); is_variable_array=0; } else { put_symbol(format_variable((yyvsp[-2].str)), VAR, 0, 0, is_variable_array); };}
+                        {(yyval.str)=format_declaration((yyvsp[-2].str), " = ", (yyvsp[0].str)); if (is_variable_array == 1) {put_symbol(format_variable((yyvsp[-2].str)), VAR, 0, 0, is_variable_array); is_variable_array=0;} else {put_symbol(format_variable((yyvsp[-2].str)), VAR, 0, 0, is_variable_array);};}
 #line 1827 "php2python.tab.c"
     break;
 
@@ -2242,49 +2242,49 @@ yyreduce:
 
   case 92: /* anonymousFunctionStatement: declaration SC  */
 #line 170 "php2python.y"
-                   {printf("Se reconocio una declaracion\n"); }
+                   {printf("Se reconocio una declaracion\n");}
 #line 2247 "php2python.tab.c"
     break;
 
   case 93: /* anonymousFunctionStatement: expr SC  */
 #line 171 "php2python.y"
-              {printf("Se reconocio la expresion: %s\n", (yyvsp[-1].str)); }
+              {printf("Se reconocio la expresion: %s\n", (yyvsp[-1].str));}
 #line 2253 "php2python.tab.c"
     break;
 
   case 94: /* anonymousFunctionStatement: echo SC  */
 #line 172 "php2python.y"
-              {printf("Se reconocio un echo\n"); }
+              {printf("Se reconocio un echo\n");}
 #line 2259 "php2python.tab.c"
     break;
 
   case 95: /* anonymousFunctionStatement: print SC  */
 #line 173 "php2python.y"
-               {printf("Se reconocio un print\n"); }
+               {printf("Se reconocio un print\n");}
 #line 2265 "php2python.tab.c"
     break;
 
   case 96: /* anonymousFunctionStatement: conditional  */
 #line 174 "php2python.y"
-                  {printf("Se reconocio una condicional\n"); }
+                  {printf("Se reconocio una condicional\n");}
 #line 2271 "php2python.tab.c"
     break;
 
   case 97: /* anonymousFunctionStatement: while  */
 #line 175 "php2python.y"
-            {printf("Se reconocio un bucle while\n"); }
+            {printf("Se reconocio un bucle while\n");}
 #line 2277 "php2python.tab.c"
     break;
 
   case 98: /* anonymousFunctionStatement: foreach  */
 #line 176 "php2python.y"
-              {printf("Se reconocio un bucle foreach\n"); }
+              {printf("Se reconocio un bucle foreach\n");}
 #line 2283 "php2python.tab.c"
     break;
 
   case 99: /* anonymousFunctionStatement: for  */
 #line 177 "php2python.y"
-          {printf("Se reconocio un bucle foreach\n"); }
+          {printf("Se reconocio un bucle foreach\n");}
 #line 2289 "php2python.tab.c"
     break;
 
@@ -2296,13 +2296,13 @@ yyreduce:
 
   case 101: /* anonymousFunctionStatement: return SC  */
 #line 179 "php2python.y"
-                {printf("Se reconocio un retorno global\n"); }
+                {printf("Se reconocio un retorno global\n");}
 #line 2301 "php2python.tab.c"
     break;
 
   case 102: /* anonymousFunctionStatement: CMNT  */
 #line 180 "php2python.y"
-           {printf("Se reconocio un comentario de linea: %s\n", (yyvsp[0].str)); }
+           {printf("Se reconocio un comentario de linea: %s\n", (yyvsp[0].str));}
 #line 2307 "php2python.tab.c"
     break;
 
@@ -2987,6 +2987,6 @@ int main(int argc, char *argv[]) {
 }
 
 int yyerror(char *message) {
-    printf("Error: %s at line %d\n", message, yylineno);
+    printf("Error: %s en la linea %d\n", message, yylineno);
     return -1;
 }
