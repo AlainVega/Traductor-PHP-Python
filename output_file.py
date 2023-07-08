@@ -1,2 +1,5 @@
-a = "1 es menor que 100" if 1 < 100 else "1 es mayor o igual a 100"
-print(a)
+def saludar(nombre = "Alain", apellido = "Vega"):
+	print("Hola " + nombre + " " + apellido + " como estas?")
+saludar()
+saludar("Carlos")
+saludar("Mathias", "Martinez")
