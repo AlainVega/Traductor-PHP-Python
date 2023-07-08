@@ -18,9 +18,9 @@ cd Traductor-PHP-Python
 ```
 ### Hay 2 formas de suministrar codigo php al ejecutable (_php2python_)
 Importante: en caso de errores con el ejecutable ver [como compilar el proyecto](/docs/instruccionesCompilacion.md)
-- #### Ejecutar la aplicacion con un archivo en lenguaje PHP, por ejemplo:
+- #### Ejecutar la aplicacion con un archivo en lenguaje PHP (**Recomendada**), por ejemplo:
 ```
-./php2python < traductor/ejemplos/condicionales.php 
+./php2python < ejemplos/correctos/condicionales.php 
 ```
 Nota: los ejemplos se puede encontrar en /traductor/ejemplos
 - #### Ejecutar la aplicacion y escribir codigo php por consola:
@@ -32,5 +32,5 @@ Nota: en este punto se puede escribir codigo php en la terminal y ver como este 
 ```
 vi output_file.py
 ```
-## La documentacion pertinente se encuentra en [/docs](/docs)
-Nota: Repositorio para el trabajo practico de la materia compiladores. 
+# Toda la documentacion pertinente se encuentra en [/docs](/docs)
+Nota: Repositorio creado para alojar el desarrollo del trabajo practico final de la materia compiladores. 
