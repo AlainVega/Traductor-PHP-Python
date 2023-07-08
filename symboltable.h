@@ -88,7 +88,7 @@ int is_argument_count_correct(char *function_name, char *arguments) {
         
     }
     if (argument_count > (entry->obligatory_argument_counter + entry->optional_argument_counter) ||
-        argument_count < entry->optional_argument_counter) {
+        argument_count < entry->obligatory_argument_counter) {
         return 0;
     }
     return 1;
