@@ -146,7 +146,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 16 "php2python.y"
+#line 19 "php2python.y"
 
 	int intval;
 	char *id;

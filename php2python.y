@@ -9,6 +9,9 @@
     int yyerror(char *message);
     extern int yylineno;
     int tabcount = 0;
+    // 0: No es array, 1: Es un array.
+    // Sirve para marcar el contexto durante una declaracion para agregar el simbolo a la tabla.
+    int is_variable_array = 0;
 %}
 
 %start program
@@ -66,7 +69,7 @@ statement:
     | return SC {printf("Se reconocio un retorno global\n"); write_return(translate_return($1));}
     | CMNT {printf("Se reconocio un comentario de linea: %s\n", $1); write_one_line_comment(format_one_line_comment($1));}
 ;
-declaration: ID EQ expr {$$=format_declaration($1, " = ", $3); put_symbol(format_variable($1), VAR, 0, 0);}
+declaration: ID EQ expr {$$=format_declaration($1, " = ", $3); if (is_variable_array == 1) {put_symbol(format_variable($1), VAR, 0, 0, is_variable_array); is_variable_array=0;} else {put_symbol(format_variable($1), VAR, 0, 0, is_variable_array);};}
     | ID EQ declaration {$$=format_declaration($1, " = ", $3);}
     | ID PLEQ expr {$$=format_declaration($1, " += ", $3);}
     | ID MNEQ expr {$$=format_declaration($1, " -= ", $3);}
@@ -168,7 +171,7 @@ statementInWhileBlock:
 ;
 break: BRK {$$="break";};
 continue: CONT {$$="continue";};
-functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", $2, $4); tabcount++; $$=format_function($4, $2); put_symbol($2, FUN, reset_obligatory_argument_counter(), reset_optional_argument_counter());};
+functionDefinition: FUNC NAME OPRT arguments CPRT OBRC statementsInFunctionBlock CBRC {printf("Se encontro una funcion llamada: %s, con argumentos: %s\n", $2, $4); tabcount++; $$=format_function($4, $2); put_symbol($2, FUN, reset_obligatory_argument_counter(), reset_optional_argument_counter(), 0);};
 statementsInFunctionBlock: 
     %empty
     | statementsInFunctionBlock statementInFunctionBlock {printf("Se redujo el scope\n"); tabcount--;}
@@ -182,17 +185,17 @@ statementInFunctionBlock:
 ;
 return: RTN expr {printf("Se encontro un retorno de: %s\n", $2); $$=$2;};
 anonymousFunctionStatement:
-    declaration SC {printf("Se reconocio una declaracion\n"); }
-    | expr SC {printf("Se reconocio la expresion: %s\n", $1); }
-    | echo SC {printf("Se reconocio un echo\n"); }
-    | print SC {printf("Se reconocio un print\n"); }
-    | conditional {printf("Se reconocio una condicional\n"); }
-    | while {printf("Se reconocio un bucle while\n"); }
-    | foreach {printf("Se reconocio un bucle foreach\n"); }
-    | for {printf("Se reconocio un bucle foreach\n"); }
+    declaration SC {printf("Se reconocio una declaracion\n");}
+    | expr SC {printf("Se reconocio la expresion: %s\n", $1);}
+    | echo SC {printf("Se reconocio un echo\n");}
+    | print SC {printf("Se reconocio un print\n");}
+    | conditional {printf("Se reconocio una condicional\n");}
+    | while {printf("Se reconocio un bucle while\n");}
+    | foreach {printf("Se reconocio un bucle foreach\n");}
+    | for {printf("Se reconocio un bucle foreach\n");}
     | functionDefinition {printf("Se reconocio la definicion de una funcion\n");}
-    | return SC {printf("Se reconocio un retorno global\n"); }
-    | CMNT {printf("Se reconocio un comentario de linea: %s\n", $1); }
+    | return SC {printf("Se reconocio un retorno global\n");}
+    | CMNT {printf("Se reconocio un comentario de linea: %s\n", $1);}
 expr: 
     NUM {$$=$1;}
     | STR {$$=$1;}
@@ -231,16 +234,16 @@ expr:
     | expr NEEE expr {printf("Se encontro un no identico que !== "); $$=format_operation($1, " != ", $3);}
     | expr LTLT expr {printf("Se encontro un desplazamiento de bits a la izquierda \n"); $$=format_operation($1, " <<= ", $3);}
     | expr GTGT expr {printf("Se encontro un desplazamiento de bits a la derecha \n "); $$=format_operation($1, " >>= ", $3);}
-    | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); $$=format_array();}
-    | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); $$=format_array();}
+    | ARRY OPRT parameters CPRT {printf("Se encontro la definicion de un array con array()\n"); is_variable_array=1; $$=format_array();}
+    | OSQB parameters CSQB {printf("Se encontro la definicion de un array con []\n"); is_variable_array=1; $$=format_array();}
     | OPRT expr CPRT {printf("Se encontro una expresion encerrada entre parentesis\n"); $$=format_operation("(", $2, ")");}
     | expr QUES expr CL expr {printf("Se encontro un operador ternario con 1: %s, 2: %s y 3: %s\n", $1, $3, $5), $$=format_ternary_operator($1, $3, $5);}
     | FUNC OPRT arguments CPRT OBRC anonymousFunctionStatement CBRC {printf("Se encontro una funcion anonima con argumentos: %s, y linea: %s\n", $3, $6); $$=format_anonymous_function($3, $6);}
-    | ID OSQB NUM CSQB {printf("Se encontro un acceso a un elemento de un array\n"); $$=format_array_access($1, $3);}
-    | ARPS OPRT ID COMM parameters CPRT {printf("Se encontro una llamada a array_push\n"); $$=format_array_push($3);}
+    | ID OSQB NUM CSQB {printf("Se encontro un acceso a un elemento de un array\n"); if (is_array_variable(format_variable($1)) == 0) {yyerror("La variable no es un array"); YYERROR;}; $$=format_array_access($1, $3);}
+    | ARPS OPRT ID COMM parameters CPRT {printf("Se encontro una llamada a array_push\n"); is_variable_array=0; $$=format_array_push($3);}
     | ARPO OPRT ID CPRT {printf("Se encontro una llamada a array_pop\n"); $$=format_array_pop($3);}
-    | ASUM OPRT parameters CPRT {printf("Se encontro una llamada a array_sum\n"); $$=format_array_sum();}
-    | ICAS expr {printf("Se encontro una conversion a tipo int\n"); $$=format_int_cast($2);}
+    | ASUM OPRT ID CPRT {printf("Se encontro una llamada a array_sum\n"); $$=format_array_sum($3);}
+    | ASUM OPRT parameters CPRT {printf("Se encontro una llamada a array_sum\n"); is_variable_array=0; $$=format_array_sum2($3);}
     | FCAS expr {printf("Se encontro una conversion a tipo flotante\n"); $$=format_float_cast($2);}
     | BCAS expr {printf("Se encontro una conversion a tipo booleano\n"); $$=format_bool_cast($2);}
     | SCAS expr {printf("Se encontro una conversion a tipo cadena\n"); $$=format_string_cast($2);}
@@ -302,6 +305,6 @@ int main(int argc, char *argv[]) {
 }
 
 int yyerror(char *message) {
-    printf("Error: %s at line %d\n", message, yylineno);
+    printf("Error: %s en la linea %d\n", message, yylineno);
     return -1;
 }
