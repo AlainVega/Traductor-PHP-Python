@@ -15,6 +15,7 @@ int statements_in_while_block = 0;
 int statements_in_function_block = 0;
 int statements_in_foreach_block = 0;
 int statements_in_for_block = 0;
+int statements_in_switch_block = 0;
 int obligatory_argument_counter = 0;
 int optional_argument_counter = 0;
 
@@ -61,6 +62,10 @@ void add_statement_to_for_block_counter() {
     ++statements_in_for_block;
 }
 
+void add_statement_to_switch_block_counter() {
+    ++statements_in_switch_block;
+}
+
 void substract_statement_to_if_block_counter() {
     --statements_in_if_block;
 }
@@ -87,6 +92,10 @@ void substract_statement_to_foreach_block_counter() {
 
 void substract_statement_to_for_block_counter() {
     --statements_in_for_block;
+}
+
+void substract_statement_to_switch_block_counter() {
+    --statements_in_switch_block;
 }
 
 void add_to_obligatory_argument_counter() {
@@ -902,4 +911,76 @@ char *format_array_cast(char *expr) {
     memcpy(python_array_cast + sum, ")", paren2_length);
 
     return python_array_cast;
+}
+
+void write_statements_in_case_block(char *first_line, int *statement_counter) {
+    // first_line se refiere a la primera linea que puede ser un if (), for (), else o while.
+    // El resto de las lineas representan los statements dentro de un bloque.
+    char *statements[100];
+    if (*statement_counter > 0) {
+        for (int i = *statement_counter - 1; i >= 0; i--) {
+            char *statement = take_statement_from_array();
+            statements[i] = statement;
+        }
+        
+        for (int i = 0; *statement_counter > i; i++) {
+            strcat(first_line, "\n\t\t");
+            strcat(first_line, statements[i]);
+        }
+    }
+    else if (*statement_counter == 0) {
+        strcat(first_line, "\n\t\tpass");
+    }
+
+    // Resetear el contador pasado a 0.
+    *statement_counter = 0;
+}
+
+char *format_case(char *expr) {
+    // Alocamos memoria para el string resultado
+    char *python_match_case = (char *) malloc(strlen(expr) + strlen("case ") + strlen(":") + strlen("\n\t") + 1000);
+    python_match_case[0] = '\0'; //Colocamos el nullbyte para el strcat
+    strcat(python_match_case, "case ");
+    strcat(python_match_case, expr);
+    strcat(python_match_case, ":");
+    write_statements_in_case_block(python_match_case, &statements_in_switch_block);
+    strcat(python_match_case, "\n\t");
+    return python_match_case;
+}
+
+char *format_case_default() {
+    // Alocamos memoria para el string resultado
+    char *python_match_default = (char *) malloc(strlen("case _ ") + strlen(":") + strlen("\n\t") + 1000);
+    python_match_default[0] = '\0'; //Colocamos el nullbyte para el strcat
+    strcat(python_match_default, "case _ ");
+    strcat(python_match_default, ":");
+    write_statements_in_case_block(python_match_default, &statements_in_switch_block);
+    strcat(python_match_default, "\n\t");
+    return python_match_default;
+}
+
+char *add_case_to_cases(char *cases, char *cas) {
+    // Alocamos memoria para el string resultado
+    printf("CASES: %s\n y CASE: %s\n", cases, cas);
+    char *python_match_cases = (char *) malloc(strlen(cases) + strlen(cas));
+    python_match_cases[0] = '\0'; //Colocamos el nullbyte para el strcat
+    strcat(python_match_cases, cases);
+    strcat(python_match_cases, cas);
+    return python_match_cases;
+}
+
+char *format_switch(char *formatted_variable, char *cases) { 
+    // Alocamos memoria para el string resultado
+    char *python_match = (char *) malloc(strlen(formatted_variable) + strlen(cases) + strlen("match ") + strlen(":") + strlen("\n\t"));
+    strcat(python_match, "match ");
+    strcat(python_match, formatted_variable);
+    strcat(python_match, ":");
+    strcat(python_match, "\n\t");
+    strcat(python_match, cases);
+    return python_match;
+}
+
+void write_switch(char *switch_to_match) {
+    printf("Writing switch: %s\n", switch_to_match);
+    fprintf(output_file, "%s\n", switch_to_match);
 }

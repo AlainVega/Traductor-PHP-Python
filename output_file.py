@@ -1,10 +1,21 @@
-x = [1, 2, "x", "hola", ]
-x.append([1, 2, 3, ], )
-z = x.pop()
-print(z)
-if (x[0] == 1):
-	z = x.pop()
-	print(z)
-arr = [1, 2, 3, ]
-suma = sum(arr, )
-suma2 = sum([1, 2, ], )
+if (1 > 1):
+	print("Esto esta en un if\n")
+elif (1 < 2):
+	print("Esto esta en un elseif\n")
+else:
+	print("Esto esta en un else\n")
+i = 2
+match i:
+	case 0:
+		print("i es igual a 0")
+		print("i sigue valiendo 0")
+	case 1:
+		print("i es igual a 1")
+		print("i sigue valiendo 1")
+	case 2:
+		print("i es igual a 2")
+		print("i sigue valiendo 2")
+	case _ :
+		print("i no es 0 ni 1 ni 2")
+		print("i sigue valiendo ni 0 ni 1 ni 2")
+	

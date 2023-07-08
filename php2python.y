@@ -34,7 +34,7 @@
         PPL MMN XOR NOT OSQB CSQB OPRT CPRT OBRC CBRC QUES NOEQ NEEE EEEQ 
 
 %type <str> expr declaration echo conditional parameters return while statementInWhileBlock statementInFunctionBlock functionDefinition arguments argument 
-%type <str> defaultValue functionCall break continue foreach for anonymousFunctionStatement print
+%type <str> defaultValue functionCall break continue foreach for anonymousFunctionStatement print case cases switch
 
 /* 
    Las siguientes reglas de precedencia y asociatividad fueron sacadas de la
@@ -58,6 +58,7 @@ statement:
     | echo SC {printf("Se reconocio un echo\n"); write_echo($1);}
     | print SC {printf("Se reconocio un print\n"); write_echo($1);}
     | conditional {printf("Se reconocio una condicional\n"); write_if($1);}
+    | switch {printf("Se reconocio un bloque switch\n"); write_switch($1);}
     | while {printf("Se reconocio un bucle while\n"); write_while($1);}
     | foreach {printf("Se reconocio un bucle foreach\n"); write_foreach($1);}
     | for {printf("Se reconocio un bucle foreach\n"); write_for($1);}
@@ -133,6 +134,23 @@ statementinelifblock:
     | return SC {printf("Se encontro un retorno dentro de un else\n"); add_statement_to_elif_block_counter(); add_statement_to_array(translate_return($1));}
     | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un else\n", $1); add_statement_to_elif_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 ;
+switch: SWIH OPRT ID CPRT OBRC cases CBRC {$$=format_switch(format_variable($3), $6);};
+cases: %empty {$$="";}
+    | cases case {$$=add_case_to_cases($1, $2);}
+
+;
+case: CASE expr CL statementsInSwitchCase BRK SC {$$=format_case($2);}
+    | DFT CL statementsInSwitchCase {$$=format_case_default();}
+;
+statementsInSwitchCase: %empty
+    | statementsInSwitchCase statementInSwitchCase 
+;
+statementInSwitchCase: 
+    declaration SC {printf("Se encontro una declaracion dentro de un switch\n"); write_declaration($1);}
+    | echo SC {printf("Se encontro un echo dentro de un switch\n"); add_statement_to_switch_block_counter(); add_statement_to_array($1);}
+    | print SC {printf("Se encontro un echo dentro de un switch\n"); add_statement_to_switch_block_counter(); add_statement_to_array($1);}
+    | return SC {printf("Se encontro un retorno dentro de un switch\n"); add_statement_to_switch_block_counter(); add_statement_to_array(translate_return($1));}
+    | CMNT {printf("Se encontro un comentario de linea: %s, dentro de un switch\n", $1); add_statement_to_switch_block_counter(); add_statement_to_array(format_one_line_comment($1));}
 while: WHIL OPRT expr CPRT OBRC statementsInWhileBlock CBRC {printf("Se encontro un while con bloque\n"); tabcount++; $$=format_while($3);};
 statementsInWhileBlock: 
     %empty
@@ -222,6 +240,7 @@ expr:
     | ARPS OPRT ID COMM parameters CPRT {printf("Se encontro una llamada a array_push\n"); $$=format_array_push($3);}
     | ARPO OPRT ID CPRT {printf("Se encontro una llamada a array_pop\n"); $$=format_array_pop($3);}
     | ASUM OPRT parameters CPRT {printf("Se encontro una llamada a array_sum\n"); $$=format_array_sum();}
+    | ICAS expr {printf("Se encontro una conversion a tipo int\n"); $$=format_int_cast($2);}
     | FCAS expr {printf("Se encontro una conversion a tipo flotante\n"); $$=format_float_cast($2);}
     | BCAS expr {printf("Se encontro una conversion a tipo booleano\n"); $$=format_bool_cast($2);}
     | SCAS expr {printf("Se encontro una conversion a tipo cadena\n"); $$=format_string_cast($2);}
